@@ -1,6 +1,6 @@
 # MemoBlend
 
-![Badge: Version](https://img.shields.io/badge/version-0.0.0-blue)
+![Badge: Version](https://img.shields.io/badge/version-0.1.0-blue)
 ![Badge: License](https://img.shields.io/badge/license-MIT-green)
 
 ## 📖 概要

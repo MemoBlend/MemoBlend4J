@@ -1,0 +1,31 @@
+changelog:
+  categories:
+    - title: ':newspaper: Features'
+      labels:
+        - '*'
+      exclude:
+        labels:
+          - npm
+          - gradle
+          - github-actions
+          - pip
+          - 開発環境改善
+          - バグ
+    - title: ':wrench: Bug fixes'
+      labels:
+        - バグ
+    - title: ':label: :green_circle: Gradle package dependencies'
+      labels:
+        - npm
+    - title: ':label: :green_circle: npm package dependencies'
+      labels:
+        - gradle
+    - title: ':label: :green_circle: npm package dependencies'
+      labels:
+        - github-actions
+    - title: ':label: :green_circle: npm package dependencies'
+      labels:
+        - pip
+    - title: ':lollipop: improvements in development'
+      labels:
+        - 開発環境改善
