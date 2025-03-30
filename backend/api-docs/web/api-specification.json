@@ -45,7 +45,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetDiariesResponse"
+                  "$ref": "#/components/schemas/GetRecommendedSchedulesResponse"
                 }
               }
             },
@@ -774,6 +774,21 @@
           }
         }
       },
+      "GetRecommendedSchedulesResponse": {
+        "type": "object",
+        "properties": {
+          "schedules": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Schedule"
+            }
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
       "GetUserResponse": {
         "type": "object",
         "properties": {
@@ -876,6 +891,35 @@
             "type": "string"
           }
         }
+      },
+      "Schedule": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "endTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "location": {
+            "type": "string"
+          },
+          "startTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "description",
+          "endTime",
+          "location",
+          "startTime",
+          "title"
+        ]
       }
     }
   }
