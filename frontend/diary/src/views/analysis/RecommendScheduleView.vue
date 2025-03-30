@@ -73,10 +73,10 @@ const fetchRecommend = async () => {
                   marginBottom: '24px',
                   position: 'relative',
                   padding: '16px',
-                  backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                  borderRadius: '8px',
+                  background: index % 2 === 0 ? '#F5F5F5' : '#FFFFFF',
+                  borderRadius: '12px',
                   boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-                  borderLeft: `4px solid ${index % 2 === 0 ? '#1976D2' : '#9C27B0'}`,
+                  borderLeft: `4px solid ${index % 2 === 0 ? '#2196F3' : '#673AB7'}`,
                 }">
                 <template v-slot:icon>
                   <v-icon icon="mdi-clock-outline" color="grey darken-1"></v-icon>
@@ -86,8 +86,19 @@ const fetchRecommend = async () => {
                   <div class="text-caption text-grey">
                     {{ formatTimeString(schedule.startTime) }} - {{ formatTimeString(schedule.endTime) }}
                   </div>
+                  <div v-if="schedule.location" class="text-caption mt-1 d-flex align-center" :style="{
+                    color: '#FF5722',
+                    fontWeight: 'bold',
+                  }">
+                    <v-icon icon="mdi-map-marker" color="#FF5722" class="mr-1"></v-icon>
+                    場所: {{ schedule.location }}
+                  </div>
                   <v-chip class="mt-2" size="small" :color="index % 2 === 0 ? 'primary' : 'secondary'"
-                    variant="outlined">
+                    variant="outlined" :style="{
+                      fontWeight: 'bold',
+                      backgroundColor: index % 2 === 0 ? '#F0F0F0' : '#F7F7F7',
+                      color: '#424242',
+                    }">
                     {{ formatDuration(calculateDuration(schedule.startTime, schedule.endTime)) }}
                   </v-chip>
                 </div>
