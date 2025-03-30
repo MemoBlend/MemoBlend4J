@@ -1,4 +1,4 @@
-import { diaryApi } from "@/api-client";
+import { analysisApi, diaryApi } from "@/api-client";
 import type { GetDiariesResponse, PostDiaryRequest, PutDiaryRequest } from "@/generated/api-client";
 
 /**
@@ -42,4 +42,14 @@ export async function deleteDiary(id: number) {
  */
 export async function createDiary(diary: PostDiaryRequest) {
   await diaryApi.postDiary(diary);
+}
+
+/**
+ * ユーザーの ID を指定して、過去の日記からおすすめの予定を取得します。
+ * @param userId　ユーザーの ID 。
+ * @returns　おすすめの予定の一覧。
+ */
+export async function getRecommendedSchedules(userId: number) {
+  const response = await analysisApi.getRecommendedSchedulesByUserId(userId);
+  return response.data;
 }
