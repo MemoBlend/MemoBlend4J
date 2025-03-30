@@ -57,37 +57,36 @@ public class AnalysisApplicationService {
   private List<Schedule> createDummySchedules() throws ScheduleValidationException {
     return List.of(
         new Schedule(
-            ZonedDateTime.parse("2025-04-01T08:30:00Z"),
-            ZonedDateTime.parse("2025-04-01T09:00:00Z"),
-            "メール確認", "昨日以降の未読メールをチェックし、今日のタスクリストを更新。特に緊急度の高い案件の有無を確認し、必要に応じてスケジュール調整を実施", "デスク"),
+            ZonedDateTime.parse("2025-04-05T07:30:00Z"),
+            ZonedDateTime.parse("2025-04-05T08:30:00Z"),
+            "モーニングヨガ", "自宅でストレッチとヨガを行い、一日のスタートを快適に。深い呼吸と共に心身をリフレッシュし、休日の活力を養う", "自宅リビング"),
         new Schedule(
-            ZonedDateTime.parse("2025-04-01T09:00:00Z"),
-            ZonedDateTime.parse("2025-04-01T10:30:00Z"),
-            "朝会", "先週の成果物のレビュー結果を共有し、今週のスプリントで取り組むタスクの優先順位付けと工数見積もりを実施。チーム内の懸念事項も共有", "会議室A"),
+            ZonedDateTime.parse("2025-04-05T09:00:00Z"),
+            ZonedDateTime.parse("2025-04-05T10:00:00Z"),
+            "ブランチ", "お気に入りのカフェで週末限定のパンケーキとフレッシュジュースを楽しむ。読みかけの小説も持参して、ゆったりとした時間を過ごす", "近所のカフェ"),
         new Schedule(
-            ZonedDateTime.parse("2025-04-01T11:00:00Z"),
-            ZonedDateTime.parse("2025-04-01T12:00:00Z"),
-            "クライアントMTG", "次期システムの要件定義書の最終確認とスケジュールの調整。開発チームから提案された技術的な代替案についても議論し、予算との整合性を確認", "オンライン"),
+            ZonedDateTime.parse("2025-04-05T10:30:00Z"),
+            ZonedDateTime.parse("2025-04-05T12:30:00Z"),
+            "ショッピング", "新しい季節の洋服を見に行きつつ、週末のセールも活用。必要な日用品のストックも確認しながら、計画的に買い物を楽しむ", "ショッピングモール"),
         new Schedule(
-            ZonedDateTime.parse("2025-04-01T12:15:00Z"),
-            ZonedDateTime.parse("2025-04-01T12:45:00Z"),
-            "1on1ミーティング", "前四半期の目標達成状況を振り返り、新四半期の目標設定を実施。キャリアパスについての相談と、現在抱えている技術的な課題の解決策を議論", "面談室C"),
+            ZonedDateTime.parse("2025-04-05T13:00:00Z"),
+            ZonedDateTime.parse("2025-04-05T14:30:00Z"),
+            "ランチ会", "学生時代の友人との久しぶりの再会。最近の生活や近況について話しながら、おいしい料理とゆっくりした時間を共有する", "イタリアンレストラン"),
         new Schedule(
-            ZonedDateTime.parse("2025-04-01T13:00:00Z"),
-            ZonedDateTime.parse("2025-04-01T14:00:00Z"),
-            "チームランチ", "先週入社した新メンバーの歓迎会を兼ねたランチミーティング。各メンバーの得意分野や興味のある技術領域について情報交換を実施", "社員食堂"),
+            ZonedDateTime.parse("2025-04-05T15:00:00Z"),
+            ZonedDateTime.parse("2025-04-05T16:00:00Z"),
+            "映画鑑賞", "話題の新作映画を映画館で鑑賞。ポップコーンを片手にリラックスしながら、ストーリーに没頭する", "映画館"),
         new Schedule(
-            ZonedDateTime.parse("2025-04-01T14:30:00Z"),
-            ZonedDateTime.parse("2025-04-01T16:00:00Z"),
-            "開発作業", "OAuth2.0を使用した認証機能の実装と単体テストの作成。SecurityConfigの設定を見直し、カスタム認証フィルターの追加も検討", "デスク"),
+            ZonedDateTime.parse("2025-04-05T16:30:00Z"),
+            ZonedDateTime.parse("2025-04-05T17:30:00Z"),
+            "公園散歩", "近所の公園を散歩しながら、自然の中でリフレッシュ。ベンチに座って読書を楽しむ時間も設ける", "公園"),
         new Schedule(
-            ZonedDateTime.parse("2025-04-01T16:30:00Z"),
-            ZonedDateTime.parse("2025-04-01T17:30:00Z"),
-            "デイリーレビュー", "本日実装完了した認証機能のコードレビューを実施。明日以降の作業計画を確認し、想定されるリスクと対策について技術的な観点から議論", "会議室B"),
+            ZonedDateTime.parse("2025-04-05T18:00:00Z"),
+            ZonedDateTime.parse("2025-04-05T19:00:00Z"),
+            "ディナー", "家族と一緒に自宅で手料理を楽しむ。新しいレシピに挑戦しながら、楽しい会話と共に食事を満喫する", "自宅ダイニング"),
         new Schedule(
-            ZonedDateTime.parse("2025-04-01T17:45:00Z"),
-            ZonedDateTime.parse("2025-04-01T18:15:00Z"),
-            "勉強会", "Spring Boot 3.0の主要な更新内容と移行のポイントについて解説。特にネイティブイメージのビルドとObservabilityの機能を中心に議論",
-            "オンライン"));
+            ZonedDateTime.parse("2025-04-05T19:30:00Z"),
+            ZonedDateTime.parse("2025-04-05T20:30:00Z"),
+            "読書", "お気に入りの小説を読み進める。静かな時間を過ごしながら、物語の世界に浸る", "自宅書斎"));
   }
 }
