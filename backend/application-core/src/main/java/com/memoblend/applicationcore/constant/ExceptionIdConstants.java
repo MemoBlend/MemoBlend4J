@@ -23,6 +23,12 @@ public class ExceptionIdConstants {
   /** ユーザーの{0}は{1}~{2}の範囲で入力してください。 */
   public static final String E_USER_VALUE_IS_OUT_OF_RANGE = "userValueIsOutOfRange";
 
+  /** スケジュールの{0}は必須です。 */
+  public static final String E_SCHEDULE_FIELD_IS_REQUIRED = "scheduleFieldIsRequired";
+
+  /** スケジュールの{0}は{1}~{2}の範囲で入力してください。 */
+  public static final String E_SCHEDULE_VALUE_IS_OUT_OF_RANGE = "scheduleValueIsOutOfRange";
+
   /** {0} を実行する権限がありません。 */
   public static final String E_PERMISSION_DENIED = "permissionDenied";
 }

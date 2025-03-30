@@ -37,4 +37,7 @@ public class MessageIdConstants {
 
   /** ユーザーID：{0}のユーザーを削除します。 */
   public static final String D_USER_DELETE_USER = "userApplicationServiceDeleteUser";
+
+  /** ユーザーID：{0}のおすすめの予定を取得します。 */
+  public static final String D_ANALYSIS_GET_RECOMMENDED_SCHEDULES_BY_USER_ID = "analysisApplicationServiceGetRecommendedSchedulesByUserId";
 }
