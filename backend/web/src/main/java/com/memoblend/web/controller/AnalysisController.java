@@ -45,7 +45,7 @@ public class AnalysisController {
    */
   @Operation(summary = "ユーザーIDを指定して、過去の日記からおすすめの予定を取得します。", description = "ユーザーIDを指定して、過去の日記からおすすめの予定を取得します。")
   @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "成功。", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = GetDiariesResponse.class))),
+      @ApiResponse(responseCode = "200", description = "成功。", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = GetRecommendedSchedulesResponse.class))),
       @ApiResponse(responseCode = "400", description = "リクエストエラー。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
       @ApiResponse(responseCode = "401", description = "未認証。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
       @ApiResponse(responseCode = "404", description = "対応した日記が存在しません。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
