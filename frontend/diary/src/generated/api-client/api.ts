@@ -14,6 +14,7 @@
 
 
 
+export * from './api/analysis-api';
 export * from './api/diary-api';
 export * from './api/user-api';
 

@@ -2,6 +2,7 @@
 .npmignore
 .openapi-generator-ignore
 api.ts
+api/analysis-api.ts
 api/diary-api.ts
 api/user-api.ts
 base.ts
