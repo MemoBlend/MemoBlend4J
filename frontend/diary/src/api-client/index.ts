@@ -34,7 +34,14 @@ const userApi = new apiClient.UserApi(
   axiosInstance,
 );
 
+const analysisApi = new apiClient.AnalysisApi(
+  createConfig(),
+  '',
+  axiosInstance,
+);
+
 export {
   diaryApi,
-  userApi
+  userApi,
+  analysisApi,
 };

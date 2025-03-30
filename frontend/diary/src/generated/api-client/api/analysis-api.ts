@@ -22,7 +22,7 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
-import type { GetDiariesResponse } from '../models';
+import type { GetRecommendedSchedulesResponse } from '../models';
 // @ts-ignore
 import type { ProblemDetail } from '../models';
 /**
@@ -82,7 +82,7 @@ export const AnalysisApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getRecommendedSchedulesByUserId(userId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetDiariesResponse>> {
+        async getRecommendedSchedulesByUserId(userId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetRecommendedSchedulesResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getRecommendedSchedulesByUserId(userId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['AnalysisApi.getRecommendedSchedulesByUserId']?.[localVarOperationServerIndex]?.url;
@@ -105,7 +105,7 @@ export const AnalysisApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getRecommendedSchedulesByUserId(userId: number, options?: RawAxiosRequestConfig): AxiosPromise<GetDiariesResponse> {
+        getRecommendedSchedulesByUserId(userId: number, options?: RawAxiosRequestConfig): AxiosPromise<GetRecommendedSchedulesResponse> {
             return localVarFp.getRecommendedSchedulesByUserId(userId, options).then((request) => request(axios, basePath));
         },
     };
