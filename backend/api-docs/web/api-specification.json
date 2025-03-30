@@ -16,11 +16,88 @@
       "name": "User"
     },
     {
+      "description": "AI分析の情報にアクセスする API です。",
+      "name": "Analysis"
+    },
+    {
       "description": "日記の情報にアクセスする API です。",
       "name": "Diary"
     }
   ],
   "paths": {
+    "/api/analysis/{userId}": {
+      "get": {
+        "description": "ユーザーIDを指定して、過去の日記からおすすめの予定を取得します。",
+        "operationId": "getRecommendedSchedulesByUserId",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetDiariesResponse"
+                }
+              }
+            },
+            "description": "成功。"
+          },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "リクエストエラー。"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "未認証。"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "対応した日記が存在しません。"
+          },
+          "500": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "サーバーエラー。"
+          }
+        },
+        "summary": "ユーザーIDを指定して、過去の日記からおすすめの予定を取得します。",
+        "tags": [
+          "Analysis"
+        ]
+      }
+    },
     "/api/diary": {
       "post": {
         "description": "日記情報を登録します。",
