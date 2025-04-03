@@ -2,42 +2,53 @@
 
 ## 環境構築手順
 1. analysisapiフォルダに移動
+    ```
+    cd analysisapi
+    ```
+
+2. 仮想環境を作成・アクティベート
+  - Mac/Linuxの場合
+    ```
+    python -m venv <任意の名前>
+    source venv/bin/activate
+    ```
+
+- Windowsの場合
   ```
-  cd analysisapi
+  python -m venv <任意の名前>
+  venv\Scripts\activate
   ```
 
-2. pipenv のインストール
-  ```
-  pip install pipenv
-  ```
-
-3. 仮想環境のアクティブ化
-  ```
-  pipenv shell
-  ```
-
-4. Pipfileを元に仮想環境を再現
-  ```
-  pipenv install
-  ```
+3. requirements.txtから環境再現  
+    ```
+    pip install -r requirements.txt
+    ```
 
 ## サーバー起動手順
 1. analysisapiフォルダに移動
+    ```
+    cd analysisapi
+    ```
+
+2. 仮想環境の作成・アクティベート
+- Mac/Linuxの場合
   ```
-  cd analysisapi
+  python -m venv <任意の名前>
+  source venv/bin/activate
   ```
 
-2. 仮想環境のアクティブ化
+- Windowsの場合
   ```
-  pipenv shell
+  python -m venv <任意の名前>
+  venv\Scripts\activate.bat
   ```
 
-3. Pipfileを元に仮想環境を再現
-  ```
-  pipenv install
-  ```
+3. requirements.txtから環境再現  
+    ```
+    pip install -r requirements.txt
+    ```
 
 4. analysisapiプロジェクトを起動
-  ```
-  python -m analysisapi
-  ```
+    ```
+    python -m analysisapi
+    ```
