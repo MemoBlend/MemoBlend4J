@@ -9,13 +9,13 @@
 2. 仮想環境を作成・アクティベート
   - Mac/Linuxの場合
     ```
-    python -m venv <任意の名前>
+    python -m venv venv
     source venv/bin/activate
     ```
 
 - Windowsの場合
   ```
-  python -m venv <任意の名前>
+  python -m venv venv
   venv\Scripts\activate
   ```
 
@@ -33,13 +33,13 @@
 2. 仮想環境の作成・アクティベート
 - Mac/Linuxの場合
   ```
-  python -m venv <任意の名前>
+  python -m venv venv
   source venv/bin/activate
   ```
 
 - Windowsの場合
   ```
-  python -m venv <任意の名前>
+  python -m venv venv
   venv\Scripts\activate.bat
   ```
 

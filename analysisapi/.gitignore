@@ -1,6 +1,4 @@
 __pycache__/
-Pipfile/
-Pipfile.lock/
 venv/
 
 # 一時的に作成しているファイルを無視
