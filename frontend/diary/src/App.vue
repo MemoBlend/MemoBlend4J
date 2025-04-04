@@ -36,13 +36,16 @@ const signOut = async () => {
           :class="darkTheme ? 'text-white' : 'text-black'">
           MemoBlend</RouterLink>
       </v-app-bar-title>
+      <v-btn v-if="isAuthenticated" variant="text" class="me-3">
+        <v-icon start icon="mdi-account" />
+        {{ name }}
+      </v-btn>
+      <RouterLink v-if="!isAuthenticated" to="/register" class="text-decoration-none mr-4"
+        :class="darkTheme ? 'text-white' : 'text-black'">新規登録
+      </RouterLink>
       <RouterLink v-if="!isAuthenticated" to="/login" class="text-decoration-none mr-4"
         :class="darkTheme ? 'text-white' : 'text-black'">ログイン
       </RouterLink>
-      <v-btn v-if="isAuthenticated" variant="text" class="me-3">
-        <v-icon start icon="mdi-account"></v-icon>
-        {{ name }}
-      </v-btn>
       <RouterLink v-if="isAuthenticated" to="/login" @click="signOut" class="text-decoration-none mr-4"
         :class="darkTheme ? 'text-white' : 'text-black'">
         ログアウト
