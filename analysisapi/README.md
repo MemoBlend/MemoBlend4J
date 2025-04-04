@@ -16,7 +16,7 @@
 - Windowsの場合
   ```
   python -m venv venv
-  venv\Scripts\activate
+  venv\Scripts\activate.bat
   ```
 
 3. requirements.txtから環境再現  
