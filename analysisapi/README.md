@@ -46,7 +46,7 @@
     python -m analysisapi
     ```
 
-## API定義書作成手順 
+## API定義書生成手順 
 1. analysisapiフォルダに移動
     ```
     cd analysisapi
