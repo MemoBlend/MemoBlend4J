@@ -9,6 +9,10 @@ import json
 INPUT_TOKENS_FEE = 0.0225/1000  # inputでの1トークンあたりの料金(円)
 OUTPUT_TOKENS_FEE = 0.0900/1000  # outputでの1トークンあたりの料金(円)
 
+# 定数
+INPUT_TOKENS_FEE = 0.0225/1000  # inputでの1トークンあたりの料金(円)
+OUTPUT_TOKENS_FEE = 0.0900/1000  # outputでの1トークンあたりの料金(円)
+
 # インスタンスの生成
 app = FastAPI()
 diary_analyzer = DiaryAnalyzer()
