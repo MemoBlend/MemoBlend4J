@@ -13,11 +13,11 @@
     source venv/bin/activate
     ```
 
-- Windowsの場合
-  ```
-  python -m venv venv
-  venv\Scripts\activate
-  ```
+   - Windowsの場合
+     ```
+     python -m venv venv
+     venv\Scripts\activate
+     ```
 
 3. requirements.txtから環境再現  
     ```
@@ -30,25 +30,40 @@
     cd analysisapi
     ```
 
-2. 仮想環境の作成・アクティベート
-- Mac/Linuxの場合
-  ```
-  python -m venv venv
-  source venv/bin/activate
-  ```
-
-- Windowsの場合
-  ```
-  python -m venv venv
-  venv\Scripts\activate.bat
-  ```
-
-3. requirements.txtから環境再現  
+2. 仮想環境のアクティベート
+  - Mac/Linuxの場合
     ```
-    pip install -r requirements.txt
+    source venv/bin/activate
     ```
 
-4. analysisapiプロジェクトを起動
+   - Windowsの場合
+     ```
+     venv\Scripts\activate
+     ```
+
+3. analysisapiパッケージを起動
     ```
     python -m analysisapi
+    ```
+
+## API定義書作成手順 
+1. analysisapiフォルダに移動
+    ```
+    cd analysisapi
+    ```
+
+2. 仮想環境のアクティベート
+  - Mac/Linuxの場合
+    ```
+    source venv/bin/activate
+    ```
+
+   - Windowsの場合
+     ```
+     venv\Scripts\activate
+     ```
+
+3. generateopenapiパッケージを起動
+    ```
+    python -m generateopenapi
     ```
