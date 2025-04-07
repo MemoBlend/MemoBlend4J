@@ -4,14 +4,14 @@ import uvicorn
 from analysisapi.ai_processor.diary_analyzer import DiaryAnalyzer
 from analysisapi.loader.config_loader import ConfigLoader
 import json
+import os
 
 # 定数
 INPUT_TOKENS_FEE = 0.0225/1000  # inputでの1トークンあたりの料金(円)
 OUTPUT_TOKENS_FEE = 0.0900/1000  # outputでの1トークンあたりの料金(円)
 
-# 定数
-INPUT_TOKENS_FEE = 0.0225/1000  # inputでの1トークンあたりの料金(円)
-OUTPUT_TOKENS_FEE = 0.0900/1000  # outputでの1トークンあたりの料金(円)
+# OpenAPI仕様書の出力先
+file_path = "./api-docs/analysisapi/api-specification.json"
 
 # インスタンスの生成
 app = FastAPI()
@@ -51,7 +51,8 @@ async def get_diary(user_id: int):
 
 def main():
   # OpenAPI仕様書を出力
-  with open("openapi.json", "w") as f:
+  os.makedirs(os.path.dirname(file_path), exist_ok=True)
+  with open(file_path, "w") as f:
     api_spec = app.openapi()
     f.write(json.dumps(api_spec, indent=2))
 
