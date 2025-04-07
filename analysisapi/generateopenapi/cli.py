@@ -3,7 +3,7 @@ import os
 import sys
 from pathlib import Path
 
-# パスを通して analysis パッケージをインポートできるようにする
+# analysisapi パッケージのパスを通す
 sys.path.append(str(Path(__file__).parent.parent.resolve()))
 from analysisapi.cli import app 
 
