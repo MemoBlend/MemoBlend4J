@@ -3,7 +3,6 @@ import httpx
 import uvicorn
 from analysisapi.ai_processor.diary_analyzer import DiaryAnalyzer
 from analysisapi.loader.config_loader import ConfigLoader
-import json
 
 # 定数
 INPUT_TOKENS_FEE = 0.0225/1000  # inputでの1トークンあたりの料金(円)
@@ -46,10 +45,5 @@ async def get_diary(user_id: int):
   return response.choices[0].message.content
 
 def main():
-  # OpenAPI仕様書を出力
-  with open("openapi.json", "w") as f:
-    api_spec = app.openapi()
-    f.write(json.dumps(api_spec, indent=2))
-
   # uvicornでFastAPIアプリを起動
   uvicorn.run(app, host="127.0.0.1", port=8000)
