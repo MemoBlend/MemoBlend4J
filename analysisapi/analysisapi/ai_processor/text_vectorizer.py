@@ -1,6 +1,10 @@
 import chromadb
 
 class TextVectorizer:
+    """
+    テキストをベクトル化し、コレクションに保存・検索するクラス。
+    chromadbを使用して、テキストのベクトル化とコレクションの管理を行う。
+    """
     def __init__(self, 
                  directory: str = "./chroma_db", 
                  persist: bool = False, 
