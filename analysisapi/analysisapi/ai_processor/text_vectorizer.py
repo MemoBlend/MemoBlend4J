@@ -1,16 +1,14 @@
 import chromadb
 
 class TextVectorizer:
-    """
-    テキストをベクトル化し、コレクションに保存・検索するクラス。
-    chromadbを使用して、テキストのベクトル化とコレクションの管理を行う。
-    """
     def __init__(self, 
+                 user_id: int,
                  directory: str = "./chroma_db", 
                  persist: bool = False, 
-                 user_name: str = "default_user"):
+                 ):
       """
       コンストラクタ
+      :param user_id: ユーザーID
       :param directory: DBの保存先ディレクトリ
       :param persist: DBを保存するかどうか
       """
@@ -22,7 +20,7 @@ class TextVectorizer:
         self.chroma_client = chromadb.Client()
       self.collection = None
       self.id = 1
-      self.user_name = user_name
+      self.user_id = user_id
 
     def load_collection(self, name: str = "memo_blend"):
       """
@@ -31,15 +29,16 @@ class TextVectorizer:
       """     
       self.collection = self.chroma_client.create_collection(name=name, get_or_create=True)
 
-    def add_text(self, text: str):
+    def add_text(self, id: int, text: str):
       """
       テキストをコレクションに追加するメソッド。
+      :param id: テキストのID
       :param text: 追加するテキスト
       """
       self.collection.add(
         documents=[text],
-        ids=["id" + str(self.id)],
-        metadatas=[{"source": self.user_name}],
+        ids=["id" + str(id)],
+        metadatas=[{"source": self.user_id}],
       )
       self.id += 1
 
