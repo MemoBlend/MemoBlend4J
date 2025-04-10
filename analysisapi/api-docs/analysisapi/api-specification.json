@@ -8,7 +8,7 @@
     "/diary/list/{user_id}": {
       "get": {
         "summary": "Get Diary",
-        "description": "Spring Boot\u306eAPI\u304b\u3089\u6307\u5b9aid\u306e\u30e6\u30fc\u30b6\u30fc\u306e\u65e5\u8a18\u3092\u3059\u3079\u3066\u53d6\u5f97\u3057\u3001AI\u89e3\u6790\u3092\u884c\u3046\u3002",
+        "description": "Spring BootのAPIから指定idのユーザーの日記をすべて取得し、AI解析を行う。",
         "operationId": "get_diary_diary_list__user_id__get",
         "parameters": [
           {
