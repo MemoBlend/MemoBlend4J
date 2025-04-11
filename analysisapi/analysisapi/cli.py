@@ -10,7 +10,6 @@ OUTPUT_TOKENS_FEE = 0.0900/1000  # outputでの1トークンあたりの料金(�
 
 # インスタンスの生成
 app = FastAPI()
-diary_analyzer = DiaryAnalyzer()
 config_loader = ConfigLoader()
 
 @app.get("/diary/list/{user_id}")
@@ -18,10 +17,8 @@ async def get_diary(user_id: int):
   """
   Spring BootのAPIから指定idのユーザーの日記をすべて取得し、AI解析を行う。
   """
-
   # xmlから取得した日記apiへのurlを設定
   DIARY_API_URL = config_loader.load_diary_api_url()
-
   # urlを組み立てる
   url = f"{DIARY_API_URL}/{user_id}"
 
@@ -35,8 +32,11 @@ async def get_diary(user_id: int):
 
   response_json = response.json()
 
-  # DiaryAnalyzer クラスでAI解析を行う
-  response = diary_analyzer.analyze(response_json)
+  # 日記分析AIのインスタンスを生成
+  diary_analyzer = DiaryAnalyzer(response_json)
+
+  # （未完成）DiaryAnalyzer クラスでAI解析を行う。
+  response = diary_analyzer.analyze()
 
   # 解析に要した料金を表示
   print("合計使用トークン数：", response.usage.total_tokens)
