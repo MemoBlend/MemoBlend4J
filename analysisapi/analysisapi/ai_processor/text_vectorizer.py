@@ -19,15 +19,14 @@ class TextVectorizer:
         # DBを保存しない場合
         self.chroma_client = chromadb.Client()
       self.collection = None
-      self.id = 1
       self.user_id = user_id
 
-    def load_collection(self, name: str = "memo_blend"):
+    def load_collection(self):
       """
       コレクションをロードするメソッド。コレクションが存在しない場合は新たに作成する。
       :param name: コレクションの名前
       """     
-      self.collection = self.chroma_client.create_collection(name=name, get_or_create=True)
+      self.collection = self.chroma_client.create_collection(name=self.user_id, get_or_create=True)
 
     def add_text(self, id: int, text: str):
       """
@@ -40,7 +39,6 @@ class TextVectorizer:
         ids=["id" + str(id)],
         metadatas=[{"source": self.user_id}],
       )
-      self.id += 1
 
     def query_text(self, target_text: str):
       """

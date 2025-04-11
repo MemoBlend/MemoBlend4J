@@ -52,7 +52,7 @@ class DiaryAnalyzer:
     """
     # 文章をベクトル化してベクトルDBに格納
     vectorizer = TextVectorizer(user_id=self.json_data["diaries"][0]["userId"], persist=False)
-    vectorizer.load_collection("memo_blend")
+    vectorizer.load_collection()
     # （未完成）実際はベクトル化済みの内容は追加しないようにする。現在は、全て追加している。
     for diary in self.json_data["diaries"]:
       vectorizer.add_text(diary['id'], diary['content'])
