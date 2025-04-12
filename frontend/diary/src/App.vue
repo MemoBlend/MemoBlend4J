@@ -1,22 +1,27 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useTheme } from 'vuetify';
+import { storeToRefs } from 'pinia';
+import { useAuthenticationStore } from './stores/authentication';
+import { signOutAsync } from './services/authentication/authentication-service';
 
 const showMenu = ref(false);
+const authenticationStore = useAuthenticationStore();
+const { name, isAuthenticated } = storeToRefs(authenticationStore);
 
 const menuAction = () => {
-  if (showMenu.value) {
-    showMenu.value = false;
-  } else {
-    showMenu.value = true;
-  }
+  showMenu.value = !showMenu.value;
 }
 
-const darkTheme = ref(true)
-const theme = useTheme()
+const darkTheme = ref(true);
+const theme = useTheme();
 
 const changeTheme = () => {
   theme.global.name.value = darkTheme.value ? 'dark' : 'light';
+}
+
+const signOut = async () => {
+  await signOutAsync();
 }
 </script>
 
@@ -31,6 +36,17 @@ const changeTheme = () => {
           :class="darkTheme ? 'text-white' : 'text-black'">
           MemoBlend</RouterLink>
       </v-app-bar-title>
+      <RouterLink v-if="!isAuthenticated" to="/login" class="text-decoration-none mr-4"
+        :class="darkTheme ? 'text-white' : 'text-black'">ログイン
+      </RouterLink>
+      <v-btn v-if="isAuthenticated" variant="text" class="me-3">
+        <v-icon start icon="mdi-account"></v-icon>
+        {{ name }}
+      </v-btn>
+      <RouterLink v-if="isAuthenticated" to="/login" @click="signOut" class="text-decoration-none mr-4"
+        :class="darkTheme ? 'text-white' : 'text-black'">
+        ログアウト
+      </RouterLink>
       <v-switch v-model="darkTheme" @update:model-value="changeTheme"
         :prepend-icon="darkTheme ? 'mdi-weather-night' : 'mdi-weather-sunny'" hide-details inset class="mr-auto" />
     </v-app-bar>

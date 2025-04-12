@@ -101,6 +101,54 @@ public class DiaryApplicationServiceTest {
   }
 
   @Test
+  void testGetDiariesByUserId_正常系_リポジトリのfindByUserIdを1回呼び出す()
+      throws PermissionDeniedException, DiaryValidationException {
+    // Arrange
+    long userId = 1;
+    List<LocalDate> dates = new ArrayList<>();
+    dates.add(LocalDate.of(2025, 1, 1));
+    List<Diary> diaries = createDiaries(dates);
+    when(diaryRepository.findByUserId(userId)).thenReturn(diaries);
+    when(userStore.isInRole(UserRoleConstants.USER)).thenReturn(true);
+    // Act
+    diaryApplicationService.getDiariesByUserId(userId);
+    // Assert
+    verify(diaryRepository, times(1)).findByUserId(userId);
+  }
+
+  @Test
+  void testGetDiariesByUserId_正常系_日記のリストを返す() throws PermissionDeniedException, DiaryValidationException {
+    // Arrange
+    long userId = 1;
+    List<LocalDate> dates = new ArrayList<>();
+    dates.add(LocalDate.of(2025, 1, 1));
+    List<Diary> diaries = createDiaries(dates);
+    when(diaryRepository.findByUserId(userId)).thenReturn(diaries);
+    when(userStore.isInRole(UserRoleConstants.USER)).thenReturn(true);
+    // Act
+    List<Diary> actual = diaryApplicationService.getDiariesByUserId(userId);
+    // Assert
+    assertThat(actual).isEqualTo(diaries);
+  }
+
+  @Test
+  void testGetDiariesByUserId_異常系_権限がない場合にPermissionDeniedExceptionが発生する() throws DiaryValidationException {
+    // Arrange
+    long userId = 1;
+    List<LocalDate> dates = new ArrayList<>();
+    dates.add(LocalDate.of(2025, 1, 1));
+    List<Diary> diaries = createDiaries(dates);
+    when(diaryRepository.findByUserId(userId)).thenReturn(diaries);
+    when(userStore.isInRole(UserRoleConstants.USER)).thenReturn(false);
+    // Act
+    Executable action = () -> {
+      diaryApplicationService.getDiariesByUserId(userId);
+    };
+    // Assert
+    assertThrows(PermissionDeniedException.class, action);
+  }
+
+  @Test
   void testGetDiary_正常系_リポジトリのfindByIdを1回呼び出す()
       throws DiaryNotFoundException, PermissionDeniedException, DiaryValidationException {
     // Arrange

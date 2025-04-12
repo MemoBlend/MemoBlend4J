@@ -24,6 +24,11 @@ public class MyBatisDiaryRepository implements DiaryRepository {
   }
 
   @Override
+  public List<Diary> findByUserId(long userId) {
+    return diaryMapper.findByUserId(userId);
+  }
+
+  @Override
   public Diary findById(long id) {
     return diaryMapper.findById(id);
   }

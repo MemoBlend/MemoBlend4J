@@ -12,6 +12,12 @@
 		WHERE id = #{id}
 		AND is_deleted = false
 	</select>
+
+	<select id="findByUserId" resultType="com.memoblend.applicationcore.diary.Diary">
+		SELECT * FROM diaries
+		WHERE user_id = #{userId}
+		AND is_deleted = false
+	</select>
 	
 	<insert id="add" parameterType="com.memoblend.applicationcore.diary.Diary" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO diaries (user_id, title, content, created_date)

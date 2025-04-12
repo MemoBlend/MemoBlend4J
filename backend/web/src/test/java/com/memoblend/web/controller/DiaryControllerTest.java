@@ -32,14 +32,30 @@ public class DiaryControllerTest {
   @Test
   @WithMockUser
   public void testGetDiaries_正常系_日記のリストを返す() throws Exception {
-    this.mockMvc.perform(get("/api/diary"))
+    this.mockMvc.perform(get("/api/diary/list"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON));
   }
 
   @Test
   public void testGetDiaries_異常系_権限が足りない() throws Exception {
-    this.mockMvc.perform(get("/api/diary"))
+    this.mockMvc.perform(get("/api/diary/list"))
+        .andExpect(status().isNotFound());
+  }
+
+  @Test
+  @WithMockUser
+  public void testGetDiariesByUserId_正常系_日記のリストを返す() throws Exception {
+    long userId = 1;
+    this.mockMvc.perform(get("/api/diary/list/" + userId))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+  }
+
+  @Test
+  public void testGetDiariesByUserId_異常系_権限が足りない() throws Exception {
+    long userId = 1;
+    this.mockMvc.perform(get("/api/diary/list/" + userId))
         .andExpect(status().isNotFound());
   }
 

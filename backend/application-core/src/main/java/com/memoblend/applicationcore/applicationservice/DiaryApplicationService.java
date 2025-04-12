@@ -51,6 +51,22 @@ public class DiaryApplicationService {
   }
 
   /**
+   * ユーザー ID を指定して、日記をリストで取得します。
+   * 
+   * @param userId ユーザー ID 。
+   * @return 日記のリスト。
+   * @throws PermissionDeniedException 認可が拒否された場合。
+   */
+  public List<Diary> getDiariesByUserId(long userId) throws PermissionDeniedException {
+    apLog.info(messages.getMessage(MessageIdConstants.D_DIARY_GET_DIARIES_BY_USER_ID,
+        new Object[] { userId }, Locale.getDefault()));
+    if (!userStore.isInRole(UserRoleConstants.USER)) {
+      throw new PermissionDeniedException("getDiariesByUserId");
+    }
+    return diaryRepository.findByUserId(userId);
+  }
+
+  /**
    * ID を指定して、日記を取得します。
    * 
    * @param id 日記の ID 。

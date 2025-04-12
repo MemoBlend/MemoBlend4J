@@ -18,6 +18,14 @@ public interface DiaryMapper {
   public List<Diary> findAll();
 
   /**
+   * ユーザー ID を指定して、日記を取得します。
+   * 
+   * @param userId ユーザー ID 。
+   * @return 条件に合う日記のリスト。
+   */
+  public List<Diary> findByUserId(long userId);
+
+  /**
    * ID を指定して、日記を取得します。
    * 
    * @param id 日記の ID 。

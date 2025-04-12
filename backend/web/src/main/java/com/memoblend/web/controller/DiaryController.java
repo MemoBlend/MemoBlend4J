@@ -65,14 +65,36 @@ public class DiaryController {
    */
   @Operation(summary = "日記を全件取得します。", description = "日記を全件取得します。")
   @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "成功。", content = @Content(mediaType = "application/json", schema = @Schema(implementation = GetDiariesResponse.class))),
-      @ApiResponse(responseCode = "401", description = "未認証。", content = @Content),
-      @ApiResponse(responseCode = "404", description = "対応した日記が存在しません。", content = @Content),
-      @ApiResponse(responseCode = "500", description = "サーバーエラー。", content = @Content)
+      @ApiResponse(responseCode = "200", description = "成功。", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = GetDiariesResponse.class))),
+      @ApiResponse(responseCode = "401", description = "未認証。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
+      @ApiResponse(responseCode = "404", description = "対応した日記が存在しません。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
+      @ApiResponse(responseCode = "500", description = "サーバーエラー。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class)))
   })
-  @GetMapping("")
+  @GetMapping("list")
   public ResponseEntity<GetDiariesResponse> getDiaries() throws PermissionDeniedException {
     List<Diary> diaries = diaryApplicationService.getDiaries();
+    GetDiariesResponse response = GetDiariesResponseMapper.convert(diaries);
+    return ResponseEntity.ok().body(response);
+  }
+
+  /**
+   * UserID を指定して、日記を全件取得します。
+   * 
+   * @return 日記情報。
+   * @throws PermissionDeniedException 権限エラーが起きた場合。
+   */
+  @Operation(summary = "UserID を指定して、日記を全件取得します。", description = "UserID を指定して、日記を全件取得します。")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "成功。", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = GetDiariesResponse.class))),
+      @ApiResponse(responseCode = "400", description = "リクエストエラー。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
+      @ApiResponse(responseCode = "401", description = "未認証。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
+      @ApiResponse(responseCode = "404", description = "対応した日記が存在しません。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
+      @ApiResponse(responseCode = "500", description = "サーバーエラー。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class)))
+  })
+  @GetMapping("list/{userId}")
+  public ResponseEntity<GetDiariesResponse> getDiariesByUserId(@PathVariable("userId") long userId)
+      throws PermissionDeniedException {
+    List<Diary> diaries = diaryApplicationService.getDiariesByUserId(userId);
     GetDiariesResponse response = GetDiariesResponseMapper.convert(diaries);
     return ResponseEntity.ok().body(response);
   }
@@ -86,11 +108,11 @@ public class DiaryController {
    */
   @Operation(summary = "ID を指定して、日記情報を取得します。", description = "ID を指定して、日記情報を取得します。")
   @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "成功。", content = @Content(mediaType = "application/json", schema = @Schema(implementation = GetDiaryResponse.class))),
-      @ApiResponse(responseCode = "400", description = "リクエストエラー。", content = @Content),
-      @ApiResponse(responseCode = "401", description = "未認証。", content = @Content),
-      @ApiResponse(responseCode = "404", description = "対応した日記が存在しません。", content = @Content),
-      @ApiResponse(responseCode = "500", description = "サーバーエラー。", content = @Content)
+      @ApiResponse(responseCode = "200", description = "成功。", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = GetDiaryResponse.class))),
+      @ApiResponse(responseCode = "400", description = "リクエストエラー。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
+      @ApiResponse(responseCode = "401", description = "未認証。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
+      @ApiResponse(responseCode = "404", description = "対応した日記が存在しません。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
+      @ApiResponse(responseCode = "500", description = "サーバーエラー。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class)))
   })
   @GetMapping("{id}")
   public ResponseEntity<?> getDiary(@PathVariable("id") long id) throws PermissionDeniedException {
@@ -121,12 +143,11 @@ public class DiaryController {
    * @throws DiaryValidationException  日記が不正な場合。
    */
   @Operation(summary = "日記情報を登録します。", description = "日記情報を登録します。")
-  @ApiResponses(value = {
-      @ApiResponse(responseCode = "201", description = "成功。", content = @Content),
-      @ApiResponse(responseCode = "400", description = "リクエストエラー。", content = @Content),
-      @ApiResponse(responseCode = "401", description = "未認証。", content = @Content),
-      @ApiResponse(responseCode = "404", description = "日記の登録に失敗しました。", content = @Content),
-      @ApiResponse(responseCode = "500", description = "サーバーエラー。", content = @Content)
+  @ApiResponses(value = { @ApiResponse(responseCode = "201", description = "成功。", content = @Content),
+      @ApiResponse(responseCode = "400", description = "リクエストエラー。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
+      @ApiResponse(responseCode = "401", description = "未認証。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
+      @ApiResponse(responseCode = "404", description = "日記の登録に失敗しました。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
+      @ApiResponse(responseCode = "500", description = "サーバーエラー。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class)))
   })
   @PostMapping
   public ResponseEntity<?> postDiary(@RequestBody PostDiaryRequest request)
@@ -146,10 +167,10 @@ public class DiaryController {
   @Operation(summary = "ID を指定して、日記情報を削除します。", description = "ID を指定して、日記情報を削除します。")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "204", description = "成功。", content = @Content),
-      @ApiResponse(responseCode = "400", description = "リクエストエラー。", content = @Content),
-      @ApiResponse(responseCode = "401", description = "未認証。", content = @Content),
-      @ApiResponse(responseCode = "404", description = "対応した日記が存在しません。", content = @Content),
-      @ApiResponse(responseCode = "500", description = "サーバーエラー。", content = @Content),
+      @ApiResponse(responseCode = "400", description = "リクエストエラー。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
+      @ApiResponse(responseCode = "401", description = "未認証。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
+      @ApiResponse(responseCode = "404", description = "対応した日記が存在しません。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
+      @ApiResponse(responseCode = "500", description = "サーバーエラー。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
   })
   @DeleteMapping("{id}")
   public ResponseEntity<?> deleteDiary(@PathVariable("id") long id) throws PermissionDeniedException {
@@ -180,10 +201,10 @@ public class DiaryController {
   @Operation(summary = "日記情報を更新します。", description = "日記情報を更新します。")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "204", description = "成功。", content = @Content),
-      @ApiResponse(responseCode = "400", description = "リクエストエラー。", content = @Content),
-      @ApiResponse(responseCode = "401", description = "未認証。", content = @Content),
-      @ApiResponse(responseCode = "404", description = "対応した日記が存在しません。", content = @Content),
-      @ApiResponse(responseCode = "500", description = "サーバーエラー。", content = @Content),
+      @ApiResponse(responseCode = "400", description = "リクエストエラー。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
+      @ApiResponse(responseCode = "401", description = "未認証。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
+      @ApiResponse(responseCode = "404", description = "対応した日記が存在しません。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
+      @ApiResponse(responseCode = "500", description = "サーバーエラー。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
   })
   @PutMapping
   public ResponseEntity<?> putDiary(@RequestBody PutDiaryRequest request)

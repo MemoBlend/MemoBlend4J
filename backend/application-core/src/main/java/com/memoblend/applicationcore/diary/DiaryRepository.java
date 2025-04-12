@@ -23,6 +23,14 @@ public interface DiaryRepository {
   Diary findById(long id);
 
   /**
+   * ユーザー ID を指定して、日記を取得します。
+   * 
+   * @param userId ユーザー ID 。
+   * @return 条件に合う日記のリスト。
+   */
+  List<Diary> findByUserId(long userId);
+
+  /**
    * 日記を追加します。
    * 
    * @param diary 追加する日記。

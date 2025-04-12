@@ -36,6 +36,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 
 /**
@@ -60,10 +61,10 @@ public class UserController {
    */
   @Operation(summary = "ID を指定して、ユーザー情報を取得します。", description = "ID を指定して、ユーザー情報を取得します。")
   @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "成功。", content = @Content),
-      @ApiResponse(responseCode = "400", description = "リクエストエラー。", content = @Content),
-      @ApiResponse(responseCode = "404", description = "対応したユーザーが存在しません。", content = @Content),
-      @ApiResponse(responseCode = "500", description = "サーバーエラー。", content = @Content)
+      @ApiResponse(responseCode = "200", description = "成功。", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = GetUserResponse.class))),
+      @ApiResponse(responseCode = "400", description = "リクエストエラー。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
+      @ApiResponse(responseCode = "404", description = "対応したユーザーが存在しません。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
+      @ApiResponse(responseCode = "500", description = "サーバーエラー。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
   })
   @GetMapping("{id}")
   public ResponseEntity<?> getUser(@PathVariable("id") long id) {
@@ -95,8 +96,8 @@ public class UserController {
   @Operation(summary = "ユーザー情報を登録します。", description = "ユーザー情報を登録します。")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "201", description = "成功。", content = @Content),
-      @ApiResponse(responseCode = "400", description = "リクエストエラー。", content = @Content),
-      @ApiResponse(responseCode = "500", description = "サーバーエラー。", content = @Content)
+      @ApiResponse(responseCode = "400", description = "リクエストエラー。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
+      @ApiResponse(responseCode = "500", description = "サーバーエラー。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
   })
   @PostMapping
   public ResponseEntity<?> postUser(@RequestBody PostUserRequest request) throws UserValidationException {
@@ -114,9 +115,9 @@ public class UserController {
   @Operation(summary = "ID を指定して、ユーザー情報を削除します。", description = "ID を指定して、ユーザー情報を削除します。")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "204", description = "成功。", content = @Content),
-      @ApiResponse(responseCode = "400", description = "リクエストエラー。", content = @Content),
-      @ApiResponse(responseCode = "404", description = "対応したユーザーが存在しません。", content = @Content),
-      @ApiResponse(responseCode = "500", description = "サーバーエラー。", content = @Content),
+      @ApiResponse(responseCode = "400", description = "リクエストエラー。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
+      @ApiResponse(responseCode = "404", description = "対応したユーザーが存在しません。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
+      @ApiResponse(responseCode = "500", description = "サーバーエラー。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
   })
   @DeleteMapping("{id}")
   public ResponseEntity<?> deleteUser(@PathVariable("id") long id) {
@@ -146,9 +147,9 @@ public class UserController {
   @Operation(summary = "ユーザー情報を更新します。", description = "ユーザー情報を更新します。")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "204", description = "成功。", content = @Content),
-      @ApiResponse(responseCode = "400", description = "リクエストエラー。", content = @Content),
-      @ApiResponse(responseCode = "404", description = "対応したユーザーが存在しません。", content = @Content),
-      @ApiResponse(responseCode = "500", description = "サーバーエラー。", content = @Content),
+      @ApiResponse(responseCode = "400", description = "リクエストエラー。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
+      @ApiResponse(responseCode = "404", description = "対応したユーザーが存在しません。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
+      @ApiResponse(responseCode = "500", description = "サーバーエラー。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
   })
   @PutMapping
   public ResponseEntity<?> putUser(@RequestBody PutUserRequest request) throws UserValidationException {

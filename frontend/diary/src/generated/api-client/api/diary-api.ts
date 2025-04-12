@@ -28,6 +28,8 @@ import type { GetDiaryResponse } from '../models';
 // @ts-ignore
 import type { PostDiaryRequest } from '../models';
 // @ts-ignore
+import type { ProblemDetail } from '../models';
+// @ts-ignore
 import type { PutDiaryRequest } from '../models';
 /**
  * DiaryApi - axios parameter creator
@@ -76,7 +78,41 @@ export const DiaryApiAxiosParamCreator = function (configuration?: Configuration
          * @throws {RequiredError}
          */
         getDiaries: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/diary`;
+            const localVarPath = `/api/diary/list`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * UserID を指定して、日記を全件取得します。
+         * @summary UserID を指定して、日記を全件取得します。
+         * @param {number} userId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getDiariesByUserId: async (userId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'userId' is not null or undefined
+            assertParamExists('getDiariesByUserId', 'userId', userId)
+            const localVarPath = `/api/diary/list/{userId}`
+                .replace(`{${"userId"}}`, encodeURIComponent(String(userId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -241,6 +277,19 @@ export const DiaryApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * UserID を指定して、日記を全件取得します。
+         * @summary UserID を指定して、日記を全件取得します。
+         * @param {number} userId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getDiariesByUserId(userId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetDiariesResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getDiariesByUserId(userId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DiaryApi.getDiariesByUserId']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * ID を指定して、日記情報を取得します。
          * @summary ID を指定して、日記情報を取得します。
          * @param {number} id 
@@ -309,6 +358,16 @@ export const DiaryApiFactory = function (configuration?: Configuration, basePath
             return localVarFp.getDiaries(options).then((request) => request(axios, basePath));
         },
         /**
+         * UserID を指定して、日記を全件取得します。
+         * @summary UserID を指定して、日記を全件取得します。
+         * @param {number} userId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getDiariesByUserId(userId: number, options?: RawAxiosRequestConfig): AxiosPromise<GetDiariesResponse> {
+            return localVarFp.getDiariesByUserId(userId, options).then((request) => request(axios, basePath));
+        },
+        /**
          * ID を指定して、日記情報を取得します。
          * @summary ID を指定して、日記情報を取得します。
          * @param {number} id 
@@ -369,6 +428,18 @@ export class DiaryApi extends BaseAPI {
      */
     public getDiaries(options?: RawAxiosRequestConfig) {
         return DiaryApiFp(this.configuration).getDiaries(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * UserID を指定して、日記を全件取得します。
+     * @summary UserID を指定して、日記を全件取得します。
+     * @param {number} userId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DiaryApi
+     */
+    public getDiariesByUserId(userId: number, options?: RawAxiosRequestConfig) {
+        return DiaryApiFp(this.configuration).getDiariesByUserId(userId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

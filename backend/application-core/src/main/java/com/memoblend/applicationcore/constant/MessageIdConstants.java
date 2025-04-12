@@ -8,6 +8,9 @@ public class MessageIdConstants {
   /** 日記の一覧を取得します。 */
   public static final String D_DIARY_GET_DIARIES = "diaryApplicationServiceGetDiaries";
 
+  /** ユーザーID：{0} の日記の一覧を取得します。 */
+  public static final String D_DIARY_GET_DIARIES_BY_USER_ID = "diaryApplicationServiceGetDiariesByUserId";
+
   /** 日記ID:{0}の日記を取得します。 */
   public static final String D_DIARY_GET_DIARY = "diaryApplicationServiceGetDiary";
 
