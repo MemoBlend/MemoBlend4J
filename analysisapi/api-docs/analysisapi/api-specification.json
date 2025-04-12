@@ -8,7 +8,7 @@
     "/diary/list/{user_id}": {
       "get": {
         "summary": "Get Diary",
-        "description": "Spring Boot‚ÌAPI‚©‚çw’èid‚Ìƒ†[ƒU[‚Ì“ú‹L‚ğ‚·‚×‚Äæ“¾‚µAAI‰ğÍ‚ğs‚¤B",
+        "description": "Spring Bootã®APIã‹ã‚‰æŒ‡å®šidã®ãƒ¦ãƒ¼ã‚¶ãƒ¼ã®æ—¥è¨˜ã‚’ã™ã¹ã¦å–å¾—ã—ã€AIè§£æã‚’è¡Œã†ã€‚",
         "operationId": "get_diary_diary_list__user_id__get",
         "parameters": [
           {
