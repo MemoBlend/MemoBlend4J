@@ -15,6 +15,7 @@ class DiaryAnalyzer:
     self.client = OpenAI()
     self.client.api_key = os.getenv("OPENAI_API_KEY")
     self.json_data = json_data
+    self.vector_db = None 
 
     # 日記データの存在チェック
     if not self.json_data or "diaries" not in self.json_data:
@@ -28,7 +29,9 @@ class DiaryAnalyzer:
     日記データをAIで解析するメソッド。
     :return: AI解析結果
     """
-    text = "\n".join(diary["content"] for diary in self.json_data["diaries"])
+    query_result = self.vectorizer.query_text("明日の予定は？")
+    print("query result: ", query_result)
+    text = "\n".join(query_result['documents'][0])
     print("input text: ", text)
     response = self.client.chat.completions.create(
       model="gpt-4o-mini-2024-07-18",
@@ -51,8 +54,8 @@ class DiaryAnalyzer:
     ベクトルDBに日記の内容を追加する内部メソッド。
     """
     # 文章をベクトル化してベクトルDBに格納
-    vectorizer = TextVectorizer(user_id=self.json_data["diaries"][0]["userId"], persist=False)
-    vectorizer.load_collection()
+    self.vectorizer = TextVectorizer(user_id=self.json_data["diaries"][0]["userId"], persist=False)
+    self.vectorizer.load_collection()
     # （未完成）実際はベクトル化済みの内容は追加しないようにする。現在は、全て追加している。
     for diary in self.json_data["diaries"]:
-      vectorizer.add_text(diary['id'], diary['content'])
+      self.vectorizer.add_text(diary['id'], diary['content'])
