@@ -12,6 +12,6 @@ file_path = "./api-docs/analysisapi/api-specification.json"
 
 def main():
   os.makedirs(os.path.dirname(file_path), exist_ok=True)
-  with open(file_path, "w") as f:
+  with open(file_path, "w", encoding="utf-8") as f:
     api_spec = app.openapi()
-    f.write(json.dumps(api_spec, indent=2))
+    f.write(json.dumps(api_spec, indent=2, ensure_ascii=False))
