@@ -15,7 +15,6 @@ class DiaryAnalyzer:
     self.client = OpenAI()
     self.client.api_key = os.getenv("OPENAI_API_KEY")
     self.json_data = json_data
-    self.vector_db = None 
 
     # 日記データの存在チェック
     if not self.json_data or "diaries" not in self.json_data:
