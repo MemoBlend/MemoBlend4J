@@ -2,16 +2,18 @@ import pandas as pd
 import requests
 import numpy as np
 
-def get_current_weather(latitude: float, longitude: float) -> pd.DataFrame:
+def get_current_weather(latitude: float, longitude: float) -> str:
   """
   指定した緯度・経度に最も近い気象観測地点の現在の情報を取得する関数。
   :param latitude: 緯度
   :param longitude: 経度
-  :return: 最も近い地点の情報を含むDataFrame
+  :return: 最も近い地点で現在雨が降っているか否かのメッセージ
+  :rtype: str
   """
+  print("AIによりget_current_weather関数が呼ばれました。")
   # 気象庁の最新観測時刻を取得
   url = "https://www.jma.go.jp/bosai/amedas/data/latest_time.txt"
-  print("取得時刻：", requests.get(url).text)
+  print("天候取得時刻：", requests.get(url).text)
   # 気象庁の観測地点情報を取得
   url = "https://www.jma.go.jp/bosai/amedas/const/amedastable.json"
   with requests.get(url) as response:
@@ -24,8 +26,14 @@ def get_current_weather(latitude: float, longitude: float) -> pd.DataFrame:
   target_point = np.array([latitude, longitude])
   # target_pointとの距離を DataFrame に追加
   df['distance'] = df.apply(lambda row: _calc_distance(row, target_point), axis=1)
-  # 最も近い地点のデータを返す
-  return df.loc[df["distance"].idxmin()]
+  # 最も近い地点のデータを取得
+  near_location_data = df.loc[df["distance"].idxmin()]
+  # 雨が降っているか否かを判定
+  if near_location_data["elems"][0] == 1:
+    weather_info = "現在、雨が降っています。"
+  else:
+    weather_info = "現在、雨は降っていません。"
+  return weather_info
 
 def _calc_distance(row: pd.Series, target_point: np):
   """
@@ -36,5 +44,3 @@ def _calc_distance(row: pd.Series, target_point: np):
   """
   point = np.array([row['lat'], row['lon']])
   return np.linalg.norm(target_point - point)
-
-print(get_current_weather(34.7108, 137.7261)) # 34.7108, 137.7261は静岡県浜松市の緯度経度
