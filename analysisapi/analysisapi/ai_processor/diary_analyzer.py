@@ -32,7 +32,6 @@ class DiaryAnalyzer:
     :return: AI解析結果
     """
     query_result = self.vectorizer.query_text("明日の予定は？")
-    print("query result: ", query_result)
     text = "\n".join(query_result['documents'][0])
     print("input text: ", text)
     response = self.client.chat.completions.create(
