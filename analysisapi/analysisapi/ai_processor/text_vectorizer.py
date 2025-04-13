@@ -24,7 +24,6 @@ class TextVectorizer:
     def load_collection(self):
       """
       コレクションをロードするメソッド。コレクションが存在しない場合は新たに作成する。
-      :param name: コレクションの名前
       """     
       self.collection = self.chroma_client.create_collection(name=("user_id_"+str(self.user_id)), get_or_create=True)
 
@@ -40,11 +39,13 @@ class TextVectorizer:
         metadatas=[{"source": self.user_id}],
       )
 
-    def query_text(self, target_text: str):
+    def query_text(self, target_text: str) -> dict:
       """
       コレクションから target_text に類似するテキストを検索するメソッド。
       事前にコレクションがロードされていない場合はエラーを返す。
       :param target_text: 検索するテキスト
+      :return: 検索結果
+      :rtype: dict
       """
       if self.collection is None:
         raise ValueError("コレクションがロードされていません。load_collectionメソッドを呼び出してください。")
