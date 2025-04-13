@@ -1,5 +1,5 @@
 uvicorn==0.34.0
 httpx==0.28.1
-fastapi[all]==0.115.11
+fastapi[all]==0.115.9
 openai==1.68.2
 chromadb==1.0.0
