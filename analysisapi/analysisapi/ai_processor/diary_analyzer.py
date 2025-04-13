@@ -26,6 +26,9 @@ class DiaryAnalyzer:
 
   def analyze(self) -> dict:
     """
+    （未完成）
+    Task1: query_textの内容の検討。
+    Task2: LLMに投げる文章の数の検討。現状は類似度の上位2件を投げている。
     日記データをAIで解析するメソッド。
     :return: AI解析結果
     """

@@ -24,7 +24,6 @@ class TextVectorizer:
     def load_collection(self):
       """
       コレクションをロードするメソッド。コレクションが存在しない場合は新たに作成する。
-      :param name: コレクションの名前
       """     
       self.collection = self.chroma_client.create_collection(name=("user_id_"+str(self.user_id)), get_or_create=True)
 
