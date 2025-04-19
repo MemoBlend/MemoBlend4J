@@ -29,15 +29,25 @@ import jakarta.servlet.http.HttpServletResponse;
 @Component
 public class DummyUserInjectionFilter extends OncePerRequestFilter {
 
+  private static final String DUMMY_USERNAME = "admin@example.com";
+  private static final String DUMMY_PASSWORD = "";
+
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws IOException, ServletException {
-    UserDetails dummyUser = new User("admin@example.com", "",
-        List.of(new SimpleGrantedAuthority(UserRoleConstants.USER)));
-
-    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(dummyUser,
-        dummyUser.getPassword(), dummyUser.getAuthorities());
-    SecurityContextHolder.getContext().setAuthentication(authentication);
+    UserDetails dummyUser = createDummyUser();
+    setAuthentication(dummyUser);
     filterChain.doFilter(request, response);
+  }
+
+  private UserDetails createDummyUser() {
+    return new User(DUMMY_USERNAME, DUMMY_PASSWORD,
+        List.of(new SimpleGrantedAuthority(UserRoleConstants.USER)));
+  }
+
+  private void setAuthentication(UserDetails userDetails) {
+    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails,
+        userDetails.getPassword(), userDetails.getAuthorities());
+    SecurityContextHolder.getContext().setAuthentication(authentication);
   }
 }

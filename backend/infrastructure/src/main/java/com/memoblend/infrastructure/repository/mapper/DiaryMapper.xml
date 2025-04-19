@@ -4,19 +4,35 @@
 
 	<select id="findAll" resultType="com.memoblend.applicationcore.diary.Diary">
 		SELECT * FROM diaries
-		WHERE is_deleted = false
+		<where>
+			<if test="isDeleted != null">
+				is_deleted = false
+			</if>
+		</where>
 	</select>
 
 	<select id="findById" resultType="com.memoblend.applicationcore.diary.Diary">
 		SELECT * FROM diaries
-		WHERE id = #{id}
-		AND is_deleted = false
+		<where>
+			<if test="id != null">
+				id = #{id}
+			</if>
+			<if test="isDeleted != null">
+				AND is_deleted = false
+			</if>
+		</where>
 	</select>
 
 	<select id="findByUserId" resultType="com.memoblend.applicationcore.diary.Diary">
 		SELECT * FROM diaries
-		WHERE user_id = #{userId}
-		AND is_deleted = false
+		<where>
+			<if test="userId != null">
+				user_id = #{userId}
+			</if>
+			<if test="isDeleted != null">
+				AND is_deleted = false
+			</if>
+		</where>
 	</select>
 	
 	<insert id="add" parameterType="com.memoblend.applicationcore.diary.Diary" useGeneratedKeys="true" keyProperty="id">
@@ -26,15 +42,39 @@
 
 	<update id="delete" parameterType="long">
 		UPDATE diaries
-		SET is_deleted = true
-		WHERE id = #{id}
+		<set>
+			<if test="isDeleted != null">
+				is_deleted = true
+			</if>
+		</set>
+		<where>
+			<if test="id != null">
+				id = #{id}
+			</if>
+		</where>
 	</update>
 
 	<update id="update" parameterType="com.memoblend.applicationcore.diary.Diary">
 		UPDATE diaries
-		SET title = #{title}, content = #{content}, created_date = #{createdDate}
-		WHERE id = #{id}
-		AND user_id = #{userId}
+		<set>
+			<if test="title != null">
+				title = #{title},
+			</if>
+			<if test="content != null">
+				content = #{content},
+			</if>
+			<if test="createdDate != null">
+				created_date = #{createdDate}
+			</if>
+		</set>
+		<where>
+			<if test="id != null">
+				id = #{id}
+			</if>
+			<if test="userId != null">
+				AND user_id = #{userId}
+			</if>
+		</where>
 	</update>
 	
 </mapper>

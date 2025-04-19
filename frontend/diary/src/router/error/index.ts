@@ -5,6 +5,9 @@ export const errorRoutes: RouteRecordRaw[] = [
   {
     path: '/error',
     name: 'error',
-    component: ErrorView
+    component: ErrorView,
+    meta: {
+      requiresAuth: false,
+    }
   }
 ]

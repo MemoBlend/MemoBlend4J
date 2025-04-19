@@ -4,20 +4,17 @@ import java.time.LocalDate;
 import org.springframework.lang.NonNull;
 import com.memoblend.applicationcore.diary.valueobject.Content;
 import com.memoblend.applicationcore.diary.valueobject.CreatedDate;
-import com.memoblend.applicationcore.diary.valueobject.Id;
-import com.memoblend.applicationcore.diary.valueobject.IsDeleted;
 import com.memoblend.applicationcore.diary.valueobject.Title;
-import com.memoblend.applicationcore.diary.valueobject.UserId;
 
 /**
- * 日記のドメインモデルです。
+ * 日記のエンティティを表すクラスです。
  */
 public class Diary {
 
   @NonNull
-  private Id id;
+  private long id;
   @NonNull
-  private UserId userId;
+  private long userId;
   @NonNull
   private Title title;
   @NonNull
@@ -25,7 +22,7 @@ public class Diary {
   @NonNull
   private CreatedDate createdDate;
   @NonNull
-  private IsDeleted isDeleted;
+  private boolean isDeleted;
 
   /**
    * {@link Diary} クラスの新しいインスタンスを初期化します。
@@ -40,12 +37,12 @@ public class Diary {
    */
   public Diary(long id, long userId, String title, String content, LocalDate createdDate, boolean isDeleted)
       throws DiaryValidationException {
-    this.id = new Id(id);
-    this.userId = new UserId(userId);
+    this.id = id;
+    this.userId = userId;
     this.title = new Title(title);
     this.content = new Content(content);
     this.createdDate = new CreatedDate(createdDate);
-    this.isDeleted = new IsDeleted(isDeleted);
+    this.isDeleted = isDeleted;
   }
 
   /**
@@ -54,7 +51,7 @@ public class Diary {
    * @return ID。
    */
   public long getId() {
-    return this.id.getValue();
+    return this.id;
   }
 
   /**
@@ -63,7 +60,7 @@ public class Diary {
    * @return ユーザー ID。
    */
   public long getUserId() {
-    return this.userId.getValue();
+    return this.userId;
   }
 
   /**
@@ -99,7 +96,7 @@ public class Diary {
    * @return 削除フラグ。
    */
   public boolean getIsDeleted() {
-    return this.isDeleted.isValue();
+    return this.isDeleted;
   }
 
   /**
@@ -108,7 +105,7 @@ public class Diary {
    * @param id ID。
    */
   public void setId(long id) {
-    this.id = new Id(id);
+    this.id = id;
   }
 
   /**
@@ -117,7 +114,7 @@ public class Diary {
    * @param userId ユーザー ID。
    */
   public void setUserId(long userId) {
-    this.userId = new UserId(userId);
+    this.userId = userId;
   }
 
   /**
@@ -156,6 +153,6 @@ public class Diary {
    * @param isDeleted 削除フラグ。
    */
   public void setIsDeleted(boolean isDeleted) {
-    this.isDeleted = new IsDeleted(isDeleted);
+    this.isDeleted = isDeleted;
   }
 }

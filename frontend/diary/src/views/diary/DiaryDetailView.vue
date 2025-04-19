@@ -22,16 +22,19 @@ const diary = ref<GetDiaryResponse>({
   userId: 0,
 })
 
+const router = useRouter();
+
 /**
  * 削除モーダルの表示状態を保持するオブジェクトです。
  */
 const showDeleteModal = ref(false);
 
+/**
+ * 削除モーダルを閉じます。
+ */
 const closeDeleteModal = () => {
   showDeleteModal.value = false;
 }
-
-const router = useRouter();
 
 /**
  * 日記を削除します。

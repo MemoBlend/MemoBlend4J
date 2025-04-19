@@ -8,13 +8,13 @@ import com.memoblend.systemcommon.exception.ValidationException;
 public class DiaryValidationException extends ValidationException {
 
   /**
-   * 例外 ID 、メッセージ用プレースフォルダ（フロント用）、
-   * メッセージ用プレースフォルダ（ログ用）を指定して、
+   * 例外 ID 、メッセージ用プレースホルダー（フロント用）、
+   * メッセージ用プレースホルダー（ログ用）を指定して、
    * {@link DiaryValidationException} クラスのインスタンスを初期化します。
    * 
    * @param exceptionId       例外 ID 。
-   * @param frontMessageValue メッセージ用プレースフォルダ（フロント用）。
-   * @param logMessageValue   メッセージ用プレースフォルダ（ログ用）。
+   * @param frontMessageValue メッセージ用プレースホルダー（フロント用）。
+   * @param logMessageValue   メッセージ用プレースホルダー（ログ用）。
    */
   public DiaryValidationException(String exceptionId, String[] frontMessageValue, String[] logMessageValue) {
     super(exceptionId, frontMessageValue, logMessageValue);

@@ -22,7 +22,7 @@ import com.memoblend.web.log.ErrorMessageBuilder;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
- * 本番環境で使用する集約例外ハンドラークラスです。
+ * 本番環境で使用する集約例外ハンドラーです。
  */
 @ControllerAdvice(basePackages = "com.memoblend")
 public class ExceptionHandlerControllerAdvice extends ResponseEntityExceptionHandler {
