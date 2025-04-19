@@ -4,13 +4,23 @@
 
 	<select id="findAll" resultType="com.memoblend.applicationcore.user.User">
 		SELECT * FROM users
-		WHERE is_deleted = false
+		<where>
+			<if test="isDeleted != null">
+				is_deleted = false
+			</if>
+		</where>
 	</select>
 
 	<select id="findById" resultType="com.memoblend.applicationcore.user.User">
 		SELECT * FROM users 
-		WHERE id = #{id}
-		AND is_deleted = false
+		<where>
+			<if test="id != null">
+				id = #{id}
+			</if>
+			<if test="isDeleted != null">
+				AND is_deleted = false
+			</if>
+		</where>
 	</select>
 	
 	<insert id="add" parameterType="com.memoblend.applicationcore.user.User" useGeneratedKeys="true" keyProperty="id">
@@ -20,14 +30,30 @@
 	
 	<update id="delete" parameterType="long">
 		UPDATE users
-		SET is_deleted = true
-		WHERE id = #{id}
+		<set>
+			<if test="isDeleted != null">
+				is_deleted = true
+			</if>
+		</set>
+		<where>
+			<if test="id != null">
+				id = #{id}
+			</if>
+		</where>
 	</update>
 
 	<update id="update" parameterType="com.memoblend.applicationcore.user.User">
 		UPDATE users
-		SET name = #{name}
-		WHERE id = #{id}
+		<set>
+			<if test="name != null">
+				name = #{name}
+			</if>
+		</set>
+		<where>
+			<if test="id != null">
+				id = #{id}
+			</if>
+		</where>
 	</update>
 	
 </mapper>
