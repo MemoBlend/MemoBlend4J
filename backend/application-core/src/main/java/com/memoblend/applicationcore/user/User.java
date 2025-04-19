@@ -4,7 +4,7 @@ import org.springframework.lang.NonNull;
 import com.memoblend.applicationcore.user.valueobject.Name;
 
 /**
- * ユーザーのドメインモデルです。
+ * ユーザーのエンティティを表すクラスです。
  */
 public class User {
 
