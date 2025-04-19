@@ -1,8 +1,6 @@
 package com.memoblend.applicationcore.user;
 
 import org.springframework.lang.NonNull;
-import com.memoblend.applicationcore.user.valueobject.Id;
-import com.memoblend.applicationcore.user.valueobject.IsDeleted;
 import com.memoblend.applicationcore.user.valueobject.Name;
 
 /**
@@ -11,11 +9,11 @@ import com.memoblend.applicationcore.user.valueobject.Name;
 public class User {
 
   @NonNull
-  private Id id;
+  private long id;
   @NonNull
   private Name name;
   @NonNull
-  private IsDeleted isDeleted;
+  private boolean isDeleted;
 
   /**
    * ユーザーオブジェクトを生成します。
@@ -26,9 +24,9 @@ public class User {
    * @throws UserValidationException ユーザーが不正な場合。
    */
   public User(long id, String name, boolean isDeleted) throws UserValidationException {
-    this.id = new Id(id);
+    this.id = id;
     this.name = new Name(name);
-    this.isDeleted = new IsDeleted(isDeleted);
+    this.isDeleted = isDeleted;
   }
 
   /**
@@ -37,7 +35,7 @@ public class User {
    * @return ユーザーの ID 。
    */
   public long getId() {
-    return this.id.getValue();
+    return this.id;
   }
 
   /**
@@ -55,7 +53,7 @@ public class User {
    * @return 削除済みの場合 true 、 未削除の場合 false 。
    */
   public boolean getIsDeleted() {
-    return this.isDeleted.isValue();
+    return this.isDeleted;
   }
 
   /**
@@ -64,7 +62,7 @@ public class User {
    * @param id 新しいユーザー ID 。
    */
   public void setId(long id) {
-    this.id = new Id(id);
+    this.id = id;
   }
 
   /**
@@ -83,6 +81,6 @@ public class User {
    * @param isDeleted 削除済みの場合 true 、 未削除の場合 false 。
    */
   public void setIsDeleted(boolean isDeleted) {
-    this.isDeleted = new IsDeleted(isDeleted);
+    this.isDeleted = isDeleted;
   }
 }
