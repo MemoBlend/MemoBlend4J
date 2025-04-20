@@ -2,7 +2,7 @@ import os
 from openai import OpenAI
 from fastapi import HTTPException
 from analysisapi.ai_processor.text_vectorizer import TextVectorizer
-from analysisapi.subprocessor.weather_client import get_current_weather
+from analysisapi.client.weather_client import get_current_weather
 import json
 
 # 定数
