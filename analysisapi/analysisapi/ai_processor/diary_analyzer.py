@@ -2,7 +2,7 @@ import os
 from openai import OpenAI
 from fastapi import HTTPException
 from analysisapi.ai_processor.text_vectorizer import TextVectorizer
-from analysisapi.preprocessor.weather_client import get_current_weather
+from analysisapi.subprocessor.weather_client import get_current_weather
 import json
 
 # 定数
@@ -16,6 +16,7 @@ class DiaryAnalyzer:
   def __init__(self, json_data: dict = None):
     """
     コンストラクタ
+
     :param json_data: Spring Boot APIから取得した日記データ
     """
     self.client = OpenAI()
@@ -37,6 +38,7 @@ class DiaryAnalyzer:
     """
     （未完成）
     日記データをAIで解析するメソッド。
+    
     :param location: 現在位置の緯度・経度
     :return: AI解析結果
     """

@@ -4,8 +4,7 @@ class ConfigLoader:
   """
   設定ファイル（XML）を読み込むクラス。
   """
-
-  def __init__(self, file_path="config.xml"):
+  def __init__(self, file_path: str="config.xml"):
     """
     ConfigLoader クラスのコンストラクタ。
 
