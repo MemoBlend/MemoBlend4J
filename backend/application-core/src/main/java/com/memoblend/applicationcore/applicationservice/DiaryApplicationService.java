@@ -107,7 +107,7 @@ public class DiaryApplicationService {
   }
 
   /**
-   * 日記を更新します。
+   * 既存の日記の内容を更新します。
    * 
    * @param diary 更新する日記。
    * @throws DiaryNotFoundException    日記が見つからない場合。

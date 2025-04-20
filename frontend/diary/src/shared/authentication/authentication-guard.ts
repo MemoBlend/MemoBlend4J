@@ -9,20 +9,10 @@ import type { Router, RouteRecordName } from 'vue-router';
  */
 export const authenticationGuard = (router: Router) => {
   const authenticationStore = useAuthenticationStore();
-
   router.beforeEach((to) => {
-    const ignoreAuthPaths: (RouteRecordName | null | undefined)[] = [
-      'login',
-      'error',
-    ];
-    if (ignoreAuthPaths.includes(to.name)) {
-      return true;
+    if (to.meta.requiresAuth && !authenticationStore.isAuthenticated) {
+      return { name: 'login' };
     }
-
-    if (authenticationStore.isAuthenticated) {
-      return true;
-    }
-
-    return { name: 'login' };
+    return true;
   });
 };
