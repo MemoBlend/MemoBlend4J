@@ -13,18 +13,23 @@ const customErrorHandler = useCustomErrorHandler();
 const diariesResponse = ref<GetDiariesResponse>({
   diaries: [],
 });
-
+const events = ref<CalendarEvent[]>([]);
 const router = useRouter();
 
+/**
+ * 日記詳細に遷移します。
+ * @param id 日記の ID 。
+ */
 const goToDiaryDetail = (id: number) => {
   router.push({ name: 'detail', params: { id: id } });
 };
 
+/**
+ * 日記作成画面に遷移します。
+ */
 const goToCreateDiary = () => {
   router.push({ name: 'create' });
 };
-
-const events = ref<CalendarEvent[]>([]);
 
 onMounted(async () => {
   showLoading.value = true;

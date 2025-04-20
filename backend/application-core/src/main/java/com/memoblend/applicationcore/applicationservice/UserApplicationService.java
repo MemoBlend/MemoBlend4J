@@ -72,7 +72,7 @@ public class UserApplicationService {
   }
 
   /**
-   * ユーザーを更新します。
+   * 既存のユーザーのデータを更新します。
    * 
    * @param user 更新するユーザー。
    * @throws UserNotFoundException ユーザーが見つからない場合。

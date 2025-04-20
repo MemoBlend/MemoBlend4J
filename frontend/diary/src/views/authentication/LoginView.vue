@@ -8,15 +8,20 @@ const router = useRouter();
 const { errors, values, meta, defineField } = useForm({
   validationSchema: loginFormSchema,
 });
+const [email] = defineField('email');
+const [password] = defineField('password');
 
+/**
+ * ログインします。
+ */
 const login = async () => {
   await signInAsync();
   router.push({ name: 'diaries' });
 };
 
-const [email] = defineField('email');
-const [password] = defineField('password');
-
+/**
+ * バリデーションエラーがあるかどうかを返します。
+ */
 const isInValid = () => {
   return !meta.value.valid;
 }
