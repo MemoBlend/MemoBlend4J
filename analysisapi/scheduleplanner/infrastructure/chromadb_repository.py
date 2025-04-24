@@ -4,7 +4,7 @@ from applicationcore.abstractrepository.abstract_chromadb_repository import Abst
 class ChromadbRepository():
   def __init__(self, 
                 user_id: int,
-                directory: str = "./chroma_db", 
+                directory: str = "./infrastructure/chroma_db", 
                 persist: bool = False, 
                 ):
     """
