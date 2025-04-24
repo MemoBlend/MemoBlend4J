@@ -1,38 +1,26 @@
 import os
 from openai import OpenAI
 from fastapi import HTTPException
-from analysisapi.ai_processor.text_vectorizer import TextVectorizer
-from analysisapi.client.weather_client import get_current_weather
+from analysisapi.scheduleplanner.infrastructure.chromadb_repository import ChromadbRepository
+from analysisapi.scheduleplanner.applicationcore.client.weather.weather_client import get_current_weather
 import json
 
 # 定数
 INPUT_TOKENS_FEE = 0.0225/1000  # inputでの1トークンあたりの料金(円)
 OUTPUT_TOKENS_FEE = 0.0900/1000  # outputでの1トークンあたりの料金(円)
 
-class DiaryAnalyzer:
+class Scheduler:
   """
   日記データをAIで解析するクラス(作成中)。
   """
-  def __init__(self, json_data: dict = None):
-    """
-    コンストラクタ
+  def __init__(self, user_id: int):
+    # ベクトルDBのコレクションを読み込み
+    self.db_repository = ChromadbRepository(user_id, persist=True)
+    self.db_repository.load_collection()
 
-    :param json_data: Spring Boot APIから取得した日記データ
-    """
-    self.client = OpenAI()
-    self.client.api_key = os.getenv("OPENAI_API_KEY")
-    self.json_data = json_data
-    self.vectorizer = None
-    # 日記データの存在チェック
-    if not self.json_data or "diaries" not in self.json_data:
-      raise HTTPException(status_code=400, detail="日記データが無効です")
-    # ベクトルDBに文章を追加
-    self._add_text_to_db()
-    # function callingの設定
-    self._setup_function_calling()
-    self.total_prompt_tokens = 0
-    self.total_completion_tokens = 0
-    self.total_cost = 0.0
+    # OpenAI APIの初期化
+    self._initialize_openai_api()
+
     
   def analyze(self, location: dict) -> dict:
     """
@@ -102,17 +90,20 @@ class DiaryAnalyzer:
       return final_response
     # Function calling が使われなかった場合のレスポンス
     return response
-    
-  def _add_text_to_db(self):
+  
+  def _initialize_openai_api(self):
     """
-    ベクトルDBに日記の内容を追加する内部メソッド。
+    OpenAI APIの初期化を行う内部メソッド。
     """
-    # 文章をベクトル化してベクトルDBに格納
-    self.vectorizer = TextVectorizer(user_id=self.json_data["diaries"][0]["userId"], persist=False)
-    self.vectorizer.load_collection()
-    # （未完成）実際はベクトル化済みの内容は追加しないようにする。現在は、全て追加している。
-    for diary in self.json_data["diaries"]:
-      self.vectorizer.add_text(diary['id'], diary['content'])
+    self.client = OpenAI()
+    self.client.api_key = os.getenv("OPENAI_API_KEY")
+    self.db_repository = None
+    # function callingの設定
+    self._setup_function_calling()
+    # 金額表示用の変数
+    self.total_prompt_tokens = 0
+    self.total_completion_tokens = 0
+    self.total_cost = 0.0
 
   def _setup_function_calling(self):
     """
