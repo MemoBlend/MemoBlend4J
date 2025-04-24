@@ -1,6 +1,6 @@
 
-from analysisapi.scheduleplanner.applicationcore.applicationservice.scheduler import Scheduler
-from analysisapi.scheduleplanner.infrastructure.chromadb_repository import ChromadbRepository
+from applicationcore.applicationservice.scheduler import Scheduler
+from infrastructure.chromadb_repository import ChromadbRepository
 
 
 class ApplicationService:

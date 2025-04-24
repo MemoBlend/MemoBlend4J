@@ -1,8 +1,7 @@
 import os
 from openai import OpenAI
-from fastapi import HTTPException
-from analysisapi.scheduleplanner.infrastructure.chromadb_repository import ChromadbRepository
-from analysisapi.scheduleplanner.applicationcore.client.weather.weather_client import get_current_weather
+from infrastructure.chromadb_repository import ChromadbRepository
+from applicationcore.client.weather.weather_client import WeatherClient
 import json
 
 # 定数
@@ -30,8 +29,8 @@ class Scheduler:
     :param location: 現在位置の緯度・経度
     :return: AI解析結果
     """
-    query_result = self.vectorizer.query_text("明日の予定は？")
-    text = "\n".join(query_result['documents'][0])
+    response = self.db_repository.find_by_sentence("明日の予定は？")
+    text = "\n".join(response['documents'][0])
     print("input text: ", text)
     messages = [
       {"role": "system", "content": "あなたは、優秀なアドバイザーです"},
@@ -63,7 +62,7 @@ class Scheduler:
         arguments = json.loads(tool_call.function.arguments)
         # get_current_weather 関数が必要かを判断
         if function_name == "get_current_weather":
-          result = get_current_weather(
+          result = self.weather_client.get_current_weather(
             latitude=arguments["latitude"],
             longitude=arguments["longitude"]
           )
@@ -99,6 +98,7 @@ class Scheduler:
     self.client.api_key = os.getenv("OPENAI_API_KEY")
     self.db_repository = None
     # function callingの設定
+    self.weather_client = WeatherClient()
     self._setup_function_calling()
     # 金額表示用の変数
     self.total_prompt_tokens = 0

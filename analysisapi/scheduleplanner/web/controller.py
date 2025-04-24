@@ -1,8 +1,8 @@
 from fastapi import FastAPI, HTTPException, Body
 import httpx
 import uvicorn
-from analysisapi.scheduleplanner.applicationcore.applicationservice.application_service import ApplicationService
-from scheduleplanner.web.loader.config_loader import ConfigLoader
+from applicationcore.applicationservice.application_service import ApplicationService
+from web.loader.config_loader import ConfigLoader
 
 # インスタンスの生成
 app = FastAPI()
