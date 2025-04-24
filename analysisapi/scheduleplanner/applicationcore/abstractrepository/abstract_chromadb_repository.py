@@ -8,26 +8,28 @@ class AbstractChromadbRepository(ABC):
   @abstractmethod
   def load_collection(self) -> None:
     """
-    コレクションをロード、または作成するメソッド。
-    """
+    コレクションをロードするメソッド。コレクションが存在しない場合は新たに作成する。
+    """     
     pass
 
   @abstractmethod
-  def add(self, id: int, text: str) -> None:
+  def add(self, diary_id: int, sentence: str) -> None:
     """
-    テキストを追加するメソッド。
+    sentence をベクトル化して、コレクションに追加するメソッド。
 
-    :param id: テキストのID
-    :param text: 追加するテキスト
+    :param diary_id: 日記のID
+    :param sentence: 追加する文章
     """
     pass
   
   @abstractmethod
-  def query(self, target_text: str) -> dict:
+  def find_by_sentence(self, sentence: str) -> dict:
     """
-    類似するテキストを検索するメソッド。
+    コレクションから sentence に類似するテキストを検索するメソッド。
+    事前にコレクションがロードされていない場合はエラーを返す。
 
-    :param target_text: 検索するテキスト
-    :return: 検索結果の辞書
+    :param sentence: 類似検索する文章または単語
+    :return: 検索結果
+    :rtype: dict
     """
     pass

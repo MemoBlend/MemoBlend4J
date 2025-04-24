@@ -8,7 +8,13 @@ class WeatherClient:
   """
   天気情報を取得するクライアントクラス。
   """
-  def get_current_weather(latitude: float, longitude: float) -> str:
+  def __init__(self):
+    """
+    WeatherClientのコンストラクタ。
+    """
+    pass
+
+  def get_current_weather(self, latitude: float, longitude: float) -> str:
     """
     指定した緯度・経度に最も近い気象観測地点の現在の情報を取得する関数。
 
@@ -32,7 +38,7 @@ class WeatherClient:
     # 検索する緯度経度の指定
     target_point = np.array([latitude, longitude])
     # target_pointとの距離を DataFrame に追加
-    df['distance'] = df.apply(lambda row: _calc_distance(row, target_point), axis=1)
+    df['distance'] = df.apply(lambda row: self._calc_distance(row, target_point), axis=1)
     # 最も近い地点のデータを取得
     near_location_data = df.loc[df["distance"].idxmin()]
     # 雨が降っているか否かを判定
@@ -61,7 +67,7 @@ class WeatherClient:
     except Exception as e:
       return f"天気情報の取得に失敗しました: {e}"
 
-  def _calc_distance(row: pd.Series, target_point: np):
+  def _calc_distance(self, row: pd.Series, target_point: np):
     """
     指定した地点と各地点の距離を計算する関数。
 
@@ -74,7 +80,7 @@ class WeatherClient:
 
 
   # JSONファイルを読み込む関数
-  def load_jma_codes(json_path: str = "jma_codes.json") -> dict:
+  def load_jma_codes(self, json_path: str = "jma_codes.json") -> dict:
     try:
       with open(json_path, "r", encoding="utf-8") as f:
         return json.load(f)
@@ -83,7 +89,7 @@ class WeatherClient:
 
 
   # 緯度・経度から地方気象台コードを取得する関数
-  def _get_jma_code_from_latlon(latitude: float, longitude: float) -> str:
+  def _get_jma_code_from_latlon(self, latitude: float, longitude: float) -> str:
     json_path = os.path.join(os.path.dirname(__file__), "jma_codes.json")
     try:
       # 逆ジオコーディングAPI
@@ -105,7 +111,7 @@ class WeatherClient:
         return "都道府県が見つかりませんでした"
 
       # コード辞書をロード
-      jma_codes = load_jma_codes(json_path)
+      jma_codes = self.load_jma_codes(json_path)
       jma_code = jma_codes.get(prefecture)
       if not jma_code:
         return f"{prefecture} に対応するJMAコードが見つかりませんでした"

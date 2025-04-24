@@ -29,16 +29,16 @@ class ChromadbRepository(AbstractChromadbRepository):
     """     
     self.collection = self.chroma_client.create_collection(name=("user_id_"+str(self.user_id)), get_or_create=True)
 
-  def add(self, diary_id: int, text: str):
+  def add(self, diary_id: int, sentence: str) -> None:
     """
-    テキストをコレクションに追加するメソッド。
+    sentence をベクトル化して、コレクションに追加するメソッド。
 
-    :param id: テキストのID
-    :param text: 追加するテキスト
+    :param diary_id: 日記のID
+    :param sentence: 追加する文章
     """
     self.collection.add(
       ids=["diary_id_" + str(diary_id)], # 主キーに相当する。UUIDを使用する予定。
-      documents=[text],      
+      documents=[sentence],      
       metadatas=[{"user_id": self.user_id, "diary_id": diary_id}], # メタデータにユーザーIDと日記IDを追加
     )
 
