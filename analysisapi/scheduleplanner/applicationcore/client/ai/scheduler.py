@@ -14,7 +14,7 @@ class Scheduler:
   """
   def __init__(self, user_id: int):
     # ベクトルDBのコレクションを読み込み
-    self.db_repository = ChromadbRepository(user_id, persist=True)
+    self.db_repository = ChromadbRepository(user_id=user_id, persist=True)
     self.db_repository.load_collection()
 
     # OpenAI APIの初期化
@@ -96,7 +96,6 @@ class Scheduler:
     """
     self.client = OpenAI()
     self.client.api_key = os.getenv("OPENAI_API_KEY")
-    self.db_repository = None
     # function callingの設定
     self.weather_client = WeatherClient()
     self._setup_function_calling()

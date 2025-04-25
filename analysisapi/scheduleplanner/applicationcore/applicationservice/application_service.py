@@ -1,5 +1,5 @@
 
-from applicationcore.applicationservice.scheduler import Scheduler
+from applicationcore.client.ai.scheduler import Scheduler
 from infrastructure.chromadb_repository import ChromadbRepository
 
 
@@ -13,7 +13,7 @@ class ApplicationService:
     """
     try:
       self.json_data = json_data
-      self.db_repository = ChromadbRepository(user_id, persist=True)
+      self.db_repository = ChromadbRepository(user_id=user_id, persist=True)
       self.db_repository.load_collection()
       self.db_repository.add(json_data['id'], json_data['content'])
       return True, None
