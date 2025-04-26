@@ -1,9 +1,10 @@
 import { createVuetify } from "vuetify";
-import { VDateInput } from "vuetify/labs/components";
+import { VCalendar, VDateInput } from "vuetify/labs/components";
 
 export default createVuetify({
   components: {
-    VDateInput
+    VDateInput,
+    VCalendar
   },
   theme: {
     defaultTheme: 'dark',
