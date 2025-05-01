@@ -67,6 +67,7 @@ class WeatherClient:
     except Exception as e:
       return f"天気情報の取得に失敗しました: {e}"
 
+
   def _calc_distance(self, row: pd.Series, target_point: np):
     """
     指定した地点と各地点の距離を計算する関数。
@@ -80,7 +81,7 @@ class WeatherClient:
 
 
   # JSONファイルを読み込む関数
-  def load_jma_codes(self, json_path: str = "jma_codes.json") -> dict:
+  def _load_jma_codes(self, json_path: str = "jma_codes.json") -> dict:
     try:
       with open(json_path, "r", encoding="utf-8") as f:
         return json.load(f)
@@ -111,7 +112,7 @@ class WeatherClient:
         return "都道府県が見つかりませんでした"
 
       # コード辞書をロード
-      jma_codes = self.load_jma_codes(json_path)
+      jma_codes = self._load_jma_codes(json_path)
       jma_code = jma_codes.get(prefecture)
       if not jma_code:
         return f"{prefecture} に対応するJMAコードが見つかりませんでした"

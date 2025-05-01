@@ -19,7 +19,6 @@ class Scheduler:
 
     # OpenAI APIの初期化
     self._initialize_openai_api()
-
     
   def analyze(self, location: dict) -> dict:
     """

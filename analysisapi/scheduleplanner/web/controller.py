@@ -6,7 +6,6 @@ from web.loader.config_loader import ConfigLoader
 
 # インスタンスの生成
 app = FastAPI()
-config_loader = ConfigLoader()
 application_service = ApplicationService()
 
 @app.get("/user/{user_id}/{diary_id}")
@@ -15,6 +14,7 @@ async def get_diary(user_id: int, diary_id: int):
   Spring BootのAPIを呼び出して、指定idのユーザーの指定idの日記を取得し、ベクトルDBに追加する。
   """
   # xmlから取得した日記apiへのurlを設定
+  config_loader = ConfigLoader()
   DIARY_API_URL = config_loader.load_diary_get_url()
   # urlを組み立てる（POST先のエンドポイント）
   url = f"{DIARY_API_URL}/{diary_id}"

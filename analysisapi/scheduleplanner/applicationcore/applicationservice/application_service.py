@@ -1,4 +1,3 @@
-
 from applicationcore.client.ai.scheduler import Scheduler
 from infrastructure.chromadb_repository import ChromadbRepository
 
@@ -23,6 +22,3 @@ class ApplicationService:
   def call_scheduler(self, user_id: int=None, location: dict=None):
     self.Scheduler = Scheduler(user_id)
     return self.Scheduler.analyze(location)
-
-
-
