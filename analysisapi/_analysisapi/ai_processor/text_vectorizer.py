@@ -8,6 +8,7 @@ class TextVectorizer:
                  ):
       """
       コンストラクタ
+      
       :param user_id: ユーザーID
       :param directory: DBの保存先ディレクトリ
       :param persist: DBを保存するかどうか
@@ -30,6 +31,7 @@ class TextVectorizer:
     def add_text(self, id: int, text: str):
       """
       テキストをコレクションに追加するメソッド。
+
       :param id: テキストのID
       :param text: 追加するテキスト
       """
@@ -43,6 +45,7 @@ class TextVectorizer:
       """
       コレクションから target_text に類似するテキストを検索するメソッド。
       事前にコレクションがロードされていない場合はエラーを返す。
+
       :param target_text: 検索するテキスト
       :return: 検索結果
       :rtype: dict

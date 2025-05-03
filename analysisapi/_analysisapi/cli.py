@@ -4,10 +4,6 @@ import uvicorn
 from analysisapi.ai_processor.diary_analyzer import DiaryAnalyzer
 from analysisapi.loader.config_loader import ConfigLoader
 
-# 定数
-INPUT_TOKENS_FEE = 0.0225/1000  # inputでの1トークンあたりの料金(円)
-OUTPUT_TOKENS_FEE = 0.0900/1000  # outputでの1トークンあたりの料金(円)
-
 # インスタンスの生成
 app = FastAPI()
 config_loader = ConfigLoader()
@@ -36,11 +32,11 @@ async def get_diary(user_id: int):
   diary_analyzer = DiaryAnalyzer(response_json)
 
   # （未完成）DiaryAnalyzer クラスでAI解析を行う。
-  response = diary_analyzer.analyze()
-
-  # 解析に要した料金を表示
-  print("合計使用トークン数：", response.usage.total_tokens)
-  print("おおよその使用料金：", response.usage.prompt_tokens*INPUT_TOKENS_FEE + response.usage.completion_tokens*OUTPUT_TOKENS_FEE, "円")
+  location = {
+    "latitude": 35.7001076,  # 船橋駅の緯度
+    "longitude": 139.9855455  # 船橋駅の経度
+  }
+  response = diary_analyzer.analyze(location)
 
   return response.choices[0].message.content
 

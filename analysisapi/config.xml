@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
-    <diary_api_url>http://localhost:8080/api/diary/list</diary_api_url>
+  <diary_get_url>http://localhost:8080/api/diary</diary_get_url>
+  <diaries_get_url>http://localhost:8080/api/diary/list</diaries_get_url>    
 </config>
