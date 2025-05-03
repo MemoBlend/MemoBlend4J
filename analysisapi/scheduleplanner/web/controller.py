@@ -11,7 +11,7 @@ application_service = ApplicationService()
 @app.get("/user/{user_id}/{diary_id}")
 async def get_diary(user_id: int, diary_id: int):
   """
-  Spring BootのAPIを呼び出して、指定idのユーザーの指定idの日記を取得し、ベクトルDBに追加する。
+  指定idのユーザーの指定idの日記を取得し、ベクトルDBに追加する。
   """
   # xmlから取得した日記apiへのurlを設定
   config_loader = ConfigLoader()

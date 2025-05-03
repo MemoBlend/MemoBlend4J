@@ -9,12 +9,22 @@ INPUT_TOKENS_FEE = 0.0225/1000  # inputでの1トークンあたりの料金(円
 OUTPUT_TOKENS_FEE = 0.0900/1000  # outputでの1トークンあたりの料金(円)
 
 class ApplicationService:
+  """
+  アプリケーションサービスクラス。
+  """
   def __init__(self):
     pass
 
-  def call_vectorizer(self, json_data: dict = None, user_id: int = None):
+  def call_vectorizer(self, json_data: dict = None, user_id: int = None) -> tuple:
     """
-    ベクトルDBに文章を追加する。途中でエラーが発生した場合は False とエラーメッセージを返す。
+    ベクトルDBに文章を追加する関数。途中でエラーが発生した場合は False とエラーメッセージを返す。
+
+    Args:
+      json_data (dict): 追加するデータ。{"id": "1", "content": "sample text"} の形式。
+      user_id (int): ユーザーID。
+      
+    Returns:
+      tuple: (成功フラグ, エラーメッセージ または None)
     """
     try:
       self.json_data = json_data
@@ -25,11 +35,30 @@ class ApplicationService:
     except Exception as e:
       return False, str(e)
 
-  def call_scheduler(self, user_id: int=None, location: dict=None):
+  def call_scheduler(self, user_id: int=None, location: dict=None) -> dict:
+    """
+    内部関数(スケジューラー)を用いて明日の予定を提案する関数。
+
+    Args:
+      user_id (int): ユーザーID。
+      location (dict): 現在位置の緯度・経度。{"latitude": 35.6895, "longitude": 139.6917} の形式。
+    
+    Returns:
+      dict: AI解析結果。
+    """
     self._initialize_scheduler(user_id)
     return self._analyze(location)
   
-  def _initialize_scheduler(self, user_id: int=None):
+  def _initialize_scheduler(self, user_id: int=None) -> None:
+    """
+    スケジューラーの初期化を行う内部メソッド。
+
+    Args:
+      user_id (int): ユーザーID。
+
+    Returns: 
+      None  
+    """
     # ベクトルDBのコレクションを読み込み
     self.db_repository = ChromadbRepository(user_id=user_id, persist=True)
     self.db_repository.load_collection()
@@ -39,11 +68,17 @@ class ApplicationService:
 
   def _analyze(self, location: dict) -> dict:
     """
-    （未完成）
-    日記データをAIで解析するメソッド。
+    DBから過去の日記を取り出し、RAGを用いて明日の予定を提案する関数。
     
-    :param location: 現在位置の緯度・経度
-    :return: AI解析結果
+    1. DB内の過去の日記から、必要な日記を複数件取得。
+    2. OpenAI APIを用いて、明日の予定を提案する。外部APIを使用する場合は、Function Callingを使用。
+    3. 提案された予定を返す。
+
+    Args:
+      location (dict): 現在位置の緯度・経度。{"latitude": 35.6895, "longitude": 139.6917} の形式。
+
+    Returns:
+      dict: AI解析結果。
     """
     response = self.db_repository.find_by_sentence("明日の予定は？")
     text = "\n".join(response['documents'][0])
@@ -105,9 +140,14 @@ class ApplicationService:
     # Function calling が使われなかった場合のレスポンス
     return response
   
-  def _initialize_openai_api(self):
+  def _initialize_openai_api(self) -> None:
     """
-    OpenAI APIの初期化を行う内部メソッド。
+    OpenAI APIの初期化を行う内部関数。
+    OpenAI APIのクライアントを初期化し、APIキーを設定する。
+    また、Function Callingの設定を行う。
+
+    Returns:
+      None
     """
     self.client = OpenAI()
     self.client.api_key = os.getenv("OPENAI_API_KEY")
@@ -119,9 +159,12 @@ class ApplicationService:
     self.total_completion_tokens = 0
     self.total_cost = 0.0
 
-  def _setup_function_calling(self):
+  def _setup_function_calling(self) -> None:
     """
-    Function Callingの設定を行う内部メソッド。
+    Function Callingの設定を行う関数。
+
+    Returns:
+      None
     """
     self.function_calling=[
       {

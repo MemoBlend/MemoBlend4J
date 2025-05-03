@@ -8,11 +8,12 @@ class ChromadbRepository(AbstractChromadbRepository):
                 persist: bool = False, 
                 ):
     """
-    コンストラクタ
+    ChromadbRepository クラスのコンストラクタ。
     
-    :param user_id: ユーザーID
-    :param directory: DBの保存先ディレクトリ
-    :param persist: DBを保存するかどうか
+    Args:
+      user_id (int): ユーザーID。
+      directory (str): データベースの保存先ディレクトリ。デフォルトは "./infrastructure/chroma_db"。
+      persist (bool): データベースを保存するかどうかのフラグ。デフォルトは False。
     """
     if persist:
       # DBを保存する場合
@@ -23,18 +24,25 @@ class ChromadbRepository(AbstractChromadbRepository):
     self.collection = None
     self.user_id = user_id
 
-  def load_collection(self):
+  def load_collection(self) -> None:
     """
-    コレクションをロードするメソッド。コレクションが存在しない場合は新たに作成する。
+    コレクションをロードする関数。コレクションが存在しない場合は新たに作成する。
+
+    Returns:
+      None
     """     
     self.collection = self.chroma_client.create_collection(name=("user_id_"+str(self.user_id)), get_or_create=True)
 
   def add(self, diary_id: int, sentence: str) -> None:
     """
-    sentence をベクトル化して、コレクションに追加するメソッド。
+    sentence をベクトル化して、DBに追加する関数。
 
-    :param diary_id: 日記のID
-    :param sentence: 追加する文章
+    Args:
+      diary_id (int): 日記ID。
+      sentence (str): 追加する文章。
+
+    Returns:
+      None
     """
     self.collection.add(
       ids=["diary_id_" + str(diary_id)], # 主キーに相当する。UUIDを使用する予定。
@@ -44,15 +52,20 @@ class ChromadbRepository(AbstractChromadbRepository):
 
   def find_by_sentence(self, sentence: str) -> dict:
     """
-    コレクションから sentence に類似するテキストを検索するメソッド。
-    事前にコレクションがロードされていない場合はエラーを返す。
+    DBから sentence に類似するテキストを検索する関数。
+    事前にDBがロードされていない場合はエラーを返す。
 
-    :param sentence: 類似検索する文章または単語
-    :return: 検索結果
-    :rtype: dict
+    Args:
+      sentence (str): 検索する文章。
+        
+    Returns:
+      dict: 検索結果。{"documents": [類似する文章]} の形式。
+
+    Raises:
+      ValueError: DBがロードされていない場合。
     """
     if self.collection is None:
-      raise ValueError("コレクションがロードされていません。load_collectionメソッドを呼び出してください。")
+      raise ValueError("DBがロードされていません。load_collection関数を呼び出してください。")
     results = self.collection.query(
       query_texts=[sentence],
       n_results=2

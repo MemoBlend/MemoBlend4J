@@ -6,7 +6,7 @@ import os
 
 class WeatherClient:
   """
-  天気情報を取得するクライアントクラス。
+  外部APIを用いて、天気情報を取得するクラス。
   """
   def __init__(self):
     """
@@ -18,10 +18,12 @@ class WeatherClient:
     """
     指定した緯度・経度に最も近い気象観測地点の現在の情報を取得する関数。
 
-    :param latitude: 緯度
-    :param longitude: 経度
-    :return: 最も近い地点で現在雨が降っているか否かのメッセージ
-    :rtype: str
+    ARgs:
+      latitude (float): 緯度
+      longitude (float): 経度
+    
+    Returns:
+      str: 現在の天気情報（例："現在、雨が降っています。"）
     """
     print("AIによりget_current_weather関数が呼ばれました。")
     # 気象庁の最新観測時刻を取得
@@ -50,10 +52,7 @@ class WeatherClient:
 
   def get_tomorrow_weather(area_code: str) -> str:
     """
-    気象庁の天気予報データから、指定した地域の明日の天気を取得する。
-    
-    :param area_code: 地方気象台コード（例: "130000" は東京地方）
-    :return: 明日の天気予報（例："くもり 時々 晴れ 所により 未明 雨"）
+    作成中
     """
     url = f"https://www.jma.go.jp/bosai/forecast/data/forecast/{area_code}.json"
     try:
@@ -68,20 +67,25 @@ class WeatherClient:
       return f"天気情報の取得に失敗しました: {e}"
 
 
-  def _calc_distance(self, row: pd.Series, target_point: np):
+  def _calc_distance(self, row: pd.Series, target_point: np) -> float:
     """
     指定した地点と各地点の距離を計算する関数。
 
-    :param row: 各地点のデータ
-    :param target_point: 指定した地点の緯度・経度
-    :return: 距離
+    Args:
+      row (pd.Series): 各地点の緯度・経度を含む行
+      target_point (np): 検索する緯度・経度の配列
+    
+    Returns:
+      float: 指定した地点と各地点の距離。
     """
     point = np.array([row['lat'], row['lon']])
     return np.linalg.norm(target_point - point)
 
 
-  # JSONファイルを読み込む関数
   def _load_jma_codes(self, json_path: str = "jma_codes.json") -> dict:
+    """
+    作成中
+    """
     try:
       with open(json_path, "r", encoding="utf-8") as f:
         return json.load(f)
@@ -89,8 +93,10 @@ class WeatherClient:
       raise RuntimeError(f"JMAコードの読み込みに失敗しました: {e}")
 
 
-  # 緯度・経度から地方気象台コードを取得する関数
   def _get_jma_code_from_latlon(self, latitude: float, longitude: float) -> str:
+    """
+    作成中
+    """
     json_path = os.path.join(os.path.dirname(__file__), "jma_codes.json")
     try:
       # 逆ジオコーディングAPI
