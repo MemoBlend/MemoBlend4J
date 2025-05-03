@@ -89,12 +89,6 @@ class ApplicationService:
             "content": result
           })
       # 再度OpenAIへリクエストして最終出力を取得
-      redacted_messages = [
-        {key: ("[REDACTED]" if key == "content" and "latitude" in value else value)
-         for key, value in message.items()}
-        for message in messages
-      ]
-      print("final text: ", redacted_messages)
       final_response = self.client.chat.completions.create(
         model="gpt-4o-mini-2024-07-18",
         messages=messages,
