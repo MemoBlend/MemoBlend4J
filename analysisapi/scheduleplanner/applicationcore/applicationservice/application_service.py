@@ -89,7 +89,7 @@ class ApplicationService:
             "content": result
           })
       # 再度OpenAIへリクエストして最終出力を取得
-      print("final text: ", messages)
+      # print("final text: ", messages)
       final_response = self.client.chat.completions.create(
         model="gpt-4o-mini-2024-07-18",
         messages=messages,
