@@ -91,6 +91,23 @@ flowchart TD
    ```
 4. [localhost:5173](localhost:5173)にアクセスし、トップ画面が表示されていることを確認してください。
 
+### AI アプリケーション
+
+#### 前提
+
+- requirements.txtから仮想環境が再現され、アクティベートされている。
+
+#### 手順
+
+1. analysisapiのディレクトリに移動してください。
+   ```terminal
+   cd analysisapi
+   ```
+2. 以下のコマンドを実行して、サーバーを起動します。
+   ```terminal
+   python -m scheduleplanner
+   ```
+
 ## 📄 ライセンス
 追記します。
 
