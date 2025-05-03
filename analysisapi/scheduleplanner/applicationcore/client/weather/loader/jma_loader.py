@@ -32,9 +32,7 @@ class JMALoader:
 
     except FileNotFoundError:
         raise RuntimeError(f"指定されたファイルが見つかりません: {self.file_path}")
-    
     except json.JSONDecodeError:
-        raise RuntimeError(f"指定されたファイルの読み込み中にエラーが発生しました: {self.file_path}")
-    
+        raise RuntimeError(f"指定されたファイルの読み込み中にエラーが発生しました: {self.file_path}")   
     except Exception as e:
         raise RuntimeError(f"JMAコードの読み込みに失敗しました: {e}")
