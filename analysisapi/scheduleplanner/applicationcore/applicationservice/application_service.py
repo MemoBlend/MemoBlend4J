@@ -7,6 +7,7 @@ from scheduleplanner.infrastructure.chromadb_repository import ChromadbRepositor
 # 定数
 INPUT_TOKENS_FEE = 0.0225/1000  # inputでの1トークンあたりの料金(円)
 OUTPUT_TOKENS_FEE = 0.0900/1000  # outputでの1トークンあたりの料金(円)
+GPT_MODEL = "gpt-4o-mini-2024-07-18"  # 使用するGPTモデル
 
 class ApplicationService:
   """
@@ -140,18 +141,24 @@ class ApplicationService:
       dict: APIレスポンス。
     """
     response = self.client.chat.completions.create(
-      model="gpt-4o-mini-2024-07-18",
+      model=GPT_MODEL,
       messages=messages,
       tools=tools,
       tool_choice=tool_choice,
       max_tokens=1000
     )
+
+    # トークン使用量の更新
     self._update_token_usage(response)
+    
     return response
 
-  def _update_token_usage(self, response) -> None:
+  def _update_token_usage(self, response: dict) -> None:
     """
     トークン数と料金を加算する。
+
+    Args:
+      response (dict): OpenAI APIのレスポンス。
     """
     self.total_prompt_tokens += response.usage.prompt_tokens
     self.total_completion_tokens += response.usage.completion_tokens
@@ -165,9 +172,6 @@ class ApplicationService:
   def _setup_function_calling(self) -> None:
     """
     Function Callingの設定を行う関数。
-
-    Returns:
-      None
     """
     self.function_calling=[
       {
