@@ -16,8 +16,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class ErrorMessageBuilder {
 
-  private static final MessageSource messageSource = (MessageSource) ApplicationContextWrapper
-      .getBean(MessageSource.class);
+  private static final MessageSource messageSource = ApplicationContextWrapper.getBean(MessageSource.class);
 
   private Exception ex;
   private String exceptionId;
