@@ -13,7 +13,7 @@ import lombok.Getter;
 public class Content {
   private final String value;
 
-  private final String ValueObjectName = "コンテンツ";
+  private final String valueObjectName = "コンテンツ";
 
   /**
    * {@link Content} クラスの新しいインスタンスを初期化します。
@@ -25,14 +25,14 @@ public class Content {
     if (value == null || value.isEmpty() || value.isBlank()) {
       throw new DiaryValidationException(
           ExceptionIdConstants.E_DIARY_FIELD_IS_REQUIRED,
-          new String[] { String.valueOf(ValueObjectName) },
-          new String[] { String.valueOf(ValueObjectName) });
+          new String[] { String.valueOf(valueObjectName) },
+          new String[] { String.valueOf(valueObjectName) });
     }
     if (value.length() <= 1 || value.length() >= 1000) {
       throw new DiaryValidationException(
           ExceptionIdConstants.E_DIARY_VALUE_IS_OUT_OF_RANGE,
-          new String[] { String.valueOf(ValueObjectName), "1", "1000" },
-          new String[] { String.valueOf(ValueObjectName), "1", "1000" });
+          new String[] { String.valueOf(valueObjectName), "1", "1000" },
+          new String[] { String.valueOf(valueObjectName), "1", "1000" });
     }
     this.value = value;
   }
