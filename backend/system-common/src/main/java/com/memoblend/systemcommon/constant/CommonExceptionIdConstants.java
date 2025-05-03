@@ -10,8 +10,8 @@ public class CommonExceptionIdConstants {
   /** 想定外の業務エラーが発生しました。 */
   public static final String E_BUSINESS = "businessError";
 
-  // Prevent instantiation
+  // インスタンス化防止
   private CommonExceptionIdConstants() {
-    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    throw new UnsupportedOperationException("ユーティリティクラスのためインスタンス化できません");
   }
 }

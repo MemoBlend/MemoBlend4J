@@ -9,9 +9,9 @@ import com.memoblend.web.controller.dto.user.PutUserRequest;
  */
 public class PutUserRequestMapper {
 
-  // Prevent instantiation
+  // インスタンス化防止
   private PutUserRequestMapper() {
-    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    throw new UnsupportedOperationException("ユーティリティクラスのためインスタンス化できません");
   }
 
   /**

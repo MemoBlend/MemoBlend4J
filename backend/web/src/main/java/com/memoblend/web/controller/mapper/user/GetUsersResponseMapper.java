@@ -9,9 +9,9 @@ import com.memoblend.web.controller.dto.user.GetUsersResponse;
  */
 public class GetUsersResponseMapper {
 
-  // Prevent instantiation
+  // インスタンス化防止
   private GetUsersResponseMapper() {
-    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    throw new UnsupportedOperationException("ユーティリティクラスのためインスタンス化できません");
   }
 
   /**

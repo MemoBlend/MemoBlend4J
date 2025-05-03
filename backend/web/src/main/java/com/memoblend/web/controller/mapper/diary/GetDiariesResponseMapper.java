@@ -9,9 +9,9 @@ import com.memoblend.web.controller.dto.diary.GetDiariesResponse;
  */
 public class GetDiariesResponseMapper {
 
-  // Prevent instantiation
+  // インスタンス化防止
   private GetDiariesResponseMapper() {
-    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    throw new UnsupportedOperationException("ユーティリティクラスのためインスタンス化できません");
   }
 
   /**

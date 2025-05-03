@@ -11,8 +11,8 @@ public class WebConstants {
   /** Exception ID に紐づく例外値。 */
   public static final String PROBLEM_DETAILS_EXCEPTION_VALUES = "exceptionValues";
 
-  // Prevent instantiation
+  // インスタンス化防止
   private WebConstants() {
-    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    throw new UnsupportedOperationException("ユーティリティクラスのためインスタンス化できません");
   }
 }

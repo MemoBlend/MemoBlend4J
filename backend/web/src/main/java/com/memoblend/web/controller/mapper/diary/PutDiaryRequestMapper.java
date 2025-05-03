@@ -9,9 +9,9 @@ import com.memoblend.web.controller.dto.diary.PutDiaryRequest;
  */
 public class PutDiaryRequestMapper {
 
-  // Prevent instantiation
+  // インスタンス化防止
   private PutDiaryRequestMapper() {
-    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    throw new UnsupportedOperationException("ユーティリティクラスのためインスタンス化できません");
   }
 
   /**
