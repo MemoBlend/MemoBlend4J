@@ -21,6 +21,6 @@ public class UserDomainService {
    */
   public boolean isExistUser(long id) {
     User user = userRepository.findById(id);
-    return !(user == null || user.getIsDeleted());
+    return user != null && !user.getIsDeleted();
   }
 }
