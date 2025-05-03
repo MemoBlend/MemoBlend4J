@@ -1,7 +1,6 @@
 import chromadb
-from scheduleplanner.applicationcore.abstractrepository.abstract_chromadb_repository import AbstractChromadbRepository
 
-class ChromadbRepository(AbstractChromadbRepository):
+class ChromadbRepository():
   def __init__(self, 
                 user_id: int,
                 directory: str = "./infrastructure/chroma_db", 

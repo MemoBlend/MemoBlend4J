@@ -4,7 +4,7 @@ class ConfigLoader:
   """
   設定ファイル（XML）を読み込むクラス。
   """
-  def __init__(self, file_path: str="../config.xml"):
+  def __init__(self, file_path: str="./web/property/config.xml"):
     """
     ConfigLoader クラスのコンストラクタ。
 
@@ -13,9 +13,9 @@ class ConfigLoader:
     """
     self.file_path = file_path
 
-  def load_diary_get_url(self) -> str:
+  def load_diary_get_url(self):
     """
-    XMLファイルから日記を1件取得するURLを取得する。
+    XMLファイルから日記APIのURLを取得する。
 
     Returns:
       str: 日記を1件取得するAPIのURL。
@@ -31,9 +31,9 @@ class ConfigLoader:
     except Exception as e:
       raise RuntimeError(f"XMLの読み込みに失敗しました: {e}")
 
-  def load_diaries_get_url(self) -> str:
+  def load_diaries_get_url(self):
     """
-    XMLファイルから日記のリストを取得するURLを取得する。
+    XMLファイルから日記APIのURLを取得する。
 
     Returns:
       str: 日記のリストを取得するAPIのURL。
