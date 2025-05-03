@@ -8,6 +8,7 @@ updates:
     labels:
       - "npm"
       - "フロントエンドアプリケーション"
+    open-pull-requests-limit: 10
 
   # gradle (Java) の依存関係
   - package-ecosystem: "gradle"
@@ -17,6 +18,7 @@ updates:
     labels:
       - "gradle"
       - "バックエンドアプリケーション"
+    open-pull-requests-limit: 10
 
   # GitHub Actions の依存関係
   - package-ecosystem: "github-actions"
@@ -26,3 +28,4 @@ updates:
     labels:
       - "github-actions"
       - "CI/CD"
+    open-pull-requests-limit: 10
