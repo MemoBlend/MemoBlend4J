@@ -1,5 +1,6 @@
 __pycache__/
 venv/
+chroma_db/
 
 # 一時的に作成しているファイルを無視
 tmp/
