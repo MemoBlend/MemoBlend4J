@@ -6,10 +6,10 @@ import com.memoblend.web.controller.dto.diary.GetDiaryResponse;
 /**
  * {@link Diary} を {@link GetDiaryResponse} に変換するクラスです。
  */
-public class GetDiaryReponseMapper {
+public class GetDiaryResponseMapper {
 
   // インスタンス化防止
-  private GetDiaryReponseMapper() {
+  private GetDiaryResponseMapper() {
     throw new UnsupportedOperationException("ユーティリティクラスのためインスタンス化できません");
   }
 

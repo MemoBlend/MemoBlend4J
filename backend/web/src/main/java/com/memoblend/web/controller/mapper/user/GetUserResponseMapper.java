@@ -6,10 +6,10 @@ import com.memoblend.web.controller.dto.user.GetUserResponse;
 /**
  * {@link User} を {@link GetUserResponse} に変換するクラスです。
  */
-public class GetUserReponseMapper {
+public class GetUserResponseMapper {
 
   // インスタンス化防止
-  private GetUserReponseMapper() {
+  private GetUserResponseMapper() {
     throw new UnsupportedOperationException("ユーティリティクラスのためインスタンス化できません");
   }
 

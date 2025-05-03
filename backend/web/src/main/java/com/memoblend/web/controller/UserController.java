@@ -26,7 +26,7 @@ import com.memoblend.systemcommon.constant.SystemPropertyConstants;
 import com.memoblend.web.controller.dto.user.GetUserResponse;
 import com.memoblend.web.controller.dto.user.PostUserRequest;
 import com.memoblend.web.controller.dto.user.PutUserRequest;
-import com.memoblend.web.controller.mapper.user.GetUserReponseMapper;
+import com.memoblend.web.controller.mapper.user.GetUserResponseMapper;
 import com.memoblend.web.controller.mapper.user.PostUserRequestMapper;
 import com.memoblend.web.controller.mapper.user.PutUserRequestMapper;
 import com.memoblend.web.controller.util.ProblemDetailsFactory;
@@ -82,7 +82,7 @@ public class UserController {
           .contentType(MediaType.APPLICATION_PROBLEM_JSON)
           .body(problemDetail);
     }
-    GetUserResponse response = GetUserReponseMapper.convert(user);
+    GetUserResponse response = GetUserResponseMapper.convert(user);
     return ResponseEntity.ok().body(response);
   }
 
