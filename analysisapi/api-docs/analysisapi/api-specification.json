@@ -5,11 +5,58 @@
     "version": "0.1.0"
   },
   "paths": {
-    "/diary/list/{user_id}": {
+    "/user/{user_id}/{diary_id}": {
       "get": {
         "summary": "Get Diary",
-        "description": "Spring BootのAPIから指定idのユーザーの日記をすべて取得し、AI解析を行う。",
-        "operationId": "get_diary_diary_list__user_id__get",
+        "description": "指定idのユーザーの指定idの日記を取得し、ベクトルDBに追加する。",
+        "operationId": "get_diary_user__user_id___diary_id__get",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "User Id"
+            }
+          },
+          {
+            "name": "diary_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Diary Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analysis/scheduler/{user_id}": {
+      "get": {
+        "summary": "Get Schedule",
+        "description": "過去の日記を分析して、明日の予定を提案する。",
+        "operationId": "get_schedule_analysis_scheduler__user_id__get",
         "parameters": [
           {
             "name": "user_id",

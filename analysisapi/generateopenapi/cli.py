@@ -5,7 +5,7 @@ from pathlib import Path
 
 # analysisapi パッケージのパスを通す
 sys.path.append(str(Path(__file__).parent.parent.resolve()))
-from analysisapi.scheduleplanner.web.controller import app 
+from scheduleplanner.web.controller import app 
 
 # OpenAPI仕様書の出力先
 file_path = "./api-docs/analysisapi/api-specification.json"
