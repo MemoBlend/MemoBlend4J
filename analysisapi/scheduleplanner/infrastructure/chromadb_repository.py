@@ -3,7 +3,7 @@ import chromadb
 class ChromadbRepository():
   def __init__(self, 
                 user_id: int,
-                directory: str = "./infrastructure/chroma_db", 
+                directory: str = "./scheduleplanner/infrastructure/chroma_db", 
                 persist: bool = False, 
                 ):
     """
