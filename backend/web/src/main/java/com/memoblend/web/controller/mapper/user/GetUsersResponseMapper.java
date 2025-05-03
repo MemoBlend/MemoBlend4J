@@ -8,6 +8,12 @@ import com.memoblend.web.controller.dto.user.GetUsersResponse;
  * {@link User} のリストを {@link GetUsersResponse} に変換するクラスです。
  */
 public class GetUsersResponseMapper {
+
+  // インスタンス化防止
+  private GetUsersResponseMapper() {
+    throw new UnsupportedOperationException("ユーティリティクラスのためインスタンス化できません");
+  }
+
   /**
    * {@link User} のリストを {@link GetUsersResponse} に変換します。
    * 

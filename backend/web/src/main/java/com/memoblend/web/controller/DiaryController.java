@@ -13,7 +13,7 @@ import com.memoblend.web.controller.dto.diary.GetDiaryResponse;
 import com.memoblend.web.controller.dto.diary.PostDiaryRequest;
 import com.memoblend.web.controller.dto.diary.PutDiaryRequest;
 import com.memoblend.web.controller.mapper.diary.GetDiariesResponseMapper;
-import com.memoblend.web.controller.mapper.diary.GetDiaryReponseMapper;
+import com.memoblend.web.controller.mapper.diary.GetDiaryResponseMapper;
 import com.memoblend.web.controller.mapper.diary.PostDiaryRequestMapper;
 import com.memoblend.web.controller.mapper.diary.PutDiaryRequestMapper;
 import com.memoblend.web.controller.util.ProblemDetailsFactory;
@@ -130,7 +130,7 @@ public class DiaryController {
           .contentType(MediaType.APPLICATION_PROBLEM_JSON)
           .body(problemDetail);
     }
-    GetDiaryResponse response = GetDiaryReponseMapper.convert(diary);
+    GetDiaryResponse response = GetDiaryResponseMapper.convert(diary);
     return ResponseEntity.ok().body(response);
   }
 

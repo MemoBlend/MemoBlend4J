@@ -6,6 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.NullSource;
 import com.memoblend.applicationcore.constant.ExceptionIdConstants;
 
 /**
@@ -18,28 +21,13 @@ class DiaryTest {
     assertDoesNotThrow(() -> new Diary(1L, 1L, "testTitle", "testContent", LocalDate.of(2025, 1, 1), false));
   }
 
-  @Test
-  void testTitleIsNull_異常系_titleがnull() {
+  @ParameterizedTest
+  @NullSource
+  @ValueSource(strings = { " ", "" })
+  void testTitleIsNull_異常系_titleが空(String title) {
     DiaryValidationException e = assertThrows(
         DiaryValidationException.class,
-        () -> new Diary(1L, 1L, null, "testContent", LocalDate.of(2025, 1, 1), false));
-    assertEquals(ExceptionIdConstants.E_DIARY_FIELD_IS_REQUIRED, e.getExceptionId());
-  }
-
-  @Test
-  void testTitleIsBlank_異常系_titleが空白() {
-    DiaryValidationException e = assertThrows(
-        DiaryValidationException.class,
-        () -> new Diary(1L, 1L, " ", "testContent", LocalDate.of(2025, 1, 1),
-            false));
-    assertEquals(ExceptionIdConstants.E_DIARY_FIELD_IS_REQUIRED, e.getExceptionId());
-  }
-
-  @Test
-  void testTitleIsTooShort_異常系_titleが0文字() {
-    DiaryValidationException e = assertThrows(
-        DiaryValidationException.class,
-        () -> new Diary(1L, 1L, "", "testContent", LocalDate.of(2025, 1, 1), false));
+        () -> new Diary(1L, 1L, title, "testContent", LocalDate.of(2025, 1, 1), false));
     assertEquals(ExceptionIdConstants.E_DIARY_FIELD_IS_REQUIRED, e.getExceptionId());
   }
 
@@ -52,25 +40,13 @@ class DiaryTest {
     assertEquals(ExceptionIdConstants.E_DIARY_VALUE_IS_OUT_OF_RANGE, e.getExceptionId());
   }
 
-  @Test
-  void testContentIsNull_異常系_contentがnull() {
+  @ParameterizedTest
+  @NullSource
+  @ValueSource(strings = { " ", "" })
+  void testContentIsNull_異常系_contentが空(String content) {
     DiaryValidationException e = assertThrows(
         DiaryValidationException.class,
-        () -> new Diary(1L, 1L, "testTitle", null, LocalDate.of(2025, 1, 1), false));
-    assertEquals(ExceptionIdConstants.E_DIARY_FIELD_IS_REQUIRED, e.getExceptionId());
-  }
-
-  @Test
-  void testContentIsBlank_異常系_contentが空白() {
-    DiaryValidationException e = assertThrows(DiaryValidationException.class,
-        () -> new Diary(1L, 1L, "testTitle", " ", LocalDate.of(2025, 1, 1), false));
-    assertEquals(ExceptionIdConstants.E_DIARY_FIELD_IS_REQUIRED, e.getExceptionId());
-  }
-
-  @Test
-  void testContentIsTooShort_異常系_contentが0文字() {
-    DiaryValidationException e = assertThrows(DiaryValidationException.class,
-        () -> new Diary(1L, 1L, "testTitle", "", LocalDate.of(2025, 1, 1), false));
+        () -> new Diary(1L, 1L, "testTitle", content, LocalDate.of(2025, 1, 1), false));
     assertEquals(ExceptionIdConstants.E_DIARY_FIELD_IS_REQUIRED, e.getExceptionId());
   }
 

@@ -9,6 +9,11 @@ import com.memoblend.web.controller.dto.user.PostUserRequest;
  */
 public class PostUserRequestMapper {
 
+  // インスタンス化防止
+  private PostUserRequestMapper() {
+    throw new UnsupportedOperationException("ユーティリティクラスのためインスタンス化できません");
+  }
+
   /**
    * {@link PostUserRequest} を {@link User} に変換します。
    * 

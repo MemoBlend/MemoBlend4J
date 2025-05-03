@@ -9,6 +9,11 @@ import com.memoblend.web.controller.dto.diary.PutDiaryRequest;
  */
 public class PutDiaryRequestMapper {
 
+  // インスタンス化防止
+  private PutDiaryRequestMapper() {
+    throw new UnsupportedOperationException("ユーティリティクラスのためインスタンス化できません");
+  }
+
   /**
    * {@link PutDiaryRequest} から {@link Diary} へ変換します。
    * 

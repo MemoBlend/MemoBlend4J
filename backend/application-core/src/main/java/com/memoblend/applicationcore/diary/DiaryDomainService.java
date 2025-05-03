@@ -21,9 +21,6 @@ public class DiaryDomainService {
    */
   public boolean isExistDiary(long id) {
     Diary diary = diaryRepository.findById(id);
-    if (diary == null || diary.getIsDeleted()) {
-      return false;
-    }
-    return true;
+    return diary != null && !diary.getIsDeleted();
   }
 }

@@ -9,4 +9,9 @@ public class UserRoleConstants {
 
   /** 一般ユーザーのロール名です。 */
   public static final String USER = "ROLE_USER";
+
+  // インスタンス化防止
+  private UserRoleConstants() {
+    throw new UnsupportedOperationException("ユーティリティクラスのためインスタンス化できません");
+  }
 }
