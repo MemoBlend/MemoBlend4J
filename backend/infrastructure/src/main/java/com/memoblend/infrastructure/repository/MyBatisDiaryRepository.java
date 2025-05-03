@@ -1,7 +1,6 @@
 package com.memoblend.infrastructure.repository;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.memoblend.applicationcore.diary.Diary;
 import com.memoblend.applicationcore.diary.DiaryRepository;
@@ -15,8 +14,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class MyBatisDiaryRepository implements DiaryRepository {
 
-  @Autowired
-  private DiaryMapper diaryMapper;
+  private final DiaryMapper diaryMapper;
 
   @Override
   public List<Diary> findAll() {

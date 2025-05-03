@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.logging.Logger;
 import java.util.List;
 import java.util.Locale;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,17 +22,14 @@ import lombok.AllArgsConstructor;
  * 日記のアプリケーションサービスです。
  */
 @Service
-@AllArgsConstructor
 @Transactional(rollbackFor = Exception.class)
+@AllArgsConstructor
 public class DiaryApplicationService {
 
-  @Autowired
-  private DiaryRepository diaryRepository;
-  @Autowired
-  private DiaryDomainService diaryDomainService;
-  private MessageSource messages;
-  @Autowired
-  private UserStore userStore;
+  private final DiaryRepository diaryRepository;
+  private final DiaryDomainService diaryDomainService;
+  private final MessageSource messages;
+  private final UserStore userStore;
   private final Logger apLog = Logger.getLogger(SystemPropertyConstants.APPLICATION_LOGGER);
 
   /**

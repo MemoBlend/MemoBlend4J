@@ -3,7 +3,6 @@ package com.memoblend.web.controller.advice;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ProblemDetail;
@@ -20,17 +19,18 @@ import com.memoblend.systemcommon.exception.ValidationException;
 import com.memoblend.web.controller.util.ProblemDetailsFactory;
 import com.memoblend.web.log.ErrorMessageBuilder;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.AllArgsConstructor;
 
 /**
  * 本番環境で使用する集約例外ハンドラーです。
  */
 @ControllerAdvice(basePackages = "com.memoblend")
+@AllArgsConstructor
 public class ExceptionHandlerControllerAdvice extends ResponseEntityExceptionHandler {
 
   private static final Logger apLog = LoggerFactory.getLogger(SystemPropertyConstants.APPLICATION_LOGGER);
 
-  @Autowired
-  private ProblemDetailsFactory problemDetailsFactory;
+  private final ProblemDetailsFactory problemDetailsFactory;
 
   /**
    * バリデーションエラーをステータスコード 400 で返却します。
