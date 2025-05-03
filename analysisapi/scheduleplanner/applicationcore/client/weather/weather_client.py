@@ -11,7 +11,7 @@ class WeatherClient:
 
   def __init__(self):
     """
-    WeatherClientのコンストラクタ。
+    WeatherClientクラスのコンストラクタ。
     """
     pass
 
