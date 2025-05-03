@@ -5,7 +5,6 @@ import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -13,18 +12,17 @@ import org.springframework.http.ProblemDetail;
 import org.springframework.stereotype.Component;
 import com.memoblend.web.constant.WebConstants;
 import com.memoblend.web.log.ErrorMessageBuilder;
+import lombok.AllArgsConstructor;
 
 /**
  * エラーレスポンスに含める ProblemDetails を作成するクラスです。
  */
 @Component
+@AllArgsConstructor
 public class ProblemDetailsFactory {
 
-  @Autowired
-  private Environment env;
-
-  @Autowired
-  private MessageSource messages;
+  private final Environment env;
+  private final MessageSource messages;
 
   /**
    * エラーレスポンスに含める ProblemDetails を作成します。

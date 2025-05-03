@@ -3,7 +3,6 @@ package com.memoblend.applicationcore.applicationservice;
 import java.util.List;
 import java.util.Locale;
 import java.util.logging.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,11 +22,9 @@ import lombok.AllArgsConstructor;
 @Transactional(rollbackFor = Exception.class)
 public class UserApplicationService {
 
-  @Autowired
-  private UserRepository userRepository;
-  @Autowired
-  private UserDomainService userDomainService;
-  private MessageSource messages;
+  private final UserRepository userRepository;
+  private final UserDomainService userDomainService;
+  private final MessageSource messages;
   private final Logger apLog = Logger.getLogger(SystemPropertyConstants.APPLICATION_LOGGER);
 
   /**

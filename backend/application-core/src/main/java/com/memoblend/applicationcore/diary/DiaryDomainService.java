@@ -1,6 +1,5 @@
 package com.memoblend.applicationcore.diary;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import lombok.AllArgsConstructor;
 
@@ -10,8 +9,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @Component
 public class DiaryDomainService {
-  @Autowired
-  private DiaryRepository diaryRepository;
+  private final DiaryRepository diaryRepository;
 
   /**
    * ID を指定して、日記が存在するかどうかを判定します。
