@@ -35,7 +35,7 @@ import com.memoblend.applicationcore.diary.DiaryValidationException;
 @ExtendWith(SpringExtension.class)
 @TestPropertySource(properties = "spring.messages.basename=applicationcore.messages")
 @ImportAutoConfiguration(MessageSourceAutoConfiguration.class)
-public class DiaryApplicationServiceTest {
+class DiaryApplicationServiceTest {
 
   @Mock
   private DiaryRepository diaryRepository;
@@ -355,7 +355,7 @@ public class DiaryApplicationServiceTest {
     long userId = 1;
     String title = "testTitle";
     String content = "testContent";
-    Diary diary = new Diary(id, userId, title, content, createdDate, false);
-    return diary;
+    boolean isDeleted = false;
+    return new Diary(id, userId, title, content, createdDate, isDeleted);
   }
 }

@@ -13,7 +13,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
  * ユーザーのドメインサービスのテストクラスです。
  */
 @ExtendWith(SpringExtension.class)
-public class UserDomainServiceTest {
+class UserDomainServiceTest {
 
   @Mock
   private UserRepository userRepository;
@@ -50,7 +50,8 @@ public class UserDomainServiceTest {
   }
 
   private User createUser(String name) throws UserValidationException {
-    User user = new User(1L, name, false);
-    return user;
+    long id = 1L;
+    boolean isDeleted = false;
+    return new User(id, name, isDeleted);
   }
 }

@@ -15,12 +15,11 @@ public class GetDiaryReponseMapper {
    * @return {@link GetDiaryResponse} のインスタンス。
    */
   public static GetDiaryResponse convert(Diary diary) {
-    GetDiaryResponse response = new GetDiaryResponse(
+    return new GetDiaryResponse(
         diary.getId(),
         diary.getUserId(),
         diary.getTitle(),
         diary.getContent(),
         diary.getCreatedDate());
-    return response;
   }
 }

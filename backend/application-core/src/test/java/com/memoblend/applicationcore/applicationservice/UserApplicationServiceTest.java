@@ -31,7 +31,7 @@ import com.memoblend.applicationcore.user.UserValidationException;
 @ExtendWith(SpringExtension.class)
 @TestPropertySource(properties = "spring.messages.basename=applicationcore.messages")
 @ImportAutoConfiguration(MessageSourceAutoConfiguration.class)
-public class UserApplicationServiceTest {
+class UserApplicationServiceTest {
 
   @Mock
   private UserRepository userRepository;
@@ -203,8 +203,8 @@ public class UserApplicationServiceTest {
   }
 
   private User createUser(String name) throws UserValidationException {
-    User user = new User(1L, name, false);
-    return user;
+    long id = 1L;
+    boolean isDeleted = false;
+    return new User(id, name, isDeleted);
   }
-
 }

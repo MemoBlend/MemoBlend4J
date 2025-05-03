@@ -14,6 +14,8 @@ public class Name {
 
   private final String value;
 
+  private static final String valueObjectName = "ユーザー名";
+
   /**
    * {@link Name} クラスの新しいインスタンスを初期化します。
    * 
@@ -24,14 +26,14 @@ public class Name {
     if (value == null || value.isEmpty() || value.isBlank()) {
       throw new UserValidationException(
           ExceptionIdConstants.E_USER_FIELD_IS_REQUIRED,
-          new String[] { String.valueOf("ユーザー名") },
-          new String[] { String.valueOf("ユーザー名") });
+          new String[] { valueObjectName },
+          new String[] { valueObjectName });
     }
     if (value.length() <= 1 || value.length() >= 15) {
       throw new UserValidationException(
           ExceptionIdConstants.E_USER_VALUE_IS_OUT_OF_RANGE,
-          new String[] { String.valueOf("ユーザー名"), "1", "15" },
-          new String[] { String.valueOf("ユーザー名"), "1", "15" });
+          new String[] { valueObjectName, "1", "15" },
+          new String[] { valueObjectName, "1", "15" });
     }
     this.value = value;
   }
