@@ -8,6 +8,12 @@ import com.memoblend.web.controller.dto.user.GetUsersResponse;
  * {@link User} のリストを {@link GetUsersResponse} に変換するクラスです。
  */
 public class GetUsersResponseMapper {
+
+  // Prevent instantiation
+  private GetUsersResponseMapper() {
+    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+  }
+
   /**
    * {@link User} のリストを {@link GetUsersResponse} に変換します。
    * 

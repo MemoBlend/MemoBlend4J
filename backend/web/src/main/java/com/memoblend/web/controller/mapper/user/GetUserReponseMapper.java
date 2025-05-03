@@ -8,6 +8,11 @@ import com.memoblend.web.controller.dto.user.GetUserResponse;
  */
 public class GetUserReponseMapper {
 
+  // Prevent instantiation
+  private GetUserReponseMapper() {
+    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+  }
+
   /**
    * {@link User} を {@link GetUserResponse} に変換します。
    * 

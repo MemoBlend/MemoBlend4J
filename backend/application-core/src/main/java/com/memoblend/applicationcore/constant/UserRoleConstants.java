@@ -9,4 +9,9 @@ public class UserRoleConstants {
 
   /** 一般ユーザーのロール名です。 */
   public static final String USER = "ROLE_USER";
+
+  // Prevent instantiation
+  private UserRoleConstants() {
+    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+  }
 }

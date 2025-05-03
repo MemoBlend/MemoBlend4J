@@ -25,4 +25,9 @@ public class ExceptionIdConstants {
 
   /** {0} を実行する権限がありません。 */
   public static final String E_PERMISSION_DENIED = "permissionDenied";
+
+  // Prevent instantiation
+  private ExceptionIdConstants() {
+    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+  }
 }

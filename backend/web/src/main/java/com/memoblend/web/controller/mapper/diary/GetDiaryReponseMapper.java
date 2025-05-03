@@ -8,6 +8,11 @@ import com.memoblend.web.controller.dto.diary.GetDiaryResponse;
  */
 public class GetDiaryReponseMapper {
 
+  // Prevent instantiation
+  private GetDiaryReponseMapper() {
+    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+  }
+
   /**
    * {@link Diary} を {@link GetDiaryResponse} に変換します。
    * 

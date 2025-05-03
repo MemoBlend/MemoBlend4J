@@ -8,6 +8,12 @@ import com.memoblend.web.controller.dto.diary.GetDiariesResponse;
  * {@link Diary} のリストを {@link GetDiariesResponse} に変換するクラスです。
  */
 public class GetDiariesResponseMapper {
+
+  // Prevent instantiation
+  private GetDiariesResponseMapper() {
+    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+  }
+
   /**
    * {@link Diary} のリストを {@link GetDiariesResponse} に変換します。
    * 

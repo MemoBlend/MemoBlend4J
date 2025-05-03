@@ -37,4 +37,9 @@ public class MessageIdConstants {
 
   /** ユーザーID：{0}のユーザーを削除します。 */
   public static final String D_USER_DELETE_USER = "userApplicationServiceDeleteUser";
+
+  // Prevent instantiation
+  private MessageIdConstants() {
+    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+  }
 }

@@ -9,6 +9,11 @@ import com.memoblend.web.controller.dto.diary.PostDiaryRequest;
  */
 public class PostDiaryRequestMapper {
 
+  // Prevent instantiation
+  private PostDiaryRequestMapper() {
+    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+  }
+
   /**
    * {@link PostDiaryRequest} を {@link Diary} に変換します。
    * 

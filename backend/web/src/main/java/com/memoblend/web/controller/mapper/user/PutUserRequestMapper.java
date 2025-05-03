@@ -9,6 +9,11 @@ import com.memoblend.web.controller.dto.user.PutUserRequest;
  */
 public class PutUserRequestMapper {
 
+  // Prevent instantiation
+  private PutUserRequestMapper() {
+    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+  }
+
   /**
    * {@link PutUserRequest} から {@link User} へ変換します。
    * 
