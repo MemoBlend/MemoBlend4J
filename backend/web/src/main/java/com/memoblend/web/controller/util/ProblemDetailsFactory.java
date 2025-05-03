@@ -47,13 +47,12 @@ public class ProblemDetailsFactory {
       activeProfiles = env.getDefaultProfiles();
     }
 
-    if (Arrays.stream(activeProfiles).filter(profile -> Objects.equals(profile, "local"))
-        .findFirst().isPresent()) {
+    if (Arrays.stream(activeProfiles).anyMatch(profile -> Objects.equals(profile, "local"))) {
       problemDetail.setDetail(errorBuilder.createLogMessageStackTrace());
     }
 
     // 拡張メンバーとして exceptionId と exceptionValues を含める
-    Map<String, Object> errorProperty = new LinkedHashMap<String, Object>();
+    Map<String, Object> errorProperty = new LinkedHashMap<>();
     errorProperty.put(WebConstants.PROBLEM_DETAILS_EXCEPTION_ID, errorBuilder.getExceptionId());
     errorProperty.put(WebConstants.PROBLEM_DETAILS_EXCEPTION_VALUES, errorBuilder.getFrontMessageValue());
 

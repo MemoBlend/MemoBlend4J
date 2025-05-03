@@ -9,4 +9,9 @@ public class SystemPropertyConstants {
 
   /** 改行文字です。 */
   public static final String LINE_SEPARATOR = System.getProperty("line.separator");
+
+  // インスタンス化防止
+  private SystemPropertyConstants() {
+    throw new UnsupportedOperationException("ユーティリティクラスのためインスタンス化できません");
+  }
 }
