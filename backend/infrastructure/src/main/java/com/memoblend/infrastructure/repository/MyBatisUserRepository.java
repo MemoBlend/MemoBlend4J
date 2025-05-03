@@ -1,7 +1,6 @@
 package com.memoblend.infrastructure.repository;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.memoblend.applicationcore.user.User;
 import com.memoblend.applicationcore.user.UserRepository;
@@ -15,8 +14,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class MyBatisUserRepository implements UserRepository {
 
-  @Autowired
-  private UserMapper userMapper;
+  private final UserMapper userMapper;
 
   @Override
   public List<User> findAll() {

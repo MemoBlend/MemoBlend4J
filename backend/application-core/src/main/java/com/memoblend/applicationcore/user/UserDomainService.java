@@ -1,6 +1,5 @@
 package com.memoblend.applicationcore.user;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import lombok.AllArgsConstructor;
 
@@ -10,8 +9,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @Component
 public class UserDomainService {
-  @Autowired
-  private UserRepository userRepository;
+  private final UserRepository userRepository;
 
   /**
    * ID を指定して、ユーザーが存在するかどうかを判定します。

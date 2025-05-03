@@ -4,7 +4,6 @@ import java.net.URI;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ProblemDetail;
@@ -47,10 +46,8 @@ import lombok.AllArgsConstructor;
 @Tag(name = "User", description = "ユーザーの情報にアクセスする API です。")
 @AllArgsConstructor
 public class UserController {
-  @Autowired
-  UserApplicationService userApplicationService;
-  @Autowired
-  private ProblemDetailsFactory problemDetailsFactory;
+  private final UserApplicationService userApplicationService;
+  private final ProblemDetailsFactory problemDetailsFactory;
   private static final Logger apLog = LoggerFactory.getLogger(SystemPropertyConstants.APPLICATION_LOGGER);
 
   /**
