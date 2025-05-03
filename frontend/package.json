@@ -23,7 +23,7 @@
   ],
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "^2.18.4",
-    "autoprefixer": "^10.4.20",
+    "autoprefixer": "^10.4.21",
     "stylelint": "^16.15.0",
     "stylelint-config-recommended-vue": "^1.6.0",
     "stylelint-config-standard": "^37.0.0",
