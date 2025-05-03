@@ -8,6 +8,7 @@ class WeatherClient:
   """
   外部APIを用いて、天気情報を取得するクラス。
   """
+
   def __init__(self):
     """
     WeatherClientのコンストラクタ。
@@ -25,30 +26,33 @@ class WeatherClient:
     Returns:
       str: 現在の天気情報（例："現在、雨が降っています。"）
     """
-    print("AIによりget_current_weather関数が呼ばれました。")
-    # 気象庁の最新観測時刻を取得
-    url = "https://www.jma.go.jp/bosai/amedas/data/latest_time.txt"
-    print("天候取得時刻：", requests.get(url).text)
-    # 気象庁の観測地点情報を取得
-    url = "https://www.jma.go.jp/bosai/amedas/const/amedastable.json"
-    with requests.get(url) as response:
-      json = response.json()
-      df = pd.DataFrame(json).transpose()
-    # 取得した緯度latと経度lonは度分秒のため，十進度に変換
-    df["lat"] = df["lat"].str[0] + df["lat"].str[1]/60
-    df["lon"] = df["lon"].str[0] + df["lon"].str[1]/60
-    # 検索する緯度経度の指定
-    target_point = np.array([latitude, longitude])
-    # target_pointとの距離を DataFrame に追加
-    df['distance'] = df.apply(lambda row: self._calc_distance(row, target_point), axis=1)
-    # 最も近い地点のデータを取得
-    near_location_data = df.loc[df["distance"].idxmin()]
-    # 雨が降っているか否かを判定
-    if near_location_data["elems"][0] == 1:
-      weather_info = "現在、雨が降っています。"
-    else:
-      weather_info = "現在、雨は降っていません。"
-    return weather_info
+    try:
+      # 気象庁の最新観測時刻を取得し、表示
+      url = "https://www.jma.go.jp/bosai/amedas/data/latest_time.txt"
+      print("天候取得時刻：", requests.get(url).text)
+
+      # 気象庁の観測地点情報を取得
+      station_url = "https://www.jma.go.jp/bosai/amedas/const/amedastable.json"
+      response = requests.get(station_url)
+      response.raise_for_status()
+      data = response.json()
+      df = pd.DataFrame(data).transpose()
+
+      # 度分を十進法に変換
+      df["lat"] = df["lat"].str[0] + df["lat"].str[1]/60
+      df["lon"] = df["lon"].str[0] + df["lon"].str[1]/60
+
+      # 対象地点との距離を算出し、最も近い地点を取得
+      target_point = np.array([latitude, longitude])
+      df['distance'] = df.apply(lambda row: self._calc_distance(row, target_point), axis=1)
+      nearest  = df.loc[df["distance"].idxmin()]
+
+      # 雨が降っているか否かを判定
+      is_raining = nearest["elems"][0] == 1
+      return "現在、雨が降っています。" if is_raining else "現在、雨は降っていません。"
+    
+    except Exception as e:
+      return f"天気情報の取得に失敗しました: {e}"
 
   def get_tomorrow_weather(area_code: str) -> str:
     """
@@ -66,14 +70,14 @@ class WeatherClient:
     except Exception as e:
       return f"天気情報の取得に失敗しました: {e}"
 
-    
-  def _calc_distance(self, row: pd.Series, target_point: np) -> float:
+  @staticmethod
+  def _calc_distance(row: pd.Series, target_point: np.ndarray) -> float:
     """
     指定した地点と各地点の距離を計算する関数。
 
     Args:
-      row (pd.Series): 各地点の緯度・経度を含む行
-      target_point (np): 検索する緯度・経度の配列
+      row (pd.Series): 各地点の緯度・経度情報
+      target_point (np.ndarray): 検索する緯度・経度の配列
     
     Returns:
       float: 指定した地点と各地点の距離。
@@ -81,8 +85,8 @@ class WeatherClient:
     point = np.array([row['lat'], row['lon']])
     return np.linalg.norm(target_point - point)
 
-  
-  def _load_jma_codes(self, json_path: str = "jma_codes.json") -> dict:
+  @staticmethod
+  def _load_jma_codes(json_path: str = "jma_codes.json") -> dict:
     """
     作成中
     """
@@ -91,7 +95,6 @@ class WeatherClient:
         return json.load(f)
     except Exception as e:
       raise RuntimeError(f"JMAコードの読み込みに失敗しました: {e}")
-
 
   def _get_jma_code_from_latlon(self, latitude: float, longitude: float) -> str:
     """
