@@ -15,57 +15,53 @@ class ApplicationService:
   def __init__(self):
     pass
 
-  def call_vectorizer(self, json_data: dict = None, user_id: int = None) -> tuple:
+  def call_vectorizer(self, json_data: dict, user_id: int) -> tuple[bool, str|None]:
     """
-    ベクトルDBに文章を追加する関数。途中でエラーが発生した場合は False とエラーメッセージを返す。
+    ベクトルDBに文章を追加する関数。
 
     Args:
-      json_data (dict): 追加するデータ。{"id": "1", "content": "sample text"} の形式。
+      json_data (dict): 追加するデータ。{"id": "1", "content": "sample text"}。
       user_id (int): ユーザーID。
       
     Returns:
       tuple: (成功フラグ, エラーメッセージ または None)
     """
     try:
-      self.json_data = json_data
-      self.db_repository = ChromadbRepository(user_id=user_id, persist=True)
-      self.db_repository.load_collection()
-      self.db_repository.add(json_data['id'], json_data['content'])
+      db_repo = ChromadbRepository(user_id=user_id, persist=True)
+      db_repo.load_collection()
+      db_repo.add(json_data['id'], json_data['content'])
       return True, None
+
     except Exception as e:
       return False, str(e)
 
   def call_scheduler(self, user_id: int=None, location: dict=None) -> dict:
     """
-    内部関数(スケジューラー)を用いて明日の予定を提案する関数。
+    明日の予定を提案する関数。
 
     Args:
       user_id (int): ユーザーID。
       location (dict): 現在位置の緯度・経度。{"latitude": 35.6895, "longitude": 139.6917} の形式。
     
     Returns:
-      dict: AI解析結果。
+      dict: OpenAI APIのレスポンス。
     """
-    self._initialize_scheduler(user_id)
+    # 変数の初期化
+    self.client = OpenAI()
+    self.client.api_key = os.getenv("OPENAI_API_KEY")
+    self.weather_client = WeatherClient()
+    self._setup_function_calling()
+    self.total_prompt_tokens = 0
+    self.total_completion_tokens = 0
+    self.total_cost = 0.0
+
+    # リポジトリの初期化
+    db_repo = ChromadbRepository(user_id=user_id, persist=True)
+    db_repo.load_collection()
+    self.db_repository = db_repo
+
     return self._analyze(location)
   
-  def _initialize_scheduler(self, user_id: int=None) -> None:
-    """
-    スケジューラーの初期化を行う内部メソッド。
-
-    Args:
-      user_id (int): ユーザーID。
-
-    Returns: 
-      None  
-    """
-    # ベクトルDBのコレクションを読み込み
-    self.db_repository = ChromadbRepository(user_id=user_id, persist=True)
-    self.db_repository.load_collection()
-
-    # OpenAI APIの初期化
-    self._initialize_openai_api()
-
   def _analyze(self, location: dict) -> dict:
     """
     DBから過去の日記を取り出し、RAGを用いて明日の予定を提案する関数。
@@ -81,83 +77,90 @@ class ApplicationService:
       dict: AI解析結果。
     """
     response = self.db_repository.find_by_sentence("明日の予定は？")
-    text = "\n".join(response['documents'][0])
-    print("input text: ", text)
+    diary_text  = "\n".join(response['documents'][0])
+    print("input text: ", diary_text )
+
+    # ユーザープロンプトの作成
+    user_prompt = (
+      f"{diary_text } 以上の文章は同一人物が書いた日記である。"
+      f"この人物は明日の休日の予定が決まっていない。"
+      f"現在位置の緯度は{location['latitude']}、経度は{location['longitude']}である。"
+      "上記の日記から、この人物の明日の予定を決めて。"
+      "ただし、以下の条件を守ること。\n"
+      "1. 時間と細かい場所を指定すること。\n"
+      "2. 簡潔に、マークダウン形式で表示すること。"
+    )
+
+    # プロンプトの作成
     messages = [
       {"role": "system", "content": "あなたは、優秀なアドバイザーです"},
-      {"role": "user", "content": text +
-        " 以上の文章は同一人物が書いた日記である。"
-        "この人物は明日の休日の予定が決まっていない。"
-        f"現在位置の緯度は{location['latitude']}、経度は{location['longitude']}である。"
-        "上記の日記から、この人物の明日の予定を決めて。"
-        "ただし、以下の条件を守ること。"
-        "1. 時間と細かい場所を指定すること。"
-        "2. 簡潔に、マークダウン形式で表示すること。"}
+      {"role": "user", "content": user_prompt},
     ]
+
     # 最初のリクエスト（Function Calling が必要か否かの判断）
-    response = self.client.chat.completions.create(
-      model="gpt-4o-mini-2024-07-18",
-      messages=messages,
-      tools=self.function_calling,
-      tool_choice="auto",
-      max_tokens=1000
-    )
-    # 要したトークン数を取得
-    self.total_prompt_tokens += response.usage.prompt_tokens
-    self.total_completion_tokens += response.usage.completion_tokens
-    # Function Calling の指示があれば処理する
+    response = self._call_openai(messages, tools=self.function_calling, tool_choice="auto")
+
+    # Function Calling が必要な場合、ツールを実行
     tool_calls = response.choices[0].message.tool_calls
     if tool_calls:
       for tool_call in tool_calls:
-        function_name = tool_call.function.name
-        arguments = json.loads(tool_call.function.arguments)
-        # get_current_weather 関数が必要かを判断
-        if function_name == "get_current_weather":
-          result = self.weather_client.get_current_weather(
-            latitude=arguments["latitude"],
-            longitude=arguments["longitude"]
+        if tool_call.function.name == "get_current_weather":
+          args = json.loads(tool_call.function.arguments)
+          
+          # 天気予報の取得
+          weather = self.weather_client.get_current_weather(
+              latitude=args["latitude"],
+              longitude=args["longitude"]
           )
-          # 関数の結果をfunction roleで渡す
+
+          # プロンプトの更新
           messages.append({
-            "role": "function",
-            "name": function_name,
-            "content": result
+              "role": "function",
+              "name": "get_current_weather",
+              "content": weather
           })
-      # 再度OpenAIへリクエストして最終出力を取得
-      final_response = self.client.chat.completions.create(
-        model="gpt-4o-mini-2024-07-18",
-        messages=messages,
-        max_tokens=1000
-      )
-      # 要したトークン数を取得
-      self.total_prompt_tokens += final_response.usage.prompt_tokens
-      self.total_completion_tokens += final_response.usage.completion_tokens
-      # 合計料金を計算
-      self.total_cost = (self.total_prompt_tokens * INPUT_TOKENS_FEE) + (self.total_completion_tokens * OUTPUT_TOKENS_FEE)
-      print("合計トークン数:", self.total_prompt_tokens + self.total_completion_tokens, "トークン")
-      print("合計料金:", self.total_cost, "円")
+
+      # Function Calling の結果を反映し、再度 OpenAI API を呼び出す
+      final_response = self._call_openai(messages)
+
       return final_response
-    # Function calling が使われなかった場合のレスポンス
+
     return response
   
-  def _initialize_openai_api(self) -> None:
+  def _call_openai(self, messages: list[dict], tools=None, tool_choice=None) -> dict:
     """
-    OpenAI APIの初期化を行う内部関数。
-    OpenAI APIのクライアントを初期化し、APIキーを設定する。
-    また、Function Callingの設定を行う。
+    OpenAI APIを呼び出し、トークン使用量を計測。
+
+    Args:
+      messages (list): メッセージリスト。
+      tools (list | None): Function Calling用のツール定義。
+      tool_choice (str | None): toolの選択方法。
 
     Returns:
-      None
+      dict: APIレスポンス。
     """
-    self.client = OpenAI()
-    self.client.api_key = os.getenv("OPENAI_API_KEY")
-    # function callingの設定
-    self.weather_client = WeatherClient()
-    self._setup_function_calling()
-    # 金額表示用の変数
-    self.total_prompt_tokens = 0
-    self.total_completion_tokens = 0
-    self.total_cost = 0.0
+    response = self.client.chat.completions.create(
+      model="gpt-4o-mini-2024-07-18",
+      messages=messages,
+      tools=tools,
+      tool_choice=tool_choice,
+      max_tokens=1000
+    )
+    self._update_token_usage(response)
+    return response
+
+  def _update_token_usage(self, response) -> None:
+    """
+    トークン数と料金を加算する。
+    """
+    self.total_prompt_tokens += response.usage.prompt_tokens
+    self.total_completion_tokens += response.usage.completion_tokens
+    self.total_cost = (
+      self.total_prompt_tokens * INPUT_TOKENS_FEE +
+      self.total_completion_tokens * OUTPUT_TOKENS_FEE
+    )
+    print("合計トークン数:", self.total_prompt_tokens + self.total_completion_tokens)
+    print("合計料金:", self.total_cost, "円")
 
   def _setup_function_calling(self) -> None:
     """
