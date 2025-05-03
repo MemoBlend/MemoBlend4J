@@ -1,6 +1,7 @@
 __pycache__/
 venv/
 chroma_db/
+sphinx/
 
 # 一時的に作成しているファイルを無視
 tmp/

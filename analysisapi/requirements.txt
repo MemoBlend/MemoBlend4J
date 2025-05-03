@@ -5,3 +5,4 @@ openai==1.68.2
 chromadb==1.0.0
 pandas==2.2.3
 sphinx==8.2.3
+sphinx_material==0.0.36

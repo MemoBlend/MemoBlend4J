@@ -1,8 +1,8 @@
 import json
 import os
 from openai import OpenAI
-from applicationcore.client.weather.weather_client import WeatherClient
-from infrastructure.chromadb_repository import ChromadbRepository
+from scheduleplanner.applicationcore.client.weather.weather_client import WeatherClient
+from scheduleplanner.infrastructure.chromadb_repository import ChromadbRepository
 
 # 定数
 INPUT_TOKENS_FEE = 0.0225/1000  # inputでの1トークンあたりの料金(円)
