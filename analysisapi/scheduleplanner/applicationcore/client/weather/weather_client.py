@@ -18,7 +18,7 @@ class WeatherClient:
     """
     指定した緯度・経度に最も近い気象観測地点の現在の情報を取得する関数。
 
-    ARgs:
+    Args:
       latitude (float): 緯度
       longitude (float): 経度
     
