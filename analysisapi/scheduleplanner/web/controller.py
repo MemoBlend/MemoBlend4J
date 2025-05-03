@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Body
+from fastapi import FastAPI, HTTPException
 import httpx
 import uvicorn
 from applicationcore.applicationservice.application_service import ApplicationService
