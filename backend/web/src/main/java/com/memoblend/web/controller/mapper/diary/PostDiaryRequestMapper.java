@@ -17,13 +17,12 @@ public class PostDiaryRequestMapper {
    * @throws DiaryValidationException 日記が不正な場合。
    */
   public static Diary convert(PostDiaryRequest request) throws DiaryValidationException {
-    Diary diary = new Diary(
+    return new Diary(
         0,
         request.getUserId(),
         request.getTitle(),
         request.getContent(),
         request.getCreatedDate(),
         false);
-    return diary;
   }
 }

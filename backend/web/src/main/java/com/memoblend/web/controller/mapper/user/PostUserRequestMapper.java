@@ -17,10 +17,9 @@ public class PostUserRequestMapper {
    * @throws UserValidationException ユーザーが不正な場合。
    */
   public static User convert(PostUserRequest request) throws UserValidationException {
-    User user = new User(
+    return new User(
         0,
         request.getName(),
         false);
-    return user;
   }
 }

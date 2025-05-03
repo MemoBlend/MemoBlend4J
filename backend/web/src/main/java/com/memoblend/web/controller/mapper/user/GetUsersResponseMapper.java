@@ -15,7 +15,6 @@ public class GetUsersResponseMapper {
    * @return {@link GetUsersResponse} のインスタンス。
    */
   public static GetUsersResponse convert(List<User> users) {
-    GetUsersResponse response = new GetUsersResponse(users);
-    return response;
+    return new GetUsersResponse(users);
   }
 }
