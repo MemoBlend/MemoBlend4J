@@ -25,18 +25,17 @@ public class WebSecurityConfig {
   @Value("${cors.allowed.origins:}")
   private String allowedOrigins;
 
-  @Autowired(required = false)
-  private DummyUserInjectionFilter dummyUserInjectionFilter;
-
   /**
    * CORS 設定、認可機能を設定します。
    * 
-   * @param http 認証認可の設定クラス。
+   * @param http                     認証認可の設定クラス。
+   * @param dummyUserInjectionFilter ダミーユーザ注入フィルタ（開発環境用、任意）。
    * @return フィルターチェーン。
    * @throws Exception 例外。
    */
   @Bean
-  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+  public SecurityFilterChain securityFilterChain(HttpSecurity http,
+      @Autowired(required = false) DummyUserInjectionFilter dummyUserInjectionFilter) throws Exception {
     http
         .securityMatcher("/api/**")
         // CSRF トークンを利用したリクエストの検証を無効化（ OAuth2.0 による認証認可を利用する前提のため）

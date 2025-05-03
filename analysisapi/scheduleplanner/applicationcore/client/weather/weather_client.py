@@ -66,7 +66,7 @@ class WeatherClient:
     except Exception as e:
       return f"天気情報の取得に失敗しました: {e}"
 
-
+    
   def _calc_distance(self, row: pd.Series, target_point: np) -> float:
     """
     指定した地点と各地点の距離を計算する関数。
@@ -81,7 +81,7 @@ class WeatherClient:
     point = np.array([row['lat'], row['lon']])
     return np.linalg.norm(target_point - point)
 
-
+  
   def _load_jma_codes(self, json_path: str = "jma_codes.json") -> dict:
     """
     作成中

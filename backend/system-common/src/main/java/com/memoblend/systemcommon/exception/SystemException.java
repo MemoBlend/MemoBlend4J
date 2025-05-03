@@ -10,11 +10,11 @@ import lombok.Setter;
 @Setter
 public class SystemException extends RuntimeException {
 
-  private String exceptionId = null;
+  private final String exceptionId;
 
-  private String[] frontMessageValue = null;
+  private final String[] frontMessageValue;
 
-  private String[] logMessageValue = null;
+  private final String[] logMessageValue;
 
   /**
    * 原因例外、例外 ID 、メッセージ用プレースホルダー（フロント用）、メッセージ用プレースホルダー（ログ用）を指定して、
