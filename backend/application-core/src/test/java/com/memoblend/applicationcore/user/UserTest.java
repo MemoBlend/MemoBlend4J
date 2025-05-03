@@ -6,6 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.memoblend.applicationcore.constant.ExceptionIdConstants;
 
@@ -21,24 +24,12 @@ class UserTest {
     assertDoesNotThrow(() -> new User(1L, "testName", false));
   }
 
-  @Test
-  void testNameIsNull_異常系_nameがnull() {
+  @ParameterizedTest
+  @NullSource
+  @ValueSource(strings = { " ", "" })
+  void testNameIsNull_異常系_nameが空(String name) {
     UserValidationException e = assertThrows(UserValidationException.class,
-        () -> new User(1L, null, false));
-    assertEquals(ExceptionIdConstants.E_USER_FIELD_IS_REQUIRED, e.getExceptionId());
-  }
-
-  @Test
-  void testNameIsBlank_異常系_nameが空白() {
-    UserValidationException e = assertThrows(UserValidationException.class,
-        () -> new User(1L, " ", false));
-    assertEquals(ExceptionIdConstants.E_USER_FIELD_IS_REQUIRED, e.getExceptionId());
-  }
-
-  @Test
-  void testNameIsTooShort_異常系_nameが0文字() {
-    UserValidationException e = assertThrows(UserValidationException.class,
-        () -> new User(1L, "", false));
+        () -> new User(1L, name, false));
     assertEquals(ExceptionIdConstants.E_USER_FIELD_IS_REQUIRED, e.getExceptionId());
   }
 
