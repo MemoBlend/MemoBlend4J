@@ -11,15 +11,15 @@ import com.memoblend.applicationcore.constant.ExceptionIdConstants;
 /**
  * Diary クラスのテストクラスです。
  */
-public class DiaryTest {
+class DiaryTest {
 
   @Test
-  public void testNoError_正常系_日記を作成できる() {
+  void testNoError_正常系_日記を作成できる() {
     assertDoesNotThrow(() -> new Diary(1L, 1L, "testTitle", "testContent", LocalDate.of(2025, 1, 1), false));
   }
 
   @Test
-  public void testTitleIsNull_異常系_titleがnull() {
+  void testTitleIsNull_異常系_titleがnull() {
     DiaryValidationException e = assertThrows(
         DiaryValidationException.class,
         () -> new Diary(1L, 1L, null, "testContent", LocalDate.of(2025, 1, 1), false));
@@ -27,7 +27,7 @@ public class DiaryTest {
   }
 
   @Test
-  public void testTitleIsBlank_異常系_titleが空白() {
+  void testTitleIsBlank_異常系_titleが空白() {
     DiaryValidationException e = assertThrows(
         DiaryValidationException.class,
         () -> new Diary(1L, 1L, " ", "testContent", LocalDate.of(2025, 1, 1),
@@ -36,7 +36,7 @@ public class DiaryTest {
   }
 
   @Test
-  public void testTitleIsTooShort_異常系_titleが0文字() {
+  void testTitleIsTooShort_異常系_titleが0文字() {
     DiaryValidationException e = assertThrows(
         DiaryValidationException.class,
         () -> new Diary(1L, 1L, "", "testContent", LocalDate.of(2025, 1, 1), false));
@@ -44,7 +44,7 @@ public class DiaryTest {
   }
 
   @Test
-  public void testTitleIsTooLong_異常系_titleの文字数オーバー() {
+  void testTitleIsTooLong_異常系_titleの文字数オーバー() {
     DiaryValidationException e = assertThrows(
         DiaryValidationException.class,
         () -> new Diary(1L, 1L, "a".repeat(31), "testContent", LocalDate.of(2025, 1,
@@ -53,7 +53,7 @@ public class DiaryTest {
   }
 
   @Test
-  public void testContentIsNull_異常系_contentがnull() {
+  void testContentIsNull_異常系_contentがnull() {
     DiaryValidationException e = assertThrows(
         DiaryValidationException.class,
         () -> new Diary(1L, 1L, "testTitle", null, LocalDate.of(2025, 1, 1), false));
@@ -61,21 +61,21 @@ public class DiaryTest {
   }
 
   @Test
-  public void testContentIsBlank_異常系_contentが空白() {
+  void testContentIsBlank_異常系_contentが空白() {
     DiaryValidationException e = assertThrows(DiaryValidationException.class,
         () -> new Diary(1L, 1L, "testTitle", " ", LocalDate.of(2025, 1, 1), false));
     assertEquals(ExceptionIdConstants.E_DIARY_FIELD_IS_REQUIRED, e.getExceptionId());
   }
 
   @Test
-  public void testContentIsTooShort_異常系_contentが0文字() {
+  void testContentIsTooShort_異常系_contentが0文字() {
     DiaryValidationException e = assertThrows(DiaryValidationException.class,
         () -> new Diary(1L, 1L, "testTitle", "", LocalDate.of(2025, 1, 1), false));
     assertEquals(ExceptionIdConstants.E_DIARY_FIELD_IS_REQUIRED, e.getExceptionId());
   }
 
   @Test
-  public void testContentIsTooLong_異常系_contentの文字数オーバー() {
+  void testContentIsTooLong_異常系_contentの文字数オーバー() {
     DiaryValidationException e = assertThrows(
         DiaryValidationException.class,
         () -> new Diary(1L, 1L, "testTitle", "a".repeat(1001), LocalDate.of(2025, 1,
@@ -84,7 +84,7 @@ public class DiaryTest {
   }
 
   @Test
-  public void testDateIsNull_異常系_作成日時がnull() {
+  void testDateIsNull_異常系_作成日時がnull() {
     DiaryValidationException e = assertThrows(DiaryValidationException.class,
         () -> new Diary(1L, 1L, "testTitle", "testContent", null, false));
     assertEquals(ExceptionIdConstants.E_DIARY_FIELD_IS_REQUIRED, e.getExceptionId());

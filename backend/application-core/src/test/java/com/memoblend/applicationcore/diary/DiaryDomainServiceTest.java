@@ -14,7 +14,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
  * 日記のドメインサービスのテストクラスです。
  */
 @ExtendWith(SpringExtension.class)
-public class DiaryDomainServiceTest {
+class DiaryDomainServiceTest {
 
   @Mock
   private DiaryRepository diaryRepository;

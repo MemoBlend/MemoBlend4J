@@ -35,7 +35,7 @@ import com.memoblend.applicationcore.diary.DiaryValidationException;
 @ExtendWith(SpringExtension.class)
 @TestPropertySource(properties = "spring.messages.basename=applicationcore.messages")
 @ImportAutoConfiguration(MessageSourceAutoConfiguration.class)
-public class DiaryApplicationServiceTest {
+class DiaryApplicationServiceTest {
 
   @Mock
   private DiaryRepository diaryRepository;

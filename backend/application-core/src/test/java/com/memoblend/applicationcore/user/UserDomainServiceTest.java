@@ -13,7 +13,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
  * ユーザーのドメインサービスのテストクラスです。
  */
 @ExtendWith(SpringExtension.class)
-public class UserDomainServiceTest {
+class UserDomainServiceTest {
 
   @Mock
   private UserRepository userRepository;
