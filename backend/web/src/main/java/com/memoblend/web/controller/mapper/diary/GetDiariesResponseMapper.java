@@ -15,7 +15,6 @@ public class GetDiariesResponseMapper {
    * @return {@link GetDiariesResponse} のインスタンス。
    */
   public static GetDiariesResponse convert(List<Diary> diaries) {
-    GetDiariesResponse response = new GetDiariesResponse(diaries);
-    return response;
+    return new GetDiariesResponse(diaries);
   }
 }
