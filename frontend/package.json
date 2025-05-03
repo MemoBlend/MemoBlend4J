@@ -33,7 +33,7 @@
     "@mdi/font": "^7.4.47",
     "@vee-validate/yup": "^4.15.0",
     "axios": "^1.8.2",
-    "vite-plugin-vuetify": "^2.1.0",
+    "vite-plugin-vuetify": "^2.1.1",
     "vue-i18n": "^11.1.2",
     "vuetify": "^3.7.14",
     "yup": "^1.6.1"
