@@ -22,7 +22,7 @@
     "diary"
   ],
   "devDependencies": {
-    "@openapitools/openapi-generator-cli": "^2.18.4",
+    "@openapitools/openapi-generator-cli": "^2.20.0",
     "autoprefixer": "^10.4.20",
     "stylelint": "^16.15.0",
     "stylelint-config-recommended-vue": "^1.6.0",
