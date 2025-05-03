@@ -24,28 +24,28 @@ import com.memoblend.web.WebApplication;
 @SpringJUnitConfig
 @SpringBootTest(classes = WebApplication.class)
 @AutoConfigureMockMvc
-public class DiaryControllerTest {
+class DiaryControllerTest {
 
   @Autowired
   MockMvc mockMvc;
 
   @Test
   @WithMockUser
-  public void testGetDiaries_正常系_日記のリストを返す() throws Exception {
+  void testGetDiaries_正常系_日記のリストを返す() throws Exception {
     this.mockMvc.perform(get("/api/diary/list"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON));
   }
 
   @Test
-  public void testGetDiaries_異常系_権限が足りない() throws Exception {
+  void testGetDiaries_異常系_権限が足りない() throws Exception {
     this.mockMvc.perform(get("/api/diary/list"))
         .andExpect(status().isNotFound());
   }
 
   @Test
   @WithMockUser
-  public void testGetDiariesByUserId_正常系_日記のリストを返す() throws Exception {
+  void testGetDiariesByUserId_正常系_日記のリストを返す() throws Exception {
     long userId = 1;
     this.mockMvc.perform(get("/api/diary/list/" + userId))
         .andExpect(status().isOk())
@@ -53,7 +53,7 @@ public class DiaryControllerTest {
   }
 
   @Test
-  public void testGetDiariesByUserId_異常系_権限が足りない() throws Exception {
+  void testGetDiariesByUserId_異常系_権限が足りない() throws Exception {
     long userId = 1;
     this.mockMvc.perform(get("/api/diary/list/" + userId))
         .andExpect(status().isNotFound());
@@ -61,7 +61,7 @@ public class DiaryControllerTest {
 
   @Test
   @WithMockUser
-  public void testGetDiary_正常系_日記を返す() throws Exception {
+  void testGetDiary_正常系_日記を返す() throws Exception {
     long id = 1;
     this.mockMvc.perform(get("/api/diary/" + id))
         .andExpect(status().isOk())
@@ -70,14 +70,14 @@ public class DiaryControllerTest {
 
   @Test
   @WithMockUser
-  public void testGetDiary_異常系_日記が存在しない() throws Exception {
+  void testGetDiary_異常系_日記が存在しない() throws Exception {
     long id = 999;
     this.mockMvc.perform(get("/api/diary/" + id))
         .andExpect(status().isNotFound());
   }
 
   @Test
-  public void testGetDiary_異常系_権限が足りない() throws Exception {
+  void testGetDiary_異常系_権限が足りない() throws Exception {
     long id = 1;
     this.mockMvc.perform(get("/api/diary/" + id))
         .andExpect(status().isNotFound());
@@ -85,7 +85,7 @@ public class DiaryControllerTest {
 
   @Test
   @WithMockUser
-  public void testPostDiary_正常系_日記を登録する() throws Exception {
+  void testPostDiary_正常系_日記を登録する() throws Exception {
     String diaryJson = "{"
         + "\"userId\": 1, "
         + "\"title\": \"Test title\", "
@@ -100,7 +100,7 @@ public class DiaryControllerTest {
   }
 
   @Test
-  public void testPostDiary_異常系_権限が足りない() throws Exception {
+  void testPostDiary_異常系_権限が足りない() throws Exception {
     String diaryJson = "{"
         + "\"userId\": 1, "
         + "\"title\": \"Test title\", "
@@ -115,7 +115,7 @@ public class DiaryControllerTest {
 
   @Test
   @WithMockUser
-  public void testDeleteDiary_正常系_日記を削除する() throws Exception {
+  void testDeleteDiary_正常系_日記を削除する() throws Exception {
     long id = 10;
     this.mockMvc.perform(delete("/api/diary/" + id))
         .andExpect(status().isOk());
@@ -123,14 +123,14 @@ public class DiaryControllerTest {
 
   @Test
   @WithMockUser
-  public void testDeleteDiary_異常系_日記が存在しない() throws Exception {
+  void testDeleteDiary_異常系_日記が存在しない() throws Exception {
     long id = 999;
     this.mockMvc.perform(delete("/api/diary/" + id))
         .andExpect(status().isNotFound());
   }
 
   @Test
-  public void testDeleteDiary_異常系_権限が足りない() throws Exception {
+  void testDeleteDiary_異常系_権限が足りない() throws Exception {
     long id = 1;
     this.mockMvc.perform(delete("/api/diary/" + id))
         .andExpect(status().isNotFound());
@@ -138,7 +138,7 @@ public class DiaryControllerTest {
 
   @Test
   @WithMockUser
-  public void testPutDiary_正常系_日記を更新する() throws Exception {
+  void testPutDiary_正常系_日記を更新する() throws Exception {
     String diaryJson = "{"
         + "\"id\": 1,"
         + "\"userId\": 1, "
@@ -154,7 +154,7 @@ public class DiaryControllerTest {
 
   @Test
   @WithMockUser
-  public void testPutDiary_異常系_日記が存在しない() throws Exception {
+  void testPutDiary_異常系_日記が存在しない() throws Exception {
     String diaryJson = "{"
         + "\"id\": 999,"
         + "\"userId\": 1, "
@@ -169,7 +169,7 @@ public class DiaryControllerTest {
   }
 
   @Test
-  public void testPutDiary_異常系_権限が足りない() throws Exception {
+  void testPutDiary_異常系_権限が足りない() throws Exception {
     String diaryJson = "{"
         + "\"id\": 1,"
         + "\"userId\": 1, "

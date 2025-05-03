@@ -31,7 +31,7 @@ import com.memoblend.applicationcore.user.UserValidationException;
 @ExtendWith(SpringExtension.class)
 @TestPropertySource(properties = "spring.messages.basename=applicationcore.messages")
 @ImportAutoConfiguration(MessageSourceAutoConfiguration.class)
-public class UserApplicationServiceTest {
+class UserApplicationServiceTest {
 
   @Mock
   private UserRepository userRepository;
