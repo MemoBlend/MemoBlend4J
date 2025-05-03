@@ -102,8 +102,7 @@ public class DiaryApplicationService {
     if (!userStore.isInRole(UserRoleConstants.USER)) {
       throw new PermissionDeniedException("addDiary");
     }
-    Diary addedDiary = diaryRepository.add(diary);
-    return addedDiary;
+    return diaryRepository.add(diary);
   }
 
   /**

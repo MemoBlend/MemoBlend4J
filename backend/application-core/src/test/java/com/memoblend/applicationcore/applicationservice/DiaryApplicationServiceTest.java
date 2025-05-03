@@ -355,7 +355,7 @@ public class DiaryApplicationServiceTest {
     long userId = 1;
     String title = "testTitle";
     String content = "testContent";
-    Diary diary = new Diary(id, userId, title, content, createdDate, false);
-    return diary;
+    boolean isDeleted = false;
+    return new Diary(id, userId, title, content, createdDate, isDeleted);
   }
 }
