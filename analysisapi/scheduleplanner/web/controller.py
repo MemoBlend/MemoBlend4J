@@ -46,7 +46,7 @@ async def get_diary(user_id: int, diary_id: int) -> dict:
   success, error = application_service.call_vectorizer(response_json, user_id)
 
   if not success:
-    raise HTTPException(status_code=500, detail="ベクトルDBへの追加に失敗しました: {error}")
+    raise HTTPException(status_code=500, detail=f"ベクトルDBへの追加に失敗しました: {error}")
 
   return {"message": "日記が正常にDBに追加されました"}
 
