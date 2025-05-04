@@ -79,7 +79,6 @@ class Forecast:
       response.raise_for_status()
       return response.json()
     except requests.RequestException:
-      print(f"データ取得失敗: {area_code}")
       return None
 
   def _parse_tomorrow_forecast(self, forecast_data: Dict) -> Optional[Dict]:
