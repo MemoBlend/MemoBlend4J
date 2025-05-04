@@ -12,8 +12,9 @@ class Forecast:
   CITY_IDS_PATH = "./generateweatherforecast/property/city_ids.json"
   FORECAST_OUTPUT_PATH = "./generateweatherforecast/property/weather_forecast.json"
 
-  def __init__(self):
+  def __init__(self, request_delay=1.0):
     self.area_codes = self._load_or_fetch_area_codes()
+    self.request_delay = request_delay
 
   def get_tomorrow_forecast(self) -> List[Dict]:
     """
@@ -73,7 +74,7 @@ class Forecast:
     Returns:
       Optional[Dict]: APIからのレスポンス
     """
-    time.sleep(1)
+    time.sleep(self.request_delay)
     try:
       response = requests.get(f"{self.API_URL}/{area_code}")
       response.raise_for_status()
