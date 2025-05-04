@@ -4,7 +4,7 @@ class ApplicationserviceConstants:
     OUTPUT_FEE_PER_TOKEN_JPY = 0.0900 / 1000
     GPT_MODEL = "gpt-4o-mini-2024-07-18"
 
-    # Function Calling 設定
+    # Function Calling の設定
     FUNCTION_CALLING_DEFINITIONS = [
       {
         "type": "function",
