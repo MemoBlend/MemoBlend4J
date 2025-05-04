@@ -6,19 +6,19 @@ class ApplicationserviceConstants:
 
     # Function Calling 設定
     FUNCTION_CALLING_DEFINITIONS = [
-        {
-            "type": "function",
-            "function": {
-                "name": "get_current_weather",
-                "description": "指定した緯度経度の地点にて、現在雨が降っているか否かを返す。",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "latitude": {"type": "number", "description": "緯度"},
-                        "longitude": {"type": "number", "description": "経度"},
-                    },
-                    "required": ["latitude", "longitude"],
-                },
+      {
+        "type": "function",
+        "function": {
+          "name": "get_current_weather",
+          "description": "指定した緯度経度の地点にて、現在雨が降っているか否かを返す。",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "latitude": {"type": "number", "description": "緯度"},
+              "longitude": {"type": "number", "description": "経度"},
             },
-        }
+            "required": ["latitude", "longitude"],
+          },
+        },
+      }
     ]

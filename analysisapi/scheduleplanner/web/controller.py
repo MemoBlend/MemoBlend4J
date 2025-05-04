@@ -79,7 +79,7 @@ async def get_schedule(user_id: int) -> str:
   try:
     # 予定の立案
     application_service = ApplicationService(user_id)
-    response = application_service.suggest_tomorrow_schedule(location)
+    response = application_service.initialize_analizer(location)
     return response.choices[0].message.content
 
   except Exception as e:

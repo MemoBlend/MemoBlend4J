@@ -44,7 +44,7 @@ class ApplicationService:
     # リポジトリの初期化
     self.db_repository = self.db_repo
 
-    return self._analyze(location)
+    return self._analyzer(location)
   
   def _analyzer(self, location: dict) -> dict:
     """
