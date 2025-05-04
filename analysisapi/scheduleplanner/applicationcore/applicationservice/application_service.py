@@ -3,10 +3,7 @@ import os
 from openai import OpenAI
 from scheduleplanner.applicationcore.client.weather.weather_client import WeatherClient
 from scheduleplanner.infrastructure.chromadb_repository import ChromadbRepository
-
-INPUT_FEE_PER_TOKEN_JPY = 0.0225/1000 
-OUTPUT_FEE_PER_TOKEN_JPY = 0.0900/1000  
-GPT_MODEL = "gpt-4o-mini-2024-07-18"  
+from scheduleplanner.applicationcore.constant.applicationservice_constants import ApplicationserviceConstants
 
 class ApplicationService:
   """
@@ -129,7 +126,7 @@ class ApplicationService:
       dict: APIレスポンス。
     """
     response = self.client.chat.completions.create(
-      model=GPT_MODEL,
+      model=ApplicationserviceConstants.GPT_MODEL,
       messages=messages,
       tools=tools,
       tool_choice=tool_choice,
@@ -151,8 +148,8 @@ class ApplicationService:
     self.total_prompt_tokens += response.usage.prompt_tokens
     self.total_completion_tokens += response.usage.completion_tokens
     self.total_cost = (
-      self.total_prompt_tokens * INPUT_FEE_PER_TOKEN_JPY +
-      self.total_completion_tokens * OUTPUT_FEE_PER_TOKEN_JPY
+      self.total_prompt_tokens * ApplicationserviceConstants.INPUT_FEE_PER_TOKEN_JPY +
+      self.total_completion_tokens * ApplicationserviceConstants.OUTPUT_FEE_PER_TOKEN_JPY
     )
     print("合計トークン数:", self.total_prompt_tokens + self.total_completion_tokens)
     print("合計料金:", self.total_cost, "円")
@@ -161,19 +158,4 @@ class ApplicationService:
     """
     Function Callingの設定を行います。
     """
-    self.function_calling=[
-      {
-        "type": "function",
-        "function":{
-          "name": "get_current_weather",
-          "description": "指定した緯度経度の地点にて、現在雨が降っているか否かを返す。",
-          "parameters":{
-            "type": "object",
-            "properties":{
-              "latitude":{"type": "number", "description": "緯度"},
-              "longitude":{"type": "number", "description": "経度"},
-            },
-            "required": ["latitude", "longitude"],
-          },
-        },
-      }]
+    self.function_calling=ApplicationserviceConstants.FUNCTION_CALLING_DEFINITIONS
