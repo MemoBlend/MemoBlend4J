@@ -7,7 +7,7 @@ class ChromadbRepository():
                 persist: bool = False, 
                 ):
     """
-    ChromadbRepository クラスのコンストラクタ。
+    ChromadbRepository クラスのコンストラクタです。
     
     Args:
       user_id (int): ユーザーID。
@@ -22,7 +22,7 @@ class ChromadbRepository():
 
   def load_collection(self) -> None:
     """
-    コレクションをロードする関数。コレクションが存在しない場合は新たに作成する。
+    コレクションをロードします。コレクションが存在しない場合は新たに作成します。
 
     Returns:
       None
@@ -33,7 +33,7 @@ class ChromadbRepository():
 
   def add(self, diary_id: int, sentence: str) -> None:
     """
-    文をベクトルDBに追加する関数。
+    文章をベクトルDBに追加します。
 
     Args:
       diary_id (int): 日記ID。
@@ -56,8 +56,8 @@ class ChromadbRepository():
 
   def find_by_sentence(self, sentence: str, top_k: int = 2) -> dict:
     """
-    DBから sentence に類似するテキストを検索する関数。
-    事前にDBがロードされていない場合はエラーを返す。
+    DB から sentence に類似するテキストを検索します。
+    事前に DB がロードされていない場合はエラーを返します。
 
     Args:
       sentence (str): 検索する文章。
@@ -78,7 +78,7 @@ class ChromadbRepository():
   
   def _collection_name(self) -> str:
     """
-    ユーザーごとのコレクション名を生成。
+    ユーザーごとのコレクション名を生成します。
     
     Returns:
       str: ユーザーごとのコレクション名。

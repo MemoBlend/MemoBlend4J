@@ -6,13 +6,12 @@ from scheduleplanner.web.loader.config_loader import ConfigLoader
 
 # インスタンスの生成
 app = FastAPI()
-application_service = ApplicationService()
 
 
 @app.get("/user/{user_id}/{diary_id}")
 async def get_diary(user_id: int, diary_id: int) -> dict:
   """
-  指定idのユーザーの指定idの日記を取得し、ベクトルDBに追加する関数。
+  指定idのユーザーの指定idの日記を取得し、ベクトルDBに追加します。
 
   Args:
     user_id (int): ユーザーID
@@ -43,10 +42,16 @@ async def get_diary(user_id: int, diary_id: int) -> dict:
   response_json = response.json()
 
   # 日記分析AIのインスタンスを生成
-  success, error = application_service.call_vectorizer(response_json, user_id)
-
-  if not success:
-    raise HTTPException(status_code=500, detail=f"ベクトルDBへの追加に失敗しました: {error}")
+  try:
+    application_service = ApplicationService(user_id)
+    application_service.add_text_to_db(response_json)
+    
+  except (KeyError, TypeError, ValueError) as e:
+    print(f"入力エラー: {e}")
+  except ConnectionError as e:
+    print(f"接続エラー: {e}")
+  except Exception as e:
+    print(f"その他の予期しないエラー: {e}")
 
   return {"message": "日記が正常にDBに追加されました"}
 
@@ -54,7 +59,7 @@ async def get_diary(user_id: int, diary_id: int) -> dict:
 @app.get("/analysis/scheduler/{user_id}")
 async def get_schedule(user_id: int) -> str:
   """
-  過去の日記を分析して、明日の予定を提案する関数。
+  過去の日記を分析して、明日の予定を提案します。
 
   Args:
     user_id (int): ユーザーID
@@ -73,7 +78,8 @@ async def get_schedule(user_id: int) -> str:
 
   try:
     # 予定の立案
-    response = application_service.call_scheduler(user_id, location)
+    application_service = ApplicationService(user_id)
+    response = application_service.suggest_tomorrow_schedule(location)
     return response.choices[0].message.content
 
   except Exception as e:
@@ -82,6 +88,6 @@ async def get_schedule(user_id: int) -> str:
 
 def main():
   """
-  FastAPIアプリを起動する関数。
+  FastAPIアプリを起動します。
   """
   uvicorn.run(app, host="127.0.0.1", port=8000)

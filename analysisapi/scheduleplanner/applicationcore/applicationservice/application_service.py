@@ -4,44 +4,32 @@ from openai import OpenAI
 from scheduleplanner.applicationcore.client.weather.weather_client import WeatherClient
 from scheduleplanner.infrastructure.chromadb_repository import ChromadbRepository
 
-# 定数
-INPUT_TOKENS_FEE = 0.0225/1000  # inputでの1トークンあたりの料金(円)
-OUTPUT_TOKENS_FEE = 0.0900/1000  # outputでの1トークンあたりの料金(円)
-GPT_MODEL = "gpt-4o-mini-2024-07-18"  # 使用するGPTモデル
+INPUT_FEE_PER_TOKEN_JPY = 0.0225/1000 
+OUTPUT_FEE_PER_TOKEN_JPY = 0.0900/1000  
+GPT_MODEL = "gpt-4o-mini-2024-07-18"  
 
 class ApplicationService:
   """
-  アプリケーションサービスクラス。
+  アプリケーションサービスクラスです。
   """
-  def __init__(self):
-    pass
+  def __init__(self, user_id: int=None) -> None:
+    self.db_repo = ChromadbRepository(user_id=user_id, persist=True)
+    self.db_repo.load_collection()
 
-  def call_vectorizer(self, json_data: dict, user_id: int) -> tuple[bool, str|None]:
+  def add_text_to_db(self, json_data: dict) -> None:
     """
-    ベクトルDBに文章を追加する関数。
+    ベクトル DB に文章を追加します。
 
     Args:
       json_data (dict): 追加するデータ。{"id": "1", "content": "sample text"}。
-      user_id (int): ユーザーID。
-      
-    Returns:
-      tuple: (成功フラグ, エラーメッセージ または None)
     """
-    try:
-      db_repo = ChromadbRepository(user_id=user_id, persist=True)
-      db_repo.load_collection()
-      db_repo.add(json_data['id'], json_data['content'])
-      return True, None
+    self.db_repo.add(json_data['id'], json_data['content'])
 
-    except Exception as e:
-      return False, str(e)
-
-  def call_scheduler(self, user_id: int=None, location: dict=None) -> dict:
+  def initialize_analizer(self, location: dict=None) -> dict:
     """
-    明日の予定を提案する関数。
+    明日の予定を提案します。
 
     Args:
-      user_id (int): ユーザーID。
       location (dict): 現在位置の緯度・経度。{"latitude": 35.6895, "longitude": 139.6917} の形式。
     
     Returns:
@@ -57,15 +45,14 @@ class ApplicationService:
     self.total_cost = 0.0
 
     # リポジトリの初期化
-    db_repo = ChromadbRepository(user_id=user_id, persist=True)
-    db_repo.load_collection()
-    self.db_repository = db_repo
+    self.db_repository = self.db_repo
 
     return self._analyze(location)
   
-  def _analyze(self, location: dict) -> dict:
+  def _analyzer(self, location: dict) -> dict:
     """
-    DBから過去の日記を取り出し、RAGを用いて明日の予定を提案する関数。
+    DBから過去の日記を取り出し、RAGを用いて明日の予定を提案します。
+    以下の手順で実行されます。
     
     1. DB内の過去の日記から、必要な日記を複数件取得。
     2. OpenAI APIを用いて、明日の予定を提案する。外部APIを使用する場合は、Function Callingを使用。
@@ -103,34 +90,35 @@ class ApplicationService:
 
     # Function Calling が必要な場合、ツールを実行
     tool_calls = response.choices[0].message.tool_calls
-    if tool_calls:
-      for tool_call in tool_calls:
-        if tool_call.function.name == "get_current_weather":
-          args = json.loads(tool_call.function.arguments)
-          
-          # 天気予報の取得
-          weather = self.weather_client.get_current_weather(
-              latitude=args["latitude"],
-              longitude=args["longitude"]
-          )
+    if not tool_calls:
+      return response
+    
+    for tool_call in tool_calls:
+      if tool_call.function.name == "get_current_weather":
+        args = json.loads(tool_call.function.arguments)
+        
+        # 天気予報の取得
+        weather = self.weather_client.get_current_weather(
+          latitude=args["latitude"],
+          longitude=args["longitude"]
+        )
 
-          # プロンプトの更新
-          messages.append({
-              "role": "function",
-              "name": "get_current_weather",
-              "content": weather
-          })
+        # プロンプトの更新
+        messages.append({
+          "role": "function",
+          "name": "get_current_weather",
+          "content": weather
+        })
 
-      # Function Calling の結果を反映し、再度 OpenAI API を呼び出す
-      final_response = self._call_openai(messages)
+    # Function Calling の結果を反映し、再度 OpenAI API を呼び出す
+    final_response = self._call_openai(messages)
 
-      return final_response
+    return final_response
 
-    return response
   
   def _call_openai(self, messages: list[dict], tools=None, tool_choice=None) -> dict:
     """
-    OpenAI APIを呼び出し、トークン使用量を計測。
+    OpenAI APIを呼び出し、トークン使用量を計測します。
 
     Args:
       messages (list): メッセージリスト。
@@ -155,7 +143,7 @@ class ApplicationService:
 
   def _update_token_usage(self, response: dict) -> None:
     """
-    トークン数と料金を加算する。
+    トークン数と料金を加算します。
 
     Args:
       response (dict): OpenAI APIのレスポンス。
@@ -163,15 +151,15 @@ class ApplicationService:
     self.total_prompt_tokens += response.usage.prompt_tokens
     self.total_completion_tokens += response.usage.completion_tokens
     self.total_cost = (
-      self.total_prompt_tokens * INPUT_TOKENS_FEE +
-      self.total_completion_tokens * OUTPUT_TOKENS_FEE
+      self.total_prompt_tokens * INPUT_FEE_PER_TOKEN_JPY +
+      self.total_completion_tokens * OUTPUT_FEE_PER_TOKEN_JPY
     )
     print("合計トークン数:", self.total_prompt_tokens + self.total_completion_tokens)
     print("合計料金:", self.total_cost, "円")
 
   def _setup_function_calling(self) -> None:
     """
-    Function Callingの設定を行う関数。
+    Function Callingの設定を行います。
     """
     self.function_calling=[
       {

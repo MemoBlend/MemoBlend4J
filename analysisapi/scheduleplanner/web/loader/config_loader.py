@@ -2,12 +2,12 @@ import xml.etree.ElementTree as ET
 
 class ConfigLoader:
   """
-  設定ファイル（XML）を読み込むクラス。
+  設定ファイル（XML）を読み込むクラスです。
   """
 
   def __init__(self, file_path: str="./scheduleplanner/web/property/config.xml"):
     """
-    ConfigLoader クラスのコンストラクタ。
+    ConfigLoader クラスのコンストラクタです。
 
     Args:
       file_path (str, optional): 設定ファイルのパス。デフォルトは "config.xml"。
@@ -18,7 +18,7 @@ class ConfigLoader:
 
   def load_diary_get_url(self) -> str:
     """
-    日記APIのURLを取得する。
+    日記APIのURLを取得します。
 
     Returns:
       str: 日記を1件取得するAPIのURL。
@@ -27,7 +27,7 @@ class ConfigLoader:
 
   def load_diaries_get_url(self) -> str:
     """
-    日記APIのURLを取得する関数。
+    日記APIのURLを取得します。
 
     Returns:
       str: 日記のリストを取得するAPIのURL。
@@ -36,7 +36,7 @@ class ConfigLoader:
   
   def _load_config(self) -> None:
     """
-    XML設定ファイルをパースしてルート要素を取得する関数。
+    XML設定ファイルをパースしてルート要素を取得します。
 
     Raises:
       RuntimeError: XMLの読み込みに失敗した場合。
@@ -50,7 +50,7 @@ class ConfigLoader:
 
   def _get_url(self, tag_name: str) -> str:
     """
-    指定されたタグ名に基づいてURLを取得する。
+    指定されたタグ名に基づいてURLを取得します。
 
     Args:
       tag_name (str): 取得するURLのタグ名（例： "diary_get_url"）
