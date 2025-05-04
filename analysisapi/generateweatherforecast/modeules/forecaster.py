@@ -6,13 +6,18 @@ import xml.etree.ElementTree as ET
 from tqdm import tqdm
 from typing import List, Dict, Optional
 
-class Forecast:
-  API_URL = "https://weather.tsukumijima.net/api/forecast/city"
-  RSS_URL = "https://weather.tsukumijima.net/primary_area.xml"
-  CITY_IDS_PATH = "./generateweatherforecast/property/city_ids.json"
-  FORECAST_OUTPUT_PATH = "./generateweatherforecast/property/weather_forecast.json"
+API_URL = "https://weather.tsukumijima.net/api/forecast/city"
+RSS_URL = "https://weather.tsukumijima.net/primary_area.xml"
+CITY_IDS_PATH = "./generateweatherforecast/property/city_ids.json"
 
-  def __init__(self, request_delay=1.0):
+class Forecast:
+  def __init__(self, request_delay: float=1.0):
+    """
+    Forecastクラスのコンストラクタです。
+    
+    Args:
+      request_delay (float): APIリクエスト間隔（秒）
+    """
     self.area_codes = self._load_or_fetch_area_codes()
     self.request_delay = request_delay
 
@@ -41,18 +46,18 @@ class Forecast:
       Returns:
         List[str]: 地域コードリスト
       """
-      if not os.path.exists(self.CITY_IDS_PATH):
+      if not os.path.exists(CITY_IDS_PATH):
         self._fetch_and_save_city_ids()
 
-      with open(self.CITY_IDS_PATH, "r", encoding="utf-8") as f:
+      with open(CITY_IDS_PATH, "r", encoding="utf-8") as f:
         return json.load(f)
 
   def _fetch_and_save_city_ids(self) -> None:
     """
-    RSSから地域コード（city_id）を取得してJSONに保存。
+    RSSから地域コードを取得してJSONに保存。
     """
     try:
-      response = requests.get(self.RSS_URL)
+      response = requests.get(RSS_URL)
       response.raise_for_status()
     except requests.RequestException as e:
       raise RuntimeError(f"RSSフィードの取得に失敗しました: {e}")
@@ -60,8 +65,8 @@ class Forecast:
     root = ET.fromstring(response.text)
     city_ids = [city.attrib["id"] for city in root.iter("city") if "id" in city.attrib]
 
-    os.makedirs(os.path.dirname(self.CITY_IDS_PATH), exist_ok=True)
-    with open(self.CITY_IDS_PATH, "w", encoding="utf-8") as f:
+    os.makedirs(os.path.dirname(CITY_IDS_PATH), exist_ok=True)
+    with open(CITY_IDS_PATH, "w", encoding="utf-8") as f:
       json.dump(city_ids, f, ensure_ascii=False, indent=2)
 
   def _fetch_forecast_for_area(self, area_code: str) -> Optional[Dict]:
@@ -76,7 +81,7 @@ class Forecast:
     """
     time.sleep(self.request_delay)
     try:
-      response = requests.get(f"{self.API_URL}/{area_code}")
+      response = requests.get(f"{API_URL}/{area_code}")
       response.raise_for_status()
       return response.json()
     except requests.RequestException:
