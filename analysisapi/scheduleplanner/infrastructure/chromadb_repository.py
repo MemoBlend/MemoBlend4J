@@ -16,9 +16,12 @@ class ChromadbRepository():
     """
     self.user_id = user_id
     self.collection = None
-    self.chroma_client = (
-      chromadb.PersistentClient(path=directory) if persist else chromadb.Client()
-    )
+
+    # DBの永続化を行うかどうかで条件分岐
+    if persist:
+      self.chroma_client = chromadb.PersistentClient(path=directory)
+    else:
+      self.chroma_client = chromadb.Client()
 
   def load_collection(self) -> None:
     """
