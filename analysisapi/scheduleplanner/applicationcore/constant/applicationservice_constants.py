@@ -4,6 +4,16 @@ class ApplicationserviceConstants:
     OUTPUT_FEE_PER_TOKEN_JPY = 0.0900 / 1000
     GPT_MODEL = "gpt-4o-mini-2024-07-18"
 
+    USER_PROMPT_TEMPLATE = (
+      "{diary_text} 以上の文章は同一人物が書いた日記である。"
+      "この人物は明日の休日の予定が決まっていない。"
+      "現在位置の緯度は{latitude}、経度は{longitude}である。"
+      "上記の日記から、この人物の明日の予定を決めて。"
+      "ただし、以下の条件を守ること。\n"
+      "1. 時間と細かい場所を指定すること。\n"
+      "2. 簡潔に、マークダウン形式で表示すること。"
+    )
+
     # Function Calling の設定
     FUNCTION_CALLING_DEFINITIONS = [
       {
