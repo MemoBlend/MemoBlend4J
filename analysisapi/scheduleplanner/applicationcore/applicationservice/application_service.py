@@ -22,15 +22,9 @@ class ApplicationService:
     """
     self.db_repo.add(json_data['id'], json_data['content'])
 
-  def initialize_analizer(self, location: dict=None) -> dict:
+  def initialize_get_llm_output(self) -> None:
     """
-    明日の予定を提案します。
-
-    Args:
-      location (dict): 現在位置の緯度・経度。{"latitude": 35.6895, "longitude": 139.6917} の形式。
-    
-    Returns:
-      dict: OpenAI APIのレスポンス。
+    LLMの出力結果を取得する関数の初期化を行います。
     """
     # 変数の初期化
     self.client = OpenAI()
@@ -43,12 +37,10 @@ class ApplicationService:
 
     # リポジトリの初期化
     self.db_repository = self.db_repo
-
-    return self._analyzer(location)
   
-  def _analyzer(self, location: dict) -> dict:
+  def get_llm_output(self, location: dict) -> dict:
     """
-    DBから過去の日記を取り出し、RAGを用いて明日の予定を提案します。
+    LLMに過去の日記を渡して、LLMの出力結果を受け取ります。
     以下の手順で実行されます。
     
     1. DB内の過去の日記から、必要な日記を複数件取得。
@@ -59,7 +51,7 @@ class ApplicationService:
       location (dict): 現在位置の緯度・経度。{"latitude": 35.6895, "longitude": 139.6917} の形式。
 
     Returns:
-      dict: AI解析結果。
+      dict: LLMの出力結果。
     """
     response = self.db_repository.find_by_sentence("明日の予定は？")
     diary_text  = "\n".join(response['documents'][0])
