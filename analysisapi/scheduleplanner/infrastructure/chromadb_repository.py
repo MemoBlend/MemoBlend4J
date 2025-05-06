@@ -16,24 +16,25 @@ class ChromadbRepository():
       directory (str): データベースの保存先ディレクトリ。デフォルトは "./infrastructure/chroma_db"。
       persist (bool): データベースを保存するかどうかのフラグ。デフォルトは False。
     """
-    self.user_id = user_id
-    self.collection = None
-
     # DBの永続化を行うかどうかで条件分岐
     if persist:
       self.chroma_client = chromadb.PersistentClient(path=directory)
     else:
       self.chroma_client = chromadb.Client()
 
+    self.user_id = user_id
+    self.collection = None
+
   def load_collection(self) -> None:
     """
     コレクションをロードします。コレクションが存在しない場合は新たに作成します。
+    コレクション名は、"user_id_{user_id}" 形式です。
 
     Returns:
       None
     """     
     self.collection = self.chroma_client.create_collection(
-      name=self._collection_name(), get_or_create=True
+      name=f"user_id_{self.user_id}", get_or_create=True
     )
 
   def add(self, diary_id: int, sentence: str) -> None:
@@ -62,7 +63,6 @@ class ChromadbRepository():
   def find_by_sentence(self, sentence: str, top_k: int = 2) -> dict:
     """
     DB から sentence に類似するテキストを検索します。
-    事前に DB がロードされていない場合はエラーを返します。
 
     Args:
       sentence (str): 検索する文章。
@@ -80,12 +80,3 @@ class ChromadbRepository():
       query_texts=[sentence],
       n_results=top_k
     )
-  
-  def _collection_name(self) -> str:
-    """
-    ユーザーごとのコレクション名を生成します。
-    
-    Returns:
-      str: ユーザーごとのコレクション名。
-    """
-    return f"user_id_{self.user_id}"
