@@ -14,9 +14,10 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
     "format": "prettier --write src/",
-    "generate-client": "run-s openapi-client:clean openapi-client:generate --print-label",
+    "generate-client": "run-s openapi-client:clean openapi-client:generate openapi-client:postprocess --print-label",
     "openapi-client:clean": "node -e \"fs.promises.rm('./src/generated/api-client', {recursive: true, force: true})\"",
-    "openapi-client:generate": "openapi-generator-cli generate -g typescript-axios -i ./../../backend/api-docs/web/api-specification.json --additional-properties=withSeparateModelsAndApi=true,modelPackage=models,apiPackage=api,supportsES6=true -o ./src/generated/api-client"
+    "openapi-client:generate": "openapi-generator-cli generate -g typescript-axios -i ../../backend/api-docs/web/api-specification.json --additional-properties=withSeparateModelsAndApi=true,modelPackage=models,apiPackage=api,supportsES6=true -o ./src/generated/api-client",
+    "openapi-client:postprocess": "sed -i '' \"/'User-Agent'/d\" ./src/generated/api-client/configuration.ts"
   },
   "dependencies": {
     "pinia": "^3.0.1",
