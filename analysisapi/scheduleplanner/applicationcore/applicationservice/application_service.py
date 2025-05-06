@@ -10,8 +10,8 @@ class ApplicationService:
   アプリケーションサービスクラスです。
   """
   def __init__(self, user_id: int=None) -> None:
-    self.db_repo = ChromadbRepository(user_id=user_id, persist=True)
-    self.db_repo.load_collection()
+    self.db_repository = ChromadbRepository(user_id=user_id, persist=True)
+    self.db_repository.load_collection()
 
   def add_text_to_db(self, json_data: dict) -> None:
     """
@@ -20,13 +20,12 @@ class ApplicationService:
     Args:
       json_data (dict): 追加するデータ。{"id": "1", "content": "sample text"}。
     """
-    self.db_repo.add(json_data['id'], json_data['content'])
+    self.db_repository.add(json_data['id'], json_data['content'])
 
   def initialize_get_llm_output(self) -> None:
     """
     LLMの出力結果を取得する関数の初期化を行います。
     """
-    # 変数の初期化
     self.client = OpenAI()
     self.client.api_key = os.getenv("OPENAI_API_KEY")
     self.weather_client = WeatherClient()
@@ -34,9 +33,6 @@ class ApplicationService:
     self.total_prompt_tokens = 0
     self.total_completion_tokens = 0
     self.total_cost = 0.0
-
-    # リポジトリの初期化
-    self.db_repository = self.db_repo
   
   def get_llm_output(self, location: dict) -> dict:
     """
@@ -57,14 +53,14 @@ class ApplicationService:
     diary_text  = "\n".join(response['documents'][0])
     print("input text: ", diary_text )
 
-    # ユーザープロンプトの作成
+    # ユーザー入力用プロンプトの作成
     user_prompt = ApplicationserviceConstants.USER_PROMPT_TEMPLATE.format(
       diary_text=diary_text,
       latitude=location['latitude'],
       longitude=location['longitude']
     )
 
-    # プロンプトの作成
+    # LLMに送信するメッセージを構築
     messages = [
       {"role": "system", "content": "あなたは、優秀なアドバイザーです"},
       {"role": "user", "content": user_prompt},
@@ -82,7 +78,7 @@ class ApplicationService:
       if tool_call.function.name == "get_current_weather":
         args = json.loads(tool_call.function.arguments)
         
-        # 天気予報の取得
+        # 現在の天気予報を取得
         weather = self.weather_client.get_current_weather(
           latitude=args["latitude"],
           longitude=args["longitude"]

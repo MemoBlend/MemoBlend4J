@@ -7,8 +7,6 @@ class ConfigLoader:
 
   def __init__(self, file_path: str="./scheduleplanner/web/property/config.xml"):
     """
-    ConfigLoader クラスのコンストラクタです。
-
     Args:
       file_path (str, optional): 設定ファイルのパス。デフォルトは "config.xml"。
     """

@@ -8,9 +8,6 @@ class WeatherClient:
   """
 
   def __init__(self):
-    """
-    WeatherClientクラスのコンストラクタです。
-    """
     pass
 
   def get_current_weather(self, latitude: float, longitude: float) -> str:
@@ -25,13 +22,7 @@ class WeatherClient:
       str: 現在の天気情報（例："現在、雨が降っています。"）
     
     Raises:
-      HTTPError: HTTPリクエストに失敗した場合
-      ConnectionError: 接続に失敗した場合
-      TimeoutError: タイムアウトが発生した場合
-      RequestException: その他のリクエストエラー
-      KeyError: データの処理中にキーが見つからない場合
-      TypeError: データの型が不正な場合
-      ValueError: データの値が不正な場合
+      RequestException: HTTPリクエストに失敗した場合
       Exception: その他の予期しないエラー
     """
     try:
@@ -39,22 +30,10 @@ class WeatherClient:
       data = self._fetch_weather_station_data()
       return self._analyze_weather_data(data, latitude, longitude)
     
-    except requests.exceptions.HTTPError as e:
-      return f"HTTPエラーが発生しました: {e}"
-    except requests.exceptions.ConnectionError as e:
-      return f"接続エラーが発生しました: {e}"
-    except requests.exceptions.Timeout as e:
-      return f"タイムアウトエラーが発生しました: {e}"
     except requests.exceptions.RequestException as e:
-      return f"リクエストエラーが発生しました: {e}"    
-    except KeyError as e:
-      return f"データのキーが見つかりません: {e}"
-    except TypeError as e:
-      return f"型のエラーが発生しました: {e}"
-    except ValueError as e:
-      return f"値のエラーが発生しました: {e}"
+      raise f"リクエストエラーが発生しました: {e}"    
     except Exception as e:
-      return f"その他のエラーが発生しました: {e}"
+      raise f"その他のエラーが発生しました: {e}"
   
 
   def _fetch_weather_station_data(self) -> dict:

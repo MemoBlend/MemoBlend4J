@@ -1,14 +1,16 @@
 import chromadb
 
 class ChromadbRepository():
+  """
+  ベクトルDBのリポジトリクラスです。
+  ChromaDBを使用して、ユーザーごとのコレクションを管理します。
+  """
   def __init__(self, 
                 user_id: int,
                 directory: str = "./scheduleplanner/infrastructure/chroma_db", 
                 persist: bool = False, 
                 ):
-    """
-    ChromadbRepository クラスのコンストラクタです。
-    
+    """    
     Args:
       user_id (int): ユーザーID。
       directory (str): データベースの保存先ディレクトリ。デフォルトは "./infrastructure/chroma_db"。
