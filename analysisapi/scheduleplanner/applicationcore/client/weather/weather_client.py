@@ -2,6 +2,9 @@ import pandas as pd
 import requests
 import numpy as np
 
+TIME_URL = "https://www.jma.go.jp/bosai/amedas/data/latest_time.txt"
+STATION_URL = "https://www.jma.go.jp/bosai/amedas/const/amedastable.json"
+
 class WeatherClient:
   """
   外部APIを用いて、天気情報を取得するクラスです。
@@ -44,12 +47,10 @@ class WeatherClient:
       dict: JSON形式の観測地点データ
     """
     # 最新観測時刻の取得
-    time_url = "https://www.jma.go.jp/bosai/amedas/data/latest_time.txt"
-    print("天候取得時刻：", requests.get(time_url).text)
+    print("天候取得時刻：", requests.get(TIME_URL).text)
 
     # 観測地点データの取得
-    station_url = "https://www.jma.go.jp/bosai/amedas/const/amedastable.json"
-    response = requests.get(station_url)
+    response = requests.get(STATION_URL)
     response.raise_for_status()
 
     return response.json()
