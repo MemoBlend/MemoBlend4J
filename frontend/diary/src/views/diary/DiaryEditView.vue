@@ -45,10 +45,11 @@ onMounted(async () => {
   showLoading.value = true;
   try {
     const response = await getDiary(id);
-    selectedDate.value = response.createdDate ? new Date(response.createdDate) : null;
+    selectedDate.value = response.createdDate
+      ? new Date(response.createdDate)
+      : null;
     diary.value = response;
-  }
-  catch (error) {
+  } catch (error) {
     customErrorHandler.handle(error, () => {
       router.push({ name: 'error' });
     });
@@ -63,8 +64,16 @@ onMounted(async () => {
   <v-sheet v-if="!showLoading" class="mx-auto" width="500">
     <v-form @submit.prevent>
       <v-container>
-        <v-text-field v-model="diary.title" label="タイトル" required></v-text-field>
-        <v-text-field v-model="diary.content" label="内容" required></v-text-field>
+        <v-text-field
+          v-model="diary.title"
+          label="タイトル"
+          required
+        ></v-text-field>
+        <v-text-field
+          v-model="diary.content"
+          label="内容"
+          required
+        ></v-text-field>
         <v-date-input v-model="selectedDate" label="日付"></v-date-input>
         <v-btn type="submit" block @click="updateDiaryAsync">更新</v-btn>
       </v-container>

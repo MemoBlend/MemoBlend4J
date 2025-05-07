@@ -1,2 +1,2 @@
-import EventList from "./EventList.vue";
+import EventList from './EventList.vue';
 export { EventList };
