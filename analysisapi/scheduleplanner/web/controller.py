@@ -24,7 +24,7 @@ class Controller:
     self.app.get("/user/{user_id}/{diary_id}")(self.get_diary)
     self.app.get("/analysis/scheduler/{user_id}")(self.get_schedule)
 
-  async def get_diary(self, user_id: int, diary_id: int) -> dict:
+  async def get_diary_add_db(self, user_id: int, diary_id: int) -> dict:
     """
     指定idのユーザーの指定idの日記を取得し、ベクトルDBに追加します。
 
