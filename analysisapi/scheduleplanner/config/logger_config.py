@@ -7,7 +7,7 @@ class LoggerConfig:
   """
   
   @staticmethod
-  def get_logger(name: str, level=INFO) -> getLogger:
+  def get_logger(name: str, level: int) -> getLogger:
     """
     指定された名前とログレベルでロガーを取得します。
     Args:
