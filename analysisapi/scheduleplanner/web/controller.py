@@ -1,9 +1,12 @@
 from fastapi import FastAPI, HTTPException
 import httpx
+import requests
 import uvicorn
 from scheduleplanner.applicationcore.applicationservice.application_service import ApplicationService
 from scheduleplanner.web.loader.config_loader import ConfigLoader
 
+PORT = 8000
+HOST = "127.0.0.1"
 
 class Controller:
   """
@@ -41,9 +44,11 @@ class Controller:
       response.raise_for_status()
 
     except httpx.HTTPStatusError as e:
-      raise HTTPException(status_code=e.response.status_code, detail="Spring Boot APIエラー")
+      raise requests.RequestException(f"HTTPステータスエラー: {e.response.status_code} - {e.response.text}")
     except httpx.RequestError as e:
-      raise HTTPException(status_code=500, detail=f"HTTPリクエストエラー: {str(e)}")
+      raise requests.RequestException(f"HTTPリクエストエラー: {e.__class__.__name__} - {str(e)}")
+    except Exception as e:
+      raise requests.RequestException(f"その他のエラーが発生しました: {str(e)}")
 
     response_json = response.json()
 
@@ -91,4 +96,4 @@ def main():
   """
   controller = Controller()
   app = controller.app
-  uvicorn.run(app, host="127.0.0.1", port=8000)
+  uvicorn.run(app, host=HOST, port=PORT)
