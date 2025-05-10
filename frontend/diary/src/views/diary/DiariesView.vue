@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted } from 'vue';
 import type { GetDiariesResponse } from '@/generated/api-client';
 import { getDiaries } from '@/services/diary/diary-service';
 import { useCustomErrorHandler } from '@/shared/error-handler/use-custom-error-handler';
@@ -35,8 +35,7 @@ onMounted(async () => {
   showLoading.value = true;
   try {
     diariesResponse.value = await getDiaries();
-  }
-  catch (error) {
+  } catch (error) {
     customErrorHandler.handle(error, () => {
       router.push({ name: 'error' });
     });
@@ -52,12 +51,12 @@ onMounted(async () => {
         title: diary.title,
         date: new Date(diary.createdDate),
         color: 'red',
-        allDay: false
-      }
-      eventsList.push(event)
+        allDay: false,
+      };
+      eventsList.push(event);
     }
   }
-  events.value = eventsList
+  events.value = eventsList;
 });
 </script>
 
@@ -66,6 +65,12 @@ onMounted(async () => {
   <div v-if="!showLoading">
     <Calendar :diaryData="events" :onEventClick="goToDiaryDetail" />
   </div>
-  <v-btn style="z-index: 2;" icon="$plus" class="position-fixed bottom-0 right-0 ma-4" fab color="blue-grey"
-    @click="goToCreateDiary"></v-btn>
+  <v-btn
+    style="z-index: 2"
+    icon="$plus"
+    class="position-fixed bottom-0 right-0 ma-4"
+    fab
+    color="blue-grey"
+    @click="goToCreateDiary"
+  ></v-btn>
 </template>

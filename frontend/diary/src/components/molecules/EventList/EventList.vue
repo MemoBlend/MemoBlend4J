@@ -6,12 +6,15 @@ const props = defineProps<{
   eventList: CalendarEvent[];
   onEventClick: (id: number) => void;
 }>();
-
 </script>
 
 <template>
   <div>
-    <div v-for="event in props.eventList" :key="event.id" @click="() => props.onEventClick(event.id)">
+    <div
+      v-for="event in props.eventList"
+      :key="event.id"
+      @click="() => props.onEventClick(event.id)"
+    >
       <Event :event="event" />
     </div>
   </div>

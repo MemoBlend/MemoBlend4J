@@ -1,5 +1,5 @@
-import LoginView from "@/views/authentication/LoginView.vue";
-import type { RouteRecordRaw } from "vue-router";
+import LoginView from '@/views/authentication/LoginView.vue';
+import type { RouteRecordRaw } from 'vue-router';
 
 export const authenticationRoutes: RouteRecordRaw[] = [
   {
@@ -8,6 +8,6 @@ export const authenticationRoutes: RouteRecordRaw[] = [
     component: LoginView,
     meta: {
       requiresAuth: false,
-    }
-  }
-]
+    },
+  },
+];
