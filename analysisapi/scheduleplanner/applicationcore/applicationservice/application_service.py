@@ -1,9 +1,11 @@
 import json
 import os
 from openai import OpenAI
+from scheduleplanner.config.logger_config import LoggerConfig
 from scheduleplanner.applicationcore.client.weather.weather_client import WeatherClient
 from scheduleplanner.infrastructure.chromadb_repository import ChromadbRepository
 from scheduleplanner.applicationcore.constant.applicationservice_constants import ApplicationserviceConstants
+from logging import INFO
 
 class ApplicationService:
   """
@@ -26,6 +28,7 @@ class ApplicationService:
     """
     LLMの出力結果を取得する関数の初期化を行います。
     """
+    self.logger = LoggerConfig.get_logger(__name__, INFO)
     self.client = OpenAI()
     self.client.api_key = os.getenv("OPENAI_API_KEY")
     self.weather_client = WeatherClient()
@@ -51,7 +54,7 @@ class ApplicationService:
     """
     response = self.db_repository.find_by_sentence("明日の予定は？")
     diary_text  = "\n".join(response['documents'][0])
-    print("input text: ", diary_text )
+    self.logger.info(f"input text: {diary_text}\n")
 
     # ユーザー入力用プロンプトの作成
     user_prompt = ApplicationserviceConstants.USER_PROMPT_TEMPLATE.format(
@@ -133,8 +136,8 @@ class ApplicationService:
       self.total_prompt_tokens * ApplicationserviceConstants.INPUT_FEE_PER_TOKEN_JPY +
       self.total_completion_tokens * ApplicationserviceConstants.OUTPUT_FEE_PER_TOKEN_JPY
     )
-    print("合計トークン数:", self.total_prompt_tokens + self.total_completion_tokens)
-    print("合計料金:", self.total_cost, "円")
+    self.logger.info(f"合計トークン数: {self.total_prompt_tokens + self.total_completion_tokens}")
+    self.logger.info(f"合計料金: {self.total_cost} 円\n")
 
   def _setup_function_calling(self) -> None:
     """
