@@ -22,7 +22,7 @@ class LoggerConfig:
       raise ValueError("ログレベルは、DEBUG、INFO、WARNING、ERROR、CRITICALのみ指定可能です。")
 
     logger = getLogger(name)
-    if not logger.handlers:  # Check if handlers are already attached
+    if not logger.handlers:
       handler = StreamHandler()
       handler.setLevel(level)
       logger.setLevel(level)
