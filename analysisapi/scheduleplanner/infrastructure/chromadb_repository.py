@@ -59,11 +59,13 @@ class ChromadbRepository:
             )
 
         self.collection.add(
-            ids=[f"diary_id_{diary_id}"],  # 主キーに相当する。UUIDを使用する予定。
+            # 主キーに相当する。UUIDを使用する予定。
+            ids=[f"diary_id_{diary_id}"],
             documents=[sentence],
+            # メタデータにユーザーIDと日記IDを追加
             metadatas=[
                 {"user_id": self.user_id, "diary_id": diary_id}
-            ],  # メタデータにユーザーIDと日記IDを追加
+            ],
         )
 
     def find_by_sentence(self, sentence: str, top_k: int = 2) -> dict:
