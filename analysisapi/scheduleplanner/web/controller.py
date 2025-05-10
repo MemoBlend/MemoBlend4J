@@ -16,6 +16,7 @@ class Controller:
   def __init__(self):
     self.app = FastAPI()
     self.register_routes()
+    self.config_loader = ConfigLoader()
 
   def register_routes(self):
     """
@@ -40,8 +41,8 @@ class Controller:
       RequestException: 通信中にエラーが発生した場合。
       Exception: その他の予期しないエラー。
     """
-    DIARY_API_URL = ConfigLoader().load_diary_get_url()
-    url = f"{DIARY_API_URL}/{diary_id}"
+    diary_get_url = self.config_loader.load_diary_get_url()
+    url = f"{diary_get_url}/{diary_id}"
 
     try:
       with httpx.Client() as client:
