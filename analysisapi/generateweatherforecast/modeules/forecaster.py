@@ -40,17 +40,17 @@ class Forecast:
     return all_data
 
   def _load_or_fetch_area_codes(self) -> List[str]:
-      """
-      地域コード一覧を読み込み、なければ取得して保存。
+    """
+    地域コード一覧を読み込み、なければ取得して保存。
 
-      Returns:
-        List[str]: 地域コードリスト
-      """
-      if not os.path.exists(CITY_IDS_PATH):
-        self._fetch_and_save_city_ids()
+    Returns:
+      List[str]: 地域コードリスト
+    """
+    if not os.path.exists(CITY_IDS_PATH):
+      self._fetch_and_save_city_ids()
 
-      with open(CITY_IDS_PATH, "r", encoding="utf-8") as f:
-        return json.load(f)
+    with open(CITY_IDS_PATH, "r", encoding="utf-8") as f:
+      return json.load(f)
 
   def _fetch_and_save_city_ids(self) -> None:
     """
@@ -88,30 +88,30 @@ class Forecast:
       return None
 
   def _parse_tomorrow_forecast(self, forecast_data: Dict) -> Optional[Dict]:
-      """
-      APIレスポンスから「明日」のデータを抽出。
+    """
+    APIレスポンスから「明日」のデータを抽出。
 
-      Args:
-        forecast_data (Dict): APIレスポンス
+    Args:
+      forecast_data (Dict): APIレスポンス
 
-      Returns:
-        Optional[Dict]: 明日の天気情報
-      """
-      location = forecast_data.get("location", {}).get("city", "不明な地域")
-      forecasts = forecast_data.get("forecasts", [])
+    Returns:
+      Optional[Dict]: 明日の天気情報
+    """
+    location = forecast_data.get("location", {}).get("city", "不明な地域")
+    forecasts = forecast_data.get("forecasts", [])
 
-      for forecast in forecasts:
-        if forecast.get("dateLabel") == "明日":
-          return {
-            "地域": location,
-            "天気": forecast.get("telop", "情報なし"),
-            "最低気温（℃）": forecast.get("temperature", {}).get("min", {}).get("celsius", "情報なし"),
-            "最高気温（℃）": forecast.get("temperature", {}).get("max", {}).get("celsius", "情報なし"),
-            "降水確率": {
-              "00-06": forecast.get("chanceOfRain", {}).get("T00_06", "--"),
-              "06-12": forecast.get("chanceOfRain", {}).get("T06_12", "--"),
-              "12-18": forecast.get("chanceOfRain", {}).get("T12_18", "--"),
-              "18-24": forecast.get("chanceOfRain", {}).get("T18_24", "--"),
-            },
-          }
-      return None
+    for forecast in forecasts:
+      if forecast.get("dateLabel") == "明日":
+        return {
+          "地域": location,
+          "天気": forecast.get("telop", "情報なし"),
+          "最低気温（℃）": forecast.get("temperature", {}).get("min", {}).get("celsius", "情報なし"),
+          "最高気温（℃）": forecast.get("temperature", {}).get("max", {}).get("celsius", "情報なし"),
+          "降水確率": {
+            "00-06": forecast.get("chanceOfRain", {}).get("T00_06", "--"),
+            "06-12": forecast.get("chanceOfRain", {}).get("T06_12", "--"),
+            "12-18": forecast.get("chanceOfRain", {}).get("T12_18", "--"),
+            "18-24": forecast.get("chanceOfRain", {}).get("T18_24", "--"),
+          },
+        }
+    return None

@@ -9,15 +9,15 @@ tomorrow_str = tomorrow.strftime("%Y_%m_%d")
 FORECAST_OUTPUT_PATH = f"./generateweatherforecast/property/{tomorrow_str}.json"
 
 def save_forecast_to_json(data: List[Dict], output_path: str = FORECAST_OUTPUT_PATH) -> None:
-    """
-    予報データをJSONファイルに保存する関数。
+  """
+  予報データをJSONファイルに保存する関数。
 
-    Args:
-      data (List[Dict]): 地域ごとの天気予報のリスト
-      output_path (str): 保存先のファイルパス
-    """
-    with open(output_path, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
+  Args:
+    data (List[Dict]): 地域ごとの天気予報のリスト
+    output_path (str): 保存先のファイルパス
+  """
+  with open(output_path, "w", encoding="utf-8") as f:
+    json.dump(data, f, ensure_ascii=False, indent=2)
         
 def main() -> None:
   """
