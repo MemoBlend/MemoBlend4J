@@ -24,7 +24,7 @@ class Controller:
     self.app.get("/user/{user_id}/{diary_id}")(self.get_diary)
     self.app.get("/analysis/scheduler/{user_id}")(self.get_schedule)
 
-  async def get_diary_add_db(self, user_id: int, diary_id: int) -> dict:
+  def get_diary_add_db(self, user_id: int, diary_id: int) -> dict:
     """
     指定idのユーザーの指定idの日記を取得し、ベクトルDBに追加します。
 
@@ -34,6 +34,11 @@ class Controller:
 
     Returns:
       dict: 日記が正常にDBに追加されたことを示すメッセージ。
+    
+    Raises:
+      HTTPException: サーバーからのHTTPエラー応答が発生した場合。
+      RequestException: 通信中にエラーが発生した場合。
+      Exception: その他の予期しないエラー。
     """
     DIARY_API_URL = ConfigLoader().load_diary_get_url()
     url = f"{DIARY_API_URL}/{diary_id}"
@@ -46,7 +51,7 @@ class Controller:
     except httpx.HTTPStatusError as e:
       raise requests.RequestException(f"HTTPステータスエラー: {e.response.status_code} - {e.response.text}")
     except httpx.RequestError as e:
-      raise requests.RequestException(f"HTTPリクエストエラー: {e.__class__.__name__} - {str(e)}")
+      raise requests.RequestException(f"ネットワークエラー: {e.__class__.__name__} - {str(e)}")
     except Exception as e:
       raise requests.RequestException(f"その他のエラーが発生しました: {str(e)}")
 
