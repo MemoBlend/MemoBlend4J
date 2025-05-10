@@ -2,8 +2,8 @@ import pandas as pd
 import requests
 import numpy as np
 
-TIME_URL = "https://www.jma.go.jp/bosai/amedas/data/latest_time.txt"
-STATION_URL = "https://www.jma.go.jp/bosai/amedas/const/amedastable.json"
+WEATHER_DATA_FETCH_TIME_URL = "https://www.jma.go.jp/bosai/amedas/data/latest_time.txt"
+AMEDAS_STATION_LOCATION_URL = "https://www.jma.go.jp/bosai/amedas/const/amedastable.json"
 
 class WeatherClient:
   """
@@ -47,10 +47,10 @@ class WeatherClient:
       dict: JSON形式の観測地点データ
     """
     # 最新観測時刻の取得
-    print("天候取得時刻：", requests.get(TIME_URL).text)
+    print("天候取得時刻：", requests.get(WEATHER_DATA_FETCH_TIME_URL).text)
 
     # 観測地点データの取得
-    response = requests.get(STATION_URL)
+    response = requests.get(AMEDAS_STATION_LOCATION_URL)
     response.raise_for_status()
 
     return response.json()
