@@ -78,7 +78,6 @@ class ApplicationService:
       if tool_call.function.name == "get_current_weather":
         args = json.loads(tool_call.function.arguments)
         
-        # 現在の天気予報を取得
         weather = self.weather_client.get_current_weather(
           latitude=args["latitude"],
           longitude=args["longitude"]
@@ -117,7 +116,6 @@ class ApplicationService:
       max_tokens=1000
     )
 
-    # トークン使用量の更新
     self._update_token_usage(response)
     
     return response
