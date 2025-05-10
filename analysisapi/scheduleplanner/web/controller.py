@@ -21,7 +21,7 @@ class Controller:
     """
     FastAPIのルートを登録します。
     """
-    self.app.get("/user/{user_id}/{diary_id}")(self.get_diary)
+    self.app.get("/user/{user_id}/{diary_id}")(self.get_diary_add_db)
     self.app.get("/analysis/scheduler/{user_id}")(self.get_schedule)
 
   def get_diary_add_db(self, user_id: int, diary_id: int) -> dict:
@@ -44,8 +44,8 @@ class Controller:
     url = f"{DIARY_API_URL}/{diary_id}"
 
     try:
-      async with httpx.AsyncClient() as client:
-        response = await client.get(url)
+      with httpx.Client() as client:
+        response = client.get(url)
       response.raise_for_status()
 
     except httpx.HTTPStatusError as e:
