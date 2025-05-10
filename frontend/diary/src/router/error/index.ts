@@ -1,4 +1,4 @@
-import type { RouteRecordRaw } from "vue-router";
+import type { RouteRecordRaw } from 'vue-router';
 import ErrorView from '@/views/error/ErrorView.vue';
 
 export const errorRoutes: RouteRecordRaw[] = [
@@ -8,6 +8,6 @@ export const errorRoutes: RouteRecordRaw[] = [
     component: ErrorView,
     meta: {
       requiresAuth: false,
-    }
-  }
-]
+    },
+  },
+];
