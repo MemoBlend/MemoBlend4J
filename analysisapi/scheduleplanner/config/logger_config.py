@@ -5,6 +5,7 @@ class LoggerConfig:
   ログ設定を行うクラスです。
   ログレベルは、DEBUG、INFO、WARNING、ERROR、CRITICALのいずれかを指定できます。
   """
+  
   @staticmethod
   def get_logger(name: str, level=INFO) -> getLogger:
     """
