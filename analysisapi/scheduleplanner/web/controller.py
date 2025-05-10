@@ -63,11 +63,11 @@ class Controller:
       application_service.add_text_to_db(response_json)
 
     except (KeyError, TypeError, ValueError) as e:
-      print(f"入力エラー: {e}")
+      raise requests.RequestException(f"入力エラー: {e}")
     except ConnectionError as e:
-      print(f"接続エラー: {e}")
+      raise requests.RequestException(f"接続エラー: {e}")
     except Exception as e:
-      print(f"その他の予期しないエラー: {e}")
+      raise requests.RequestException(f"その他の予期しないエラー: {e}")
 
     return {"message": "日記が正常にDBに追加されました"}
 
