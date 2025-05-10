@@ -33,10 +33,10 @@ class WeatherClient:
       data = self._fetch_weather_station_data()
       return self._analyze_weather_data(data, latitude, longitude)
     
-    except requests.exceptions.RequestException as e:
-      raise f"リクエストエラーが発生しました: {e}"    
+    except requests.RequestException as e:
+      raise requests.RequestException(f"HTTPリクエストに失敗しました: {e}")  
     except Exception as e:
-      raise f"その他のエラーが発生しました: {e}"
+      raise requests.RequestException(f"その他のエラーが発生しました: {e}")
   
 
   def _fetch_weather_station_data(self) -> dict:
