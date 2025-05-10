@@ -35,19 +35,13 @@ public class DummyUserInjectionFilter extends OncePerRequestFilter {
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws IOException, ServletException {
-    UserDetails dummyUser = createDummyUser();
-    setAuthentication(dummyUser);
-    filterChain.doFilter(request, response);
-  }
-
-  private UserDetails createDummyUser() {
-    return new User(DUMMY_USERNAME, DUMMY_PASSWORD,
+    UserDetails dummyUser = new User(
+        DUMMY_USERNAME,
+        DUMMY_PASSWORD,
         List.of(new SimpleGrantedAuthority(UserRoleConstants.USER)));
-  }
-
-  private void setAuthentication(UserDetails userDetails) {
-    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails,
-        userDetails.getPassword(), userDetails.getAuthorities());
+    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(dummyUser,
+        dummyUser.getPassword(), dummyUser.getAuthorities());
     SecurityContextHolder.getContext().setAuthentication(authentication);
+    filterChain.doFilter(request, response);
   }
 }
