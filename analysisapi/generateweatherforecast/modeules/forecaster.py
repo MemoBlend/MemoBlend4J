@@ -55,6 +55,9 @@ class Forecast:
   def _fetch_and_save_city_ids(self) -> None:
     """
     RSSから地域コードを取得してJSONに保存。
+
+    Raises:
+      RuntimeError: RSSフィードの取得に失敗した場合
     """
     try:
       response = requests.get(WEATHER_RSS_FEED_URL)
@@ -69,7 +72,7 @@ class Forecast:
     with open(CITY_IDS_PATH, "w", encoding="utf-8") as f:
       json.dump(city_ids, f, ensure_ascii=False, indent=2)
 
-  def _fetch_forecast_for_area(self, area_code: str) -> Optional[Dict]:
+  def _fetch_forecast_for_area(self, area_code: str) -> Dict:
     """
     指定地域の天気予報を取得。
 
@@ -77,15 +80,18 @@ class Forecast:
       area_code (str): 地域コード
 
     Returns:
-      Optional[Dict]: APIからのレスポンス
+      Dict: 天気予報データ
+
+    Raises:
+      RuntimeError: APIリクエストに失敗した場合
     """
     time.sleep(self.request_delay)
     try:
       response = requests.get(f"{WEATHER_API_URL}/{area_code}")
       response.raise_for_status()
       return response.json()
-    except requests.RequestException:
-      return None
+    except requests.RequestException as e:
+      raise RuntimeError(f"指定地域の天気予報の取得に失敗しました: {e}")
 
   def _parse_tomorrow_forecast(self, forecast_data: Dict) -> Optional[Dict]:
     """
