@@ -6,8 +6,8 @@ import xml.etree.ElementTree as ET
 from tqdm import tqdm
 from typing import List, Dict, Optional
 
-API_URL = "https://weather.tsukumijima.net/api/forecast/city"
-RSS_URL = "https://weather.tsukumijima.net/primary_area.xml"
+WEATHER_API_URL = "https://weather.tsukumijima.net/api/forecast/city"
+WEATHER_RSS_FEED_URL = "https://weather.tsukumijima.net/primary_area.xml"
 CITY_IDS_PATH = "./generateweatherforecast/property/city_ids.json"
 
 class Forecast:
@@ -57,7 +57,7 @@ class Forecast:
     RSSから地域コードを取得してJSONに保存。
     """
     try:
-      response = requests.get(RSS_URL)
+      response = requests.get(WEATHER_RSS_FEED_URL)
       response.raise_for_status()
     except requests.RequestException as e:
       raise RuntimeError(f"RSSフィードの取得に失敗しました: {e}")
@@ -81,7 +81,7 @@ class Forecast:
     """
     time.sleep(self.request_delay)
     try:
-      response = requests.get(f"{API_URL}/{area_code}")
+      response = requests.get(f"{WEATHER_API_URL}/{area_code}")
       response.raise_for_status()
       return response.json()
     except requests.RequestException:
