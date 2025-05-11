@@ -13,8 +13,6 @@ CITY_IDS_PATH = "./generateweatherforecast/property/city_ids.json"
 class Forecast:
   def __init__(self, request_delay: float=1.0):
     """
-    Forecastクラスのコンストラクタです。
-    
     Args:
       request_delay (float): APIリクエスト間隔（秒）
     """
