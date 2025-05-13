@@ -1,6 +1,8 @@
 import pandas as pd
 import requests
 import numpy as np
+from scheduleplanner.config.logger_config import LoggerConfig
+from logging import INFO
 
 WEATHER_DATA_FETCH_TIME_URL = "https://www.jma.go.jp/bosai/amedas/data/latest_time.txt"
 AMEDAS_STATION_LOCATION_URL = "https://www.jma.go.jp/bosai/amedas/const/amedastable.json"
@@ -11,7 +13,7 @@ class WeatherClient:
   """
 
   def __init__(self):
-    pass
+    self.logger = LoggerConfig.get_logger(__name__, INFO)
 
   def get_current_weather(self, latitude: float, longitude: float) -> str:
     """
@@ -47,7 +49,7 @@ class WeatherClient:
       dict: JSON形式の観測地点データ
     """
     # 最新観測時刻の取得
-    print("天候取得時刻：", requests.get(WEATHER_DATA_FETCH_TIME_URL).text)
+    self.logger.info(f"天候取得時刻： {requests.get(WEATHER_DATA_FETCH_TIME_URL).text}\n")
 
     # 観測地点データの取得
     response = requests.get(AMEDAS_STATION_LOCATION_URL)
