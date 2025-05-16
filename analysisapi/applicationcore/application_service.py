@@ -5,7 +5,7 @@ from logging import INFO
 from applicationcore.client.client_openai import ClientOpenAI
 from applicationcore.client.client_weather import ClientWeather
 from applicationcore.constants import Constants
-from config.logger_config import LoggerConfig
+from systemcommon.logger_config import LoggerConfig
 from infrastructure.chromadb_repository import ChromadbRepository
 
 

@@ -4,7 +4,7 @@ from logging import INFO
 import os
 from openai import OpenAI
 from applicationcore.constants import Constants
-from config.logger_config import LoggerConfig
+from systemcommon.logger_config import LoggerConfig
 
 
 class ClientOpenAI:

@@ -5,7 +5,7 @@ import pandas as pd
 import requests
 import numpy as np
 from applicationcore.client.client_constants import ClientConstants
-from config.logger_config import LoggerConfig
+from systemcommon.logger_config import LoggerConfig
 
 
 class ClientWeather:
