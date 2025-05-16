@@ -1,15 +1,19 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "FastAPI",
-    "version": "0.1.0"
+    "title": "Analysis API",
+    "description": "Analysis API の説明です。",
+    "version": "1.0.0"
   },
   "paths": {
-    "/user/{user_id}/{diary_id}": {
+    "/api/user/{user_id}/{diary_id}": {
       "get": {
-        "summary": "Get Diary",
-        "description": "指定idのユーザーの指定idの日記を取得し、ベクトルDBに追加する。",
-        "operationId": "get_diary_user__user_id___diary_id__get",
+        "tags": [
+          "analysisapi"
+        ],
+        "summary": "Get Diary Add Db",
+        "description": "指定idのユーザーの指定idの日記を取得し、ベクトルDBに追加します。\n\nArgs:\n  user_id (int): ユーザーID。\n  diary_id (int): 日記ID。\n\nReturns:\n  dict: 日記が正常にDBに追加されたことを示すメッセージ。\n\nRaises:\n  HTTPException: サーバーからのHTTPエラー応答が発生した場合。\n  RequestException: 通信中にエラーが発生した場合。\n  Exception: その他の予期しないエラー。",
+        "operationId": "get_diary_add_db_api_user__user_id___diary_id__get",
         "parameters": [
           {
             "name": "user_id",
@@ -35,7 +39,11 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Get Diary Add Db Api User  User Id   Diary Id  Get"
+                }
               }
             }
           },
@@ -52,11 +60,14 @@
         }
       }
     },
-    "/analysis/scheduler/{user_id}": {
+    "/api/analysis/scheduler/{user_id}": {
       "get": {
+        "tags": [
+          "analysisapi"
+        ],
         "summary": "Get Schedule",
-        "description": "過去の日記を分析して、明日の予定を提案する。",
-        "operationId": "get_schedule_analysis_scheduler__user_id__get",
+        "description": "過去の日記を分析して、明日の予定を提案します。\n\nArgs:\n  user_id (int): ユーザーID。\n\nReturns:\n  str: 明日の予定。",
+        "operationId": "get_schedule_api_analysis_scheduler__user_id__get",
         "parameters": [
           {
             "name": "user_id",
@@ -73,7 +84,10 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "type": "string",
+                  "title": "Response Get Schedule Api Analysis Scheduler  User Id  Get"
+                }
               }
             }
           },
