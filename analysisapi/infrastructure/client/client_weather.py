@@ -36,10 +36,7 @@ class ClientWeather:
                 ClientConstants.AMEDAS_STATION_LOCATION_URL, timeout=10
             )
             response.raise_for_status()
-            is_raining = self._is_raining_at_location(
-                response.json(), latitude, longitude
-            )
-            if is_raining:
+            if self._is_raining_at_location(response.json(), latitude, longitude):
                 return "現在、雨が降っています。"
             else:
                 return "現在、雨は降っていません。"

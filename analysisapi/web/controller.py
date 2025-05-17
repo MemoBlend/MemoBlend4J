@@ -5,7 +5,7 @@ import httpx
 import requests
 from applicationcore.common_application_service import CommonApplicationService
 from applicationcore.client_application_service import ClientApplicationService
-import settings
+from web.constants import Constants
 
 
 class Controller:
@@ -40,7 +40,7 @@ class Controller:
             RequestException: 通信中にエラーが発生した場合。
             Exception: その他の予期しないエラー。
         """
-        diary_get_url = settings.DIARY_GET_URL
+        diary_get_url = Constants.DIARY_GET_URL
         url = f"{diary_get_url}/{diary_id}"
 
         try:
@@ -71,7 +71,7 @@ class Controller:
 
         return {"message": "日記が正常にDBに追加されました"}
 
-    async def get_schedule(self, user_id: int) -> str:
+    def get_schedule(self, user_id: int) -> str:
         """
         過去の日記を分析して、明日の予定を提案します。
 
