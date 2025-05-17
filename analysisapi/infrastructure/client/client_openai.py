@@ -3,7 +3,7 @@
 from logging import INFO
 import os
 from openai import OpenAI
-from applicationcore.constants import Constants
+from infrastructure.client.client_constants import ClientConstants
 from systemcommon.logger_config import LoggerConfig
 
 
@@ -36,7 +36,7 @@ class ClientOpenAI:
             dict: APIレスポンス。
         """
         response = self.open_api_client.chat.completions.create(
-            model=Constants.GPT_MODEL,
+            model=ClientConstants.GPT_MODEL,
             messages=messages,
             tools=tools,
             tool_choice=tool_choice,
@@ -57,8 +57,8 @@ class ClientOpenAI:
         self.total_prompt_tokens += response.usage.prompt_tokens
         self.total_completion_tokens += response.usage.completion_tokens
         self.total_cost = (
-            self.total_prompt_tokens * Constants.INPUT_FEE_PER_TOKEN_JPY
-            + self.total_completion_tokens * Constants.OUTPUT_FEE_PER_TOKEN_JPY
+            self.total_prompt_tokens * ClientConstants.INPUT_FEE_PER_TOKEN_JPY
+            + self.total_completion_tokens * ClientConstants.OUTPUT_FEE_PER_TOKEN_JPY
         )
         self.logger.info(
             "合計トークン数: %d",

@@ -1,13 +1,8 @@
-"""アプリケーションコアの定数を定義するクラスです。"""
+"""プロンプトの定型文章を定義するクラスです。"""
 
 
-class Constants:
-    """アプリケーションコアの定数を定義するクラス。"""
-
-    # OpenAI API 関連
-    INPUT_FEE_PER_TOKEN_JPY = 0.0225 / 1000
-    OUTPUT_FEE_PER_TOKEN_JPY = 0.0900 / 1000
-    GPT_MODEL = "gpt-4o-mini-2024-07-18"
+class PromptConstants:
+    """プロンプトの定型文章を定義するクラスです。"""
 
     USER_PROMPT_TEMPLATE = (
         "{diary_text} 以上の文章は同一人物が書いた日記である。"

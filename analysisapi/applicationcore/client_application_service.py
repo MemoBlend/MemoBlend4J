@@ -2,10 +2,10 @@
 
 import json
 from logging import INFO
+from applicationcore.prompt_constants import PromptConstants
 from infrastructure.client.client_openai import ClientOpenAI
 from infrastructure.client.client_weather import ClientWeather
 from infrastructure.chromadb_repository import ChromadbRepository
-from applicationcore.constants import Constants
 from systemcommon.logger_config import LoggerConfig
 
 
@@ -42,7 +42,7 @@ class ClientApplicationService:
         diary_text = "\n".join(response["documents"][0])
 
         # ユーザー入力用プロンプトの作成
-        user_prompt = Constants.USER_PROMPT_TEMPLATE.format(
+        user_prompt = PromptConstants.USER_PROMPT_TEMPLATE.format(
             diary_text=diary_text,
             latitude=location["latitude"],
             longitude=location["longitude"],
@@ -57,7 +57,7 @@ class ClientApplicationService:
         # 最初のリクエスト（Function Calling が必要か否かの判断）
         response = self.openai_client.call_openai(
             messages,
-            tools=Constants.FUNCTION_CALLING_DEFINITIONS,
+            tools=PromptConstants.FUNCTION_CALLING_DEFINITIONS,
             tool_choice="auto",
         )
 
