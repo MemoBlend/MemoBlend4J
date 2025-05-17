@@ -3,7 +3,8 @@
 from fastapi import APIRouter, HTTPException
 import httpx
 import requests
-from applicationcore.application_service import ApplicationService
+from applicationcore.common_application_service import CommonApplicationService
+from applicationcore.client_application_service import ClientApplicationService
 import settings
 
 
@@ -20,7 +21,8 @@ class Controller:
         self.router.add_api_route(
             "/analysis/scheduler/{user_id}", self.get_schedule, methods=["GET"]
         )
-        self.application_service = ApplicationService()
+        self.common_application_service = CommonApplicationService()
+        self.client_application_service = ClientApplicationService()
 
     def get_diary_add_db(self, user_id: int, diary_id: int) -> dict:
         """
@@ -57,7 +59,9 @@ class Controller:
             raise requests.RequestException(f"その他のエラーが発生しました: {str(e)}")
 
         try:
-            self.application_service.add_text_to_vector_db(user_id, response.json())
+            self.common_application_service.add_text_to_vector_db(
+                user_id, response.json()
+            )
         except (KeyError, TypeError, ValueError) as e:
             raise requests.RequestException(f"入力エラー: {e}")
         except ConnectionError as e:
@@ -77,7 +81,7 @@ class Controller:
         location = {"latitude": 35.7001076, "longitude": 139.9855455}
 
         try:
-            response = self.application_service.get_llm_output(location, user_id)
+            response = self.client_application_service.get_llm_output(location, user_id)
             return response["choices"][0]["message"]["content"]
 
         except Exception as e:

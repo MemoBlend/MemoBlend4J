@@ -1,4 +1,4 @@
-"""AnalysisAPIのアプリケーションサービスクラスです。"""
+"""クライアントのアプリケーションサービスクラスです。"""
 
 import json
 from logging import INFO
@@ -9,9 +9,9 @@ from applicationcore.constants import Constants
 from systemcommon.logger_config import LoggerConfig
 
 
-class ApplicationService:
+class ClientApplicationService:
     """
-    AnalysisAPIのアプリケーションサービスクラスです。
+    クライアントのアプリケーションサービスクラスです。
     """
 
     def __init__(self):
@@ -19,27 +19,6 @@ class ApplicationService:
         self.weather_client = ClientWeather()
         self.openai_client = ClientOpenAI()
         self.logger = LoggerConfig.get_logger(name=__name__, level=INFO)
-
-    def add_text_to_vector_db(self, user_id: int, json_data: dict) -> None:
-        """
-        ベクトル DB に文章を追加します。
-        Args:
-            user_id (int): ユーザーID。
-            json_data (dict): 追加するデータ。{"id": "1", "content": "sample text"}。
-
-        Raises:
-            ValueError: コレクションのロードまたは作成に失敗した場合。
-        """
-        self.logger.info("user_id: %sのデータをベクトルDBに追加します。", user_id)
-        try:
-            self.db_repository.add(
-                user_id=user_id, diary_id=json_data["id"], sentence=json_data["content"]
-            )
-        except ValueError as e:
-            self.logger.error(
-                "user_id: %sのコレクションのロードまたは作成に失敗しました。", user_id
-            )
-            raise e
 
     def get_llm_output(self, location: dict, user_id: int) -> dict:
         """
