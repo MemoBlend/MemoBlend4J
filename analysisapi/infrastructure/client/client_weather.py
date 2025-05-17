@@ -4,7 +4,7 @@ from logging import INFO
 import pandas as pd
 import requests
 import numpy as np
-from applicationcore.client.client_constants import ClientConstants
+from infrastructure.client.client_constants import ClientConstants
 from systemcommon.logger_config import LoggerConfig
 
 
