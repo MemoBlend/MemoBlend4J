@@ -5,7 +5,7 @@ import httpx
 import requests
 from applicationcore.common_application_service import CommonApplicationService
 from applicationcore.client_application_service import ClientApplicationService
-from web.constants import Constants
+from presentation.constants import Constants
 
 
 class Controller:
