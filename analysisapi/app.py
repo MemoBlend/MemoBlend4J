@@ -2,8 +2,8 @@
 
 from fastapi import FastAPI
 import uvicorn
-import settings
 from presentation.controller import Controller
+import settings
 
 
 def main():
@@ -13,3 +13,7 @@ def main():
     app = FastAPI()
     app.include_router(Controller().router, prefix="/api", tags=["analysisapi"])
     uvicorn.run(app, host=settings.HOST, port=settings.PORT)
+
+
+if __name__ == "__main__":
+    main()
