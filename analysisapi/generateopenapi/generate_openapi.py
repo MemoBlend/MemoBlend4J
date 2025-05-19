@@ -5,7 +5,7 @@ import os
 from fastapi import FastAPI
 from generateopenapi.constants import Constants
 import settings
-from web.controller import Controller
+from presentation.controller import Controller
 
 
 def main():

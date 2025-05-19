@@ -3,9 +3,9 @@
 from fastapi import APIRouter, HTTPException
 import httpx
 import requests
-from applicationcore.common_application_service import CommonApplicationService
+from applicationcore.diary_application_service import DiaryApplicationService
 from applicationcore.client_application_service import ClientApplicationService
-from presentation.constants import Constants
+from presentation.presentation_constants import PresentationConstants
 
 
 class Controller:
@@ -25,7 +25,7 @@ class Controller:
             endpoint=self.get_schedule_suggestion,
             methods=["GET"],
         )
-        self.common_application_service = CommonApplicationService()
+        self.diary_application_service = DiaryApplicationService()
         self.client_application_service = ClientApplicationService()
 
     def get_diary_add_db(self, user_id: int, diary_id: int) -> dict:
@@ -44,7 +44,7 @@ class Controller:
             RequestException: 通信中にエラーが発生した場合。
             Exception: その他の予期しないエラー。
         """
-        url = f"{Constants.DIARY_GET_URL}/{diary_id}"
+        url = f"{PresentationConstants.DIARY_GET_URL}/{diary_id}"
 
         try:
             with httpx.Client() as client:
@@ -62,7 +62,7 @@ class Controller:
             raise requests.RequestException(f"その他のエラーが発生しました: {str(e)}")
 
         try:
-            self.common_application_service.add_text_to_vector_db(
+            self.diary_application_service.add_text_to_vector_db(
                 user_id, response.json()
             )
         except (KeyError, TypeError, ValueError) as e:
@@ -77,6 +77,9 @@ class Controller:
     def get_schedule_suggestion(self, user_id: int) -> str:
         """
         過去の日記を分析して、明日の予定の提案を取得します。
+
+        Args:
+            user_id (int): ユーザーID。
 
         Returns:
             str: 明日の予定の提案。

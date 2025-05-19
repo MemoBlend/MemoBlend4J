@@ -25,7 +25,7 @@ class ClientOpenAI:
 
     def call_openai(self, messages: list[dict], tools=None, tool_choice=None) -> dict:
         """
-        OpenAI APIを呼び出し、トークン使用量を計測します。
+        OpenAI APIを呼び出し、LLMの出力結果を取得します。
 
         Args:
             messages (list): メッセージリスト。

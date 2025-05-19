@@ -1,17 +1,17 @@
-"""共通のアプリケーションサービスクラスです。"""
+"""日記のアプリケーションサービスクラスです。"""
 
 from logging import INFO
-from infrastructure.chromadb_repository import ChromadbRepository
+from infrastructure.diary_repository import DiaryRepository
 from systemcommon.logger_config import LoggerConfig
 
 
-class CommonApplicationService:
+class DiaryApplicationService:
     """
-    共通のアプリケーションサービスクラスです。
+    日記のアプリケーションサービスクラスです。
     """
 
     def __init__(self):
-        self.db_repository = ChromadbRepository(persist=True)
+        self.diary_repository = DiaryRepository(enable_persistence=True)
         self.logger = LoggerConfig.get_logger(name=__name__, level=INFO)
 
     def add_text_to_vector_db(self, user_id: int, json_data: dict) -> None:
@@ -26,7 +26,7 @@ class CommonApplicationService:
         """
         self.logger.info("user_id: %sのデータをベクトルDBに追加します。", user_id)
         try:
-            self.db_repository.add(
+            self.diary_repository.add(
                 user_id=user_id, diary_id=json_data["id"], sentence=json_data["content"]
             )
         except ValueError as e:

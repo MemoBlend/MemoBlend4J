@@ -1,7 +1,7 @@
 """プレゼンテーション層の定数を管理するクラスです。"""
 
 
-class Constants:
+class PresentationConstants:
     """プレゼンテーション層の定数を管理するクラスです。"""
 
     DIARY_GET_URL = "http://localhost:8080/api/diary"

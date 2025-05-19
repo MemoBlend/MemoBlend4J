@@ -1,28 +1,30 @@
-"""ベクトルDBのリポジトリクラスです。"""
+"""日記のリポジトリクラスです。"""
 
 import chromadb
 
+from infrastructure.infrastructure_constants import InfrastructureConstants
 
-class ChromadbRepository:
+
+class DiaryRepository:
     """
-    ベクトルDBのリポジトリクラスです。
-    ChromaDBを使用して、ユーザーごとのコレクションを管理します。
+    日記のリポジトリクラスです。
+    ChromaDB を使用して、ユーザーごとの日記を管理します。
     """
 
     def __init__(
         self,
-        directory: str = "./infrastructure/chroma_db",
-        persist: bool = False,
+        enable_persistence: bool = False,
     ):
         """
         Args:
-            directory (str): データベースの保存先ディレクトリ。デフォルトは "./infrastructure/chroma_db"。
-            persist (bool): データベースを保存するかどうかのフラグ。デフォルトは False。
+            enable_persistence (bool): データベースの永続化を有効にするかどうか。デフォルトは False。
         """
-        if persist:
-            self.chroma_client = chromadb.PersistentClient(path=directory)
+        if enable_persistence:
+            self.chroma_db_client = chromadb.PersistentClient(
+                path=InfrastructureConstants.DIARY_DB_PATH
+            )
         else:
-            self.chroma_client = chromadb.Client()
+            self.chroma_db_client = chromadb.Client()
         self.collection = None
 
     def add(self, user_id: int, diary_id: int, sentence: str):
@@ -35,7 +37,7 @@ class ChromadbRepository:
             sentence (str): 追加する文章。
 
         Raises:
-            ValueError: コレクションのロードまたは作成に失敗した場合。
+            ValueError: 日記のコレクションのロードまたは作成に失敗した場合。
         """
 
         try:
@@ -52,7 +54,7 @@ class ChromadbRepository:
 
     def find_by_sentence(self, user_id: int, sentence: str, n_results: int = 2) -> dict:
         """
-        DB から sentence に類似するテキストを検索します。
+        データベースから sentence に類似するテキストを検索します。
 
         Args:
             user_id (int): ユーザーID。
@@ -83,7 +85,7 @@ class ChromadbRepository:
             ValueError: コレクションのロードまたは作成に失敗した場合。
         """
         try:
-            self.collection = self.chroma_client.create_collection(
+            self.collection = self.chroma_db_client.create_collection(
                 name=f"user_id_{user_id}", get_or_create=True
             )
         except ValueError as e:

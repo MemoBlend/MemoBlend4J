@@ -3,7 +3,7 @@
 from fastapi import FastAPI
 import uvicorn
 import settings
-from web.controller import Controller
+from presentation.controller import Controller
 
 
 def main():

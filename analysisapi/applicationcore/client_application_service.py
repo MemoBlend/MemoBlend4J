@@ -5,7 +5,7 @@ from logging import INFO
 from applicationcore.prompt_constants import PromptConstants
 from infrastructure.client.client_openai import ClientOpenAI
 from infrastructure.client.client_weather import ClientWeather
-from infrastructure.chromadb_repository import ChromadbRepository
+from infrastructure.diary_repository import DiaryRepository
 from systemcommon.logger_config import LoggerConfig
 
 
@@ -15,7 +15,7 @@ class ClientApplicationService:
     """
 
     def __init__(self):
-        self.db_repository = ChromadbRepository(persist=True)
+        self.diary_repository = DiaryRepository(enable_persistence=True)
         self.weather_client = ClientWeather()
         self.openai_client = ClientOpenAI()
         self.logger = LoggerConfig.get_logger(name=__name__, level=INFO)
@@ -31,12 +31,13 @@ class ClientApplicationService:
 
         Args:
             location (dict): 現在位置の緯度・経度。{"latitude": 35.6895, "longitude": 139.6917} の形式。
+            user_id (int): ユーザーID。
 
         Returns:
             dict: LLMの出力結果。
         """
         self.logger.info("user_id: %s の過去の日記を取得します。", user_id)
-        response = self.db_repository.find_by_sentence(
+        response = self.diary_repository.find_by_sentence(
             user_id=user_id, sentence="明日の予定は？", n_results=2
         )
         diary_text = "\n".join(response["documents"][0])
