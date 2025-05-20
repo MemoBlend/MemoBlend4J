@@ -2,7 +2,6 @@
 
 from fastapi import APIRouter, HTTPException
 import httpx
-import requests
 from applicationcore.diary_application_service import DiaryApplicationService
 from applicationcore.client_application_service import ClientApplicationService
 from presentation.presentation_constants import PresentationConstants
@@ -51,26 +50,32 @@ class Controller:
                 response = client.get(url)
                 response.raise_for_status()
         except httpx.HTTPStatusError as e:
-            raise requests.RequestException(
-                f"HTTPステータスエラー: {e.response.status_code} - {e.response.text}"
-            )
+            raise HTTPException(
+                status_code=e.response.status_code,
+                detail=f"HTTPステータスエラー: {e.response.status_code} - {e.response.text}",
+            ) from e
         except httpx.RequestError as e:
-            raise requests.RequestException(
-                f"ネットワークエラー: {e.__class__.__name__} - {str(e)}"
-            )
+            raise HTTPException(
+                status_code=502,
+                detail=f"ネットワークエラー: {e.__class__.__name__} - {str(e)}",
+            ) from e
         except Exception as e:
-            raise requests.RequestException(f"その他のエラーが発生しました: {str(e)}")
+            raise HTTPException(
+                status_code=500, detail=f"その他のエラーが発生しました: {str(e)}"
+            ) from e
 
         try:
             self.diary_application_service.add_text_to_vector_db(
                 user_id, response.json()
             )
         except (KeyError, TypeError, ValueError) as e:
-            raise requests.RequestException(f"入力エラー: {e}")
+            raise HTTPException(status_code=400, detail=f"入力エラー: {e}") from e
         except ConnectionError as e:
-            raise requests.RequestException(f"接続エラー: {e}")
+            raise HTTPException(status_code=502, detail=f"接続エラー: {e}") from e
         except Exception as e:
-            raise requests.RequestException(f"その他の予期しないエラー: {e}")
+            raise HTTPException(
+                status_code=500, detail=f"その他の予期しないエラー: {e}"
+            ) from e
 
         return {"message": "日記が正常にDBに追加されました"}
 
