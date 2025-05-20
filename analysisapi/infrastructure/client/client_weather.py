@@ -67,7 +67,7 @@ class ClientWeather:
             lambda row: self._calc_distance(row, target_point), axis=1
         )
         nearest = df.loc[df["distance"].idxmin()]
-        # is_rainnearest["elems"][0]ing が 1 の場合、雨が降っていると判定します。
+        # nearest["elems"][0] が 1 の場合、雨が降っていると判定します。
         return nearest["elems"][0] == 1
 
     def _calc_distance(self, row: pd.Series, target_point: np.ndarray) -> float:
