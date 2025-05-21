@@ -97,6 +97,6 @@ const signOut = async () => {
     <v-main>
       <RouterView />
     </v-main>
-    <v-footer class="bg-grey-lighten-1" app> &copy MemoBlend - 2025 </v-footer>
+    <v-footer class="bg-grey-lighten-1" app> &copy; MemoBlend - 2025 </v-footer>
   </v-app>
 </template>

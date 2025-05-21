@@ -1,2 +1,1 @@
-import Event from './Event.vue';
-export { Event };
+export { default as EventChip } from './Event.vue';
