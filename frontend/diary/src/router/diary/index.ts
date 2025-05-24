@@ -1,14 +1,10 @@
-import DiariesView from '@/views/diary/DiariesView.vue';
-import DiaryCreateView from '@/views/diary/DiaryCreateView.vue';
-import DiaryDetailView from '@/views/diary/DiaryDetailView.vue';
-import DiaryEditView from '@/views/diary/DiaryEditView.vue';
 import type { RouteRecordRaw } from 'vue-router';
 
 export const diaryRoutes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'diaries',
-    component: DiariesView,
+    component: () => import('@/views/diary/DiariesView.vue'),
     meta: {
       requiresAuth: true,
     },
@@ -16,7 +12,7 @@ export const diaryRoutes: RouteRecordRaw[] = [
   {
     path: '/detail/:id',
     name: 'detail',
-    component: DiaryDetailView,
+    component: () => import('@/views/diary/DiaryDetailView.vue'),
     meta: {
       requiresAuth: true,
     },
@@ -24,7 +20,7 @@ export const diaryRoutes: RouteRecordRaw[] = [
   {
     path: '/detail/:id/edit',
     name: 'edit',
-    component: DiaryEditView,
+    component: () => import('@/views/diary/DiaryEditView.vue'),
     meta: {
       requiresAuth: true,
     },
@@ -32,7 +28,7 @@ export const diaryRoutes: RouteRecordRaw[] = [
   {
     path: '/create',
     name: 'create',
-    component: DiaryCreateView,
+    component: () => import('@/views/diary/DiaryCreateView.vue'),
     meta: {
       requiresAuth: true,
     },
