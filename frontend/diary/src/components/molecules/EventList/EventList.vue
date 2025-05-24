@@ -10,6 +10,11 @@ const props = defineProps<{
 
 <template>
   <div>
-    <EventChip v-for="event in props.eventList" :key="event.id" :event="event" @click="props.onEventClick(event.id)" />
+    <EventChip
+      v-for="event in props.eventList"
+      :key="event.id"
+      :event="event"
+      @click="props.onEventClick(event.id)"
+    />
   </div>
 </template>

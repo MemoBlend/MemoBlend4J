@@ -81,12 +81,6 @@ const weeks = computed(() => {
 });
 </script>
 
-<script lang="ts">
-export default {
-  name: 'CalendarView',
-};
-</script>
-
 <template>
   <v-container>
     <v-row>
