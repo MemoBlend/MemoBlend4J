@@ -11,9 +11,3 @@ const props = defineProps<{
     {{ props.event.title }}
   </v-chip>
 </template>
-
-<script lang="ts">
-export default {
-  name: 'EventChip',
-};
-</script>
