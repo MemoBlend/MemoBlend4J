@@ -8,6 +8,7 @@ from infrastructure.client.client_constants import ClientConstants
 from systemcommon.logger_config import LoggerConfig
 
 
+# pylint: disable=too-few-public-methods
 class ClientWeather:
     """
     天気に関する外部APIを呼び出すクライアントクラスです。
