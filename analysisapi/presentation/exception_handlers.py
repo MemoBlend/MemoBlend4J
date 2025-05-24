@@ -6,6 +6,7 @@ from fastapi import Request
 from fastapi.responses import JSONResponse
 from systemcommon.logger_config import LoggerConfig
 from systemcommon.system_exception import SystemException
+from systemcommon.business_exception import BusinessException
 
 
 class ExceptionHandlers:
@@ -16,13 +17,15 @@ class ExceptionHandlers:
     logger = LoggerConfig.get_logger(name=__name__, level=logging.INFO)
 
     @staticmethod
-    async def business_exception_handler(_request: Request, exception: SystemException):
+    async def business_exception_handler(
+        _request: Request, exception: BusinessException
+    ):
         """
         ビジネス例外を処理するための例外ハンドラーです。
 
         Args:
             request (Request): リクエストオブジェクト。
-            exception (SystemException): 発生したビジネス例外。
+            exception (BusinessException): 発生したビジネス例外。
 
         Returns:
             JSONResponse: エラーレスポンス。
