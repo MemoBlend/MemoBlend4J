@@ -1,6 +1,7 @@
 """プレゼンテーション層の定数を管理するクラスです。"""
 
 
+# pylint: disable=too-few-public-methods
 class PresentationConstants:
     """プレゼンテーション層の定数を管理するクラスです。"""
 

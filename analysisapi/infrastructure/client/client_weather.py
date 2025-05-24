@@ -38,8 +38,7 @@ class ClientWeather:
             response.raise_for_status()
             if self._is_raining_at_location(response.json(), latitude, longitude):
                 return "現在、雨が降っています。"
-            else:
-                return "現在、雨は降っていません。"
+            return "現在、雨は降っていません。"
 
         except requests.RequestException as e:
             raise requests.RequestException(f"HTTPリクエストに失敗しました: {e}")
