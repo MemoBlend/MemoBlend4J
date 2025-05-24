@@ -1,6 +1,9 @@
 """日記のアプリケーションサービスクラスです。"""
 
 from logging import INFO
+from applicationcore.collection_load_failed_exception import (
+    CollectionLoadFailedException,
+)
 from infrastructure.diary_repository import DiaryRepository
 from systemcommon.logger_config import LoggerConfig
 
@@ -30,7 +33,4 @@ class DiaryApplicationService:
                 user_id=user_id, diary_id=json_data["id"], sentence=json_data["content"]
             )
         except ValueError as e:
-            self.logger.error(
-                "user_id: %sのコレクションのロードまたは作成に失敗しました。", user_id
-            )
-            raise e
+            raise CollectionLoadFailedException(user_id) from e
