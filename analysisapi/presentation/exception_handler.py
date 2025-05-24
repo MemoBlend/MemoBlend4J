@@ -10,33 +10,36 @@ class ExceptionHandlers:
     """
 
     @staticmethod
-    async def http_exception_handler(exc: HTTPException):
+    async def http_exception_handler(exception: HTTPException):
         """
         HTTPエラーを処理するための例外ハンドラーです。
 
         Args:
-            exc (HTTPException): 発生したHTTP例外。
+            exception (HTTPException): 発生したHTTP例外。
 
         Returns:
             JSONResponse: エラーレスポンス。
         """
         return JSONResponse(
-            status_code=exc.status_code,
-            content={"detail": exc.detail, "message": "HTTPエラーが発生しました"},
+            status_code=exception.status_code,
+            content={"detail": exception.detail, "message": "HTTPエラーが発生しました"},
         )
 
     @staticmethod
-    async def global_exception_handler(exc: Exception):
+    async def global_exception_handler(exception: Exception):
         """
         共通例外のグローバルハンドラーです。
 
         Args:
-            exc (Exception): 発生した例外。
+            exception (Exception): 発生した例外。
 
         Returns:
             JSONResponse: エラーレスポンス。
         """
         return JSONResponse(
             status_code=500,
-            content={"detail": str(exc), "message": "予期しないエラーが発生しました"},
+            content={
+                "detail": str(exception),
+                "message": "予期しないエラーが発生しました",
+            },
         )
