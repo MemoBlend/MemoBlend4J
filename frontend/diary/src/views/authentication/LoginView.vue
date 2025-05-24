@@ -5,7 +5,7 @@ import { useForm } from 'vee-validate';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-const { errors, values, meta, defineField } = useForm({
+const { errors, meta, defineField } = useForm({
   validationSchema: loginFormSchema,
 });
 const [email] = defineField('email');

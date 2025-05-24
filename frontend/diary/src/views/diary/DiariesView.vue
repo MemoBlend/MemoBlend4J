@@ -4,8 +4,8 @@ import type { GetDiariesResponse } from '@/generated/api-client';
 import { getDiaries } from '@/services/diary/diary-service';
 import { useCustomErrorHandler } from '@/shared/error-handler/use-custom-error-handler';
 import { useRouter } from 'vue-router';
-import { Calendar } from '@/components/organisms/Calendar';
 import type { CalendarEvent } from '@/types';
+import { EventCalendar } from '@/components/organisms/EventCalendar';
 import { LoadingSpinnerOverlay } from '@/components/organisms/LoadingSpinnerOverlay';
 
 const showLoading = ref(true);
@@ -63,7 +63,7 @@ onMounted(async () => {
 <template>
   <LoadingSpinnerOverlay :isLoading="showLoading" />
   <div v-if="!showLoading">
-    <Calendar :diaryData="events" :onEventClick="goToDiaryDetail" />
+    <EventCalendar :diaryData="events" :onEventClick="goToDiaryDetail" />
   </div>
   <v-btn
     style="z-index: 2"

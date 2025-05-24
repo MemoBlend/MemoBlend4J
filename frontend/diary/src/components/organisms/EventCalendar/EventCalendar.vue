@@ -105,14 +105,19 @@ const weeks = computed(() => {
 
     <div class="ma-3">
       <v-row>
-        <v-col v-for="day in weekDays" class="text-center font-weight-bold">
+        <v-col
+          v-for="(day, i) in weekDays"
+          :key="i"
+          class="text-center font-weight-bold"
+        >
           {{ day }}
         </v-col>
       </v-row>
 
-      <v-row v-for="week in weeks">
+      <v-row v-for="(week, wIdx) in weeks" :key="wIdx">
         <v-col
-          v-for="cell in week"
+          v-for="(cell, cIdx) in week"
+          :key="cIdx"
           :class="[
             'border',
             { 'today-cell': typeof cell === 'number' && isToday(cell) },
@@ -134,6 +139,6 @@ const weeks = computed(() => {
 
 <style scoped>
 .today-cell {
-  background-color: rgb(100, 100, 100, 0.2);
+  background-color: rgb(100 100 100 / 20%);
 }
 </style>

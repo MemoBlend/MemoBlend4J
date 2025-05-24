@@ -1,5 +1,5 @@
 import { useAuthenticationStore } from '@/stores/authentication';
-import type { Router, RouteRecordName } from 'vue-router';
+import type { Router } from 'vue-router';
 
 /**
  * ナビゲーションガードです。
