@@ -28,7 +28,7 @@ class ExceptionHandlers:
     @staticmethod
     async def global_exception_handler(exception: Exception):
         """
-        共通例外のグローバルハンドラーです。
+        共通例外の例外ハンドラーです。
 
         Args:
             exception (Exception): 発生した例外。
