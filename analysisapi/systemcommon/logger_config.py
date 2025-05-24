@@ -3,6 +3,7 @@
 from logging import getLogger, StreamHandler, INFO, DEBUG, WARNING, ERROR, CRITICAL
 
 
+# pylint: disable=too-few-public-methods
 class LoggerConfig:
     """
     ログ設定を行うクラスです。

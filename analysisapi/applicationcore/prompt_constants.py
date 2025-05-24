@@ -1,6 +1,7 @@
 """プロンプトの定型文章を定義するクラスです。"""
 
 
+# pylint: disable=too-few-public-methods
 class PromptConstants:
     """プロンプトの定型文章を定義するクラスです。"""
 

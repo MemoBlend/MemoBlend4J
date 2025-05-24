@@ -9,6 +9,7 @@ from infrastructure.diary_repository import DiaryRepository
 from systemcommon.logger_config import LoggerConfig
 
 
+# pylint: disable=too-few-public-methods
 class ClientApplicationService:
     """
     クライアントのアプリケーションサービスクラスです。

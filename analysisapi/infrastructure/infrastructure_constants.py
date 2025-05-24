@@ -1,6 +1,7 @@
 """インフラストラクチャ層の定数を定義するクラスです。"""
 
 
+# pylint: disable=too-few-public-methods
 class InfrastructureConstants:
     """インフラストラクチャ層の定数を定義するクラスです。"""
 
