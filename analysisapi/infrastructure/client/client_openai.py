@@ -7,6 +7,7 @@ from infrastructure.client.client_constants import ClientConstants
 from systemcommon.logger_config import LoggerConfig
 
 
+# pylint: disable=too-few-public-methods
 class ClientOpenAI:
     """
     OpenAI APIを呼び出すクライアントクラスです。
@@ -16,8 +17,8 @@ class ClientOpenAI:
         """
         OpenAI APIを呼び出すクライアントクラスです。
         """
-        self.open_api_client = OpenAI()
-        self.open_api_client.api_key = os.getenv(key="OPENAI_API_KEY")
+        self.openai_api_client = OpenAI()
+        self.openai_api_client.api_key = os.getenv(key="OPENAI_API_KEY")
         self.logger = LoggerConfig.get_logger(name=__name__, level=INFO)
         self.total_prompt_tokens = 0
         self.total_completion_tokens = 0
@@ -35,7 +36,7 @@ class ClientOpenAI:
         Returns:
             dict: APIレスポンス。
         """
-        response = self.open_api_client.chat.completions.create(
+        response = self.openai_api_client.chat.completions.create(
             model=ClientConstants.GPT_MODEL,
             messages=messages,
             tools=tools,

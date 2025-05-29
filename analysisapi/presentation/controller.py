@@ -1,10 +1,16 @@
 """AnalysisAPIのコントローラークラスです。"""
 
-from fastapi import APIRouter, HTTPException
+from logging import INFO
+from fastapi import APIRouter
+from fastapi.responses import JSONResponse
 import httpx
+from applicationcore.collection_load_failed_exception import (
+    CollectionLoadFailedException,
+)
 from applicationcore.diary_application_service import DiaryApplicationService
 from applicationcore.client_application_service import ClientApplicationService
 from presentation.presentation_constants import PresentationConstants
+from systemcommon.logger_config import LoggerConfig
 
 
 class Controller:
@@ -26,8 +32,9 @@ class Controller:
         )
         self.diary_application_service = DiaryApplicationService()
         self.client_application_service = ClientApplicationService()
+        self.logger = LoggerConfig.get_logger(name=__name__, level=INFO)
 
-    def get_diary_add_db(self, user_id: int, diary_id: int) -> dict:
+    def get_diary_add_db(self, user_id: int, diary_id: int) -> JSONResponse:
         """
         指定idのユーザーの指定idの日記を取得し、ベクトルDBに追加します。
 
@@ -36,50 +43,35 @@ class Controller:
             diary_id (int): 日記ID。
 
         Returns:
-            dict: 日記が正常にDBに追加されたことを示すメッセージ。
+            JSONResponse: 日記が正常にDBに追加されたことを示すメッセージ。
 
         Raises:
-            HTTPException: サーバーからのHTTPエラー応答が発生した場合。
-            RequestException: 通信中にエラーが発生した場合。
-            Exception: その他の予期しないエラー。
+            CollectionLoadFailedException: コレクションのロードまたは作成に失敗した場合。
         """
         url = f"{PresentationConstants.DIARY_GET_URL}/{diary_id}"
 
-        try:
-            with httpx.Client() as client:
-                response = client.get(url)
-                response.raise_for_status()
-        except httpx.HTTPStatusError as e:
-            raise HTTPException(
-                status_code=e.response.status_code,
-                detail=f"HTTPステータスエラー: {e.response.status_code} - {e.response.text}",
-            ) from e
-        except httpx.RequestError as e:
-            raise HTTPException(
-                status_code=502,
-                detail=f"ネットワークエラー: {e.__class__.__name__} - {str(e)}",
-            ) from e
-        except Exception as e:
-            raise HTTPException(
-                status_code=500, detail=f"その他のエラーが発生しました: {str(e)}"
-            ) from e
+        with httpx.Client() as client:
+            response = client.get(url)
+            response.raise_for_status()
 
         try:
             self.diary_application_service.add_text_to_vector_db(
                 user_id, response.json()
             )
-        except (KeyError, TypeError, ValueError) as e:
-            raise HTTPException(status_code=400, detail=f"入力エラー: {e}") from e
-        except ConnectionError as e:
-            raise HTTPException(status_code=502, detail=f"接続エラー: {e}") from e
-        except Exception as e:
-            raise HTTPException(
-                status_code=500, detail=f"その他の予期しないエラー: {e}"
-            ) from e
+        except CollectionLoadFailedException as e:
+            self.logger.error(e.message)
+            return JSONResponse(status_code=500, content={"error": e.message})
 
-        return {"message": "日記が正常にDBに追加されました"}
+        return JSONResponse(
+            status_code=200,
+            content={
+                "message": "日記が正常にDBに追加されました",
+                "diary_id": diary_id,
+                "user_id": user_id,
+            },
+        )
 
-    def get_schedule_suggestion(self, user_id: int) -> str:
+    def get_schedule_suggestion(self, user_id: int) -> JSONResponse:
         """
         過去の日記を分析して、明日の予定の提案を取得します。
 
@@ -87,15 +79,15 @@ class Controller:
             user_id (int): ユーザーID。
 
         Returns:
-            str: 明日の予定の提案。
+            JSONResponse: 明日の予定の提案を含むJSONレスポンス。
         """
         location = {"latitude": 35.7001076, "longitude": 139.9855455}
 
-        try:
-            response = self.client_application_service.get_llm_output(location, user_id)
-            return response["choices"][0]["message"]["content"]
-
-        except Exception as e:
-            raise HTTPException(
-                status_code=500, detail=f"予定立案に失敗しました: {str(e)}"
-            ) from e
+        response = self.client_application_service.get_llm_output(location, user_id)
+        return JSONResponse(
+            status_code=200,
+            content={
+                "message": "明日の予定の提案を取得しました",
+                "suggestion": response["choices"][0]["message"]["content"],
+            },
+        )

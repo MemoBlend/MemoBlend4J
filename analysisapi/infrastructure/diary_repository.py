@@ -36,14 +36,9 @@ class DiaryRepository:
             diary_id (int): 日記ID。
             sentence (str): 追加する文章。
 
-        Raises:
-            ValueError: 日記のコレクションのロードまたは作成に失敗した場合。
         """
 
-        try:
-            self._load_collection(user_id)
-        except ValueError as e:
-            raise e
+        self._load_collection(user_id)
         self.collection.add(
             # 主キーに相当する。UUIDを使用する予定。
             ids=[f"diary_id_{diary_id}"],
@@ -64,13 +59,8 @@ class DiaryRepository:
         Returns:
             dict: 検索結果。{"documents": [類似する文章]} の形式です。
 
-        Raises:
-            ValueError: コレクションのロードまたは作成に失敗した場合。
         """
-        try:
-            self._load_collection(user_id)
-        except ValueError as e:
-            raise e
+        self._load_collection(user_id)
 
         return self.collection.query(query_texts=[sentence], n_results=n_results)
 
@@ -81,12 +71,7 @@ class DiaryRepository:
 
         Args:
             user_id (int): ユーザーID。
-        Raises:
-            ValueError: コレクションのロードまたは作成に失敗した場合。
         """
-        try:
-            self.collection = self.chroma_db_client.create_collection(
-                name=f"user_id_{user_id}", get_or_create=True
-            )
-        except ValueError as e:
-            raise ValueError("コレクションのロードまたは作成に失敗しました。") from e
+        self.collection = self.chroma_db_client.create_collection(
+            name=f"user_id_{user_id}", get_or_create=True
+        )

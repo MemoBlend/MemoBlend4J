@@ -8,6 +8,7 @@ from infrastructure.client.client_constants import ClientConstants
 from systemcommon.logger_config import LoggerConfig
 
 
+# pylint: disable=too-few-public-methods
 class ClientWeather:
     """
     天気に関する外部APIを呼び出すクライアントクラスです。
@@ -26,25 +27,12 @@ class ClientWeather:
 
         Returns:
             str: 現在の天候情報。雨が降っている場合は「現在、雨が降っています。」、降っていない場合は「現在、雨は降っていません。」。
-
-        Raises:
-            RequestException: HTTPリクエストに失敗した場合
-            Exception: その他の予期しないエラー
         """
-        try:
-            response = requests.get(
-                ClientConstants.AMEDAS_STATION_LOCATION_URL, timeout=10
-            )
-            response.raise_for_status()
-            if self._is_raining_at_location(response.json(), latitude, longitude):
-                return "現在、雨が降っています。"
-            else:
-                return "現在、雨は降っていません。"
-
-        except requests.RequestException as e:
-            raise requests.RequestException(f"HTTPリクエストに失敗しました: {e}")
-        except Exception as e:
-            raise requests.RequestException(f"その他のエラーが発生しました: {e}")
+        response = requests.get(ClientConstants.AMEDAS_STATION_LOCATION_URL, timeout=10)
+        response.raise_for_status()
+        if self._is_raining_at_location(response.json(), latitude, longitude):
+            return "現在、雨が降っています。"
+        return "現在、雨は降っていません。"
 
     def _is_raining_at_location(
         self, data: dict, latitude: float, longitude: float

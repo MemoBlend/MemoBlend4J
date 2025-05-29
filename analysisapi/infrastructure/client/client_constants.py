@@ -1,6 +1,7 @@
 """クライアントの定数を定義するクラスです。"""
 
 
+# pylint: disable=too-few-public-methods
 class ClientConstants:
     """
     クライアントの定数を定義するクラスです。
