@@ -9,4 +9,8 @@ export const errorRoutes: RouteRecordRaw[] = [
       requiresAuth: false,
     },
   },
+  {
+    path: '/:pathMatch(.*)*',
+    component: () => import('@/views/error/NotFoundView.vue')
+  },
 ];
