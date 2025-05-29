@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Event } from '@/components/atoms/Event';
+import { EventChip } from '@/components/atoms/EventChip';
 import type { CalendarEvent } from '@/types';
 
 const props = defineProps<{
@@ -10,12 +10,11 @@ const props = defineProps<{
 
 <template>
   <div>
-    <div
+    <EventChip
       v-for="event in props.eventList"
       :key="event.id"
-      @click="() => props.onEventClick(event.id)"
-    >
-      <Event :event="event" />
-    </div>
+      :event="event"
+      @click="props.onEventClick(event.id)"
+    />
   </div>
 </template>
