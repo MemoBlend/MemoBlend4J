@@ -28,7 +28,7 @@
     "@vue/eslint-config-typescript": "^14.5.0",
     "autoprefixer": "^10.4.20",
     "eslint-plugin-cypress": "^4.3.0",
-    "stylelint": "^16.15.0",
+    "stylelint": "^16.19.1",
     "stylelint-config-recommended-vue": "^1.6.0",
     "stylelint-config-standard": "^37.0.0",
     "stylelint-prettier": "^5.0.3"
