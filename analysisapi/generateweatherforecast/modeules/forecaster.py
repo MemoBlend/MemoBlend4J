@@ -64,7 +64,10 @@ class Forecast:
       raise RuntimeError(f"RSSフィードの取得に失敗しました: {e}")
 
     root = ET.fromstring(response.text)
-    city_ids = [city.attrib["id"] for city in root.iter("city") if "id" in city.attrib]
+    city_ids = []
+    for city in root.iter("city"):
+      if "id" in city.attrib:
+        city_ids.append(city.attrib["id"])
 
     os.makedirs(os.path.dirname(CITY_IDS_PATH), exist_ok=True)
     with open(CITY_IDS_PATH, "w", encoding="utf-8") as f:
