@@ -6,7 +6,7 @@ from generateweatherforecast.modeules.forecaster import Forecast
 # 明日の日付を取得し、ファイル名に指定
 tomorrow = datetime.now() + timedelta(days=1)
 tomorrow_str = tomorrow.strftime("%Y_%m_%d")
-FORECAST_OUTPUT_PATH = f"./generateweatherforecast/property/{tomorrow_str}.json"
+FORECAST_OUTPUT_PATH = f"./generateweatherforecast/property/output/{tomorrow_str}.json"
 
 def save_forecast_to_json(data: List[Dict], output_path: str = FORECAST_OUTPUT_PATH) -> None:
   """
