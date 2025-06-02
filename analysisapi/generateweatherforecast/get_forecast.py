@@ -10,7 +10,7 @@ FORECAST_OUTPUT_PATH = f"./generateweatherforecast/property/output/{tomorrow_str
 
 def save_forecast_to_json(data: List[Dict], output_path: str = FORECAST_OUTPUT_PATH) -> None:
   """
-  予報データをJSONファイルに保存する関数。
+  予報データをJSONファイルに保存します。
 
   Args:
     data (List[Dict]): 地域ごとの天気予報のリスト
@@ -21,7 +21,7 @@ def save_forecast_to_json(data: List[Dict], output_path: str = FORECAST_OUTPUT_P
         
 def main() -> None:
   """
-  天気予報を取得してJSONファイルに保存するメイン関数。
+  天気予報を取得してJSONファイルに保存します。
   """
   forecast = Forecast()
   forecast_data = forecast.get_tomorrow_forecast()
