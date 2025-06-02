@@ -16,7 +16,7 @@ class Forecast:
     Args:
       request_delay (float): APIリクエスト間隔（秒）
     """
-    self.area_codes = self._load_or_fetch_area_codes()
+    self.area_codes = self._load_or_get_area_codes()
     self.request_delay = request_delay
 
   def get_tomorrow_forecast(self) -> List[Dict]:
@@ -29,7 +29,7 @@ class Forecast:
     all_data = []
 
     for area_code in tqdm(self.area_codes, desc="全国の天気予報を取得中..."):
-      forecast = self._fetch_forecast_for_area(area_code)
+      forecast = self._get_forecast_for_area(area_code)
       if forecast:
         data = self._parse_tomorrow_forecast(forecast)
         if data:
@@ -37,7 +37,7 @@ class Forecast:
 
     return all_data
 
-  def _load_or_fetch_area_codes(self) -> List[str]:
+  def _load_or_get_area_codes(self) -> List[str]:
     """
     地域コード一覧を読み込み、なければ取得して保存します。
 
@@ -45,12 +45,12 @@ class Forecast:
       List[str]: 地域コードリスト
     """
     if not os.path.exists(CITY_IDS_PATH):
-      self._fetch_and_save_city_ids()
+      self._get_and_save_city_ids()
 
     with open(CITY_IDS_PATH, "r", encoding="utf-8") as f:
       return json.load(f)
 
-  def _fetch_and_save_city_ids(self) -> None:
+  def _get_and_save_city_ids(self) -> None:
     """
     RSSから地域コードを取得してJSONに保存します。
 
@@ -70,7 +70,7 @@ class Forecast:
     with open(CITY_IDS_PATH, "w", encoding="utf-8") as f:
       json.dump(city_ids, f, ensure_ascii=False, indent=2)
 
-  def _fetch_forecast_for_area(self, area_code: str) -> Dict:
+  def _get_forecast_for_area(self, area_code: str) -> Dict:
     """
     指定地域の天気予報を取得します。
 
