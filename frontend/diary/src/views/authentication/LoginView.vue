@@ -5,7 +5,7 @@ import { useForm } from 'vee-validate';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-const { errors, values, meta, defineField } = useForm({
+const { errors, meta, defineField } = useForm({
   validationSchema: loginFormSchema,
 });
 const [email] = defineField('email');
@@ -24,15 +24,12 @@ const login = async () => {
  */
 const isInValid = () => {
   return !meta.value.valid;
-}
-
+};
 </script>
 <template>
   <v-card class="mx-auto my-8" max-width="400">
     <v-card-item>
-      <v-card-title>
-        ログイン
-      </v-card-title>
+      <v-card-title> ログイン </v-card-title>
 
       <v-card-subtitle>
         メールアドレスとパスワードを入力してください
@@ -41,8 +38,17 @@ const isInValid = () => {
 
     <v-card-text>
       <v-form>
-        <v-text-field v-model="email" label="メールアドレス" :error-messages="errors.email"></v-text-field>
-        <v-text-field v-model="password" label="パスワード" type="password" :error-messages="errors.password"></v-text-field>
+        <v-text-field
+          v-model="email"
+          label="メールアドレス"
+          :error-messages="errors.email"
+        ></v-text-field>
+        <v-text-field
+          v-model="password"
+          label="パスワード"
+          type="password"
+          :error-messages="errors.password"
+        ></v-text-field>
         <v-btn block color="primary" @click="login" :disabled="isInValid()">
           ログイン
         </v-btn>

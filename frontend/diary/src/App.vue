@@ -11,18 +11,18 @@ const { name, isAuthenticated } = storeToRefs(authenticationStore);
 
 const menuAction = () => {
   showMenu.value = !showMenu.value;
-}
+};
 
 const darkTheme = ref(true);
 const theme = useTheme();
 
 const changeTheme = () => {
   theme.global.name.value = darkTheme.value ? 'dark' : 'light';
-}
+};
 
 const signOut = async () => {
   await signOutAsync();
-}
+};
 </script>
 
 <template>
@@ -32,36 +32,63 @@ const signOut = async () => {
         <v-app-bar-nav-icon @click="menuAction"></v-app-bar-nav-icon>
       </template>
       <v-app-bar-title bold>
-        <RouterLink to="/" class="font-weight-bold text-decoration-none"
-          :class="darkTheme ? 'text-white' : 'text-black'">
-          MemoBlend</RouterLink>
+        <RouterLink
+          to="/"
+          class="font-weight-bold text-decoration-none"
+          :class="darkTheme ? 'text-white' : 'text-black'"
+        >
+          MemoBlend</RouterLink
+        >
       </v-app-bar-title>
-      <RouterLink v-if="!isAuthenticated" to="/login" class="text-decoration-none mr-4"
-        :class="darkTheme ? 'text-white' : 'text-black'">ログイン
+      <RouterLink
+        v-if="!isAuthenticated"
+        to="/login"
+        class="text-decoration-none mr-4"
+        :class="darkTheme ? 'text-white' : 'text-black'"
+        >ログイン
       </RouterLink>
       <v-btn v-if="isAuthenticated" variant="text" class="me-3">
         <v-icon start icon="mdi-account"></v-icon>
         {{ name }}
       </v-btn>
-      <RouterLink v-if="isAuthenticated" to="/login" @click="signOut" class="text-decoration-none mr-4"
-        :class="darkTheme ? 'text-white' : 'text-black'">
+      <RouterLink
+        v-if="isAuthenticated"
+        to="/login"
+        @click="signOut"
+        class="text-decoration-none mr-4"
+        :class="darkTheme ? 'text-white' : 'text-black'"
+      >
         ログアウト
       </RouterLink>
-      <v-switch v-model="darkTheme" @update:model-value="changeTheme"
-        :prepend-icon="darkTheme ? 'mdi-weather-night' : 'mdi-weather-sunny'" hide-details inset class="mr-auto" />
+      <v-switch
+        v-model="darkTheme"
+        @update:model-value="changeTheme"
+        :prepend-icon="darkTheme ? 'mdi-weather-night' : 'mdi-weather-sunny'"
+        hide-details
+        inset
+        class="mr-auto"
+      />
     </v-app-bar>
 
     <v-navigation-drawer v-model="showMenu">
       <v-list nav>
         <v-list-item>
           <v-list-item-title>
-            <RouterLink to="/" class="text-decoration-none" :class="darkTheme ? 'text-white' : 'text-black'">HOME
+            <RouterLink
+              to="/"
+              class="text-decoration-none"
+              :class="darkTheme ? 'text-white' : 'text-black'"
+              >HOME
             </RouterLink>
           </v-list-item-title>
         </v-list-item>
         <v-list-item>
           <v-list-item-title>
-            <RouterLink to="#" class="text-decoration-none" :class="darkTheme ? 'text-white' : 'text-black'">ANALYSIS
+            <RouterLink
+              to="#"
+              class="text-decoration-none"
+              :class="darkTheme ? 'text-white' : 'text-black'"
+              >ANALYSIS
             </RouterLink>
           </v-list-item-title>
         </v-list-item>
@@ -70,8 +97,6 @@ const signOut = async () => {
     <v-main>
       <RouterView />
     </v-main>
-    <v-footer class="bg-grey-lighten-1" app>
-      &copy MemoBlend - 2025
-    </v-footer>
+    <v-footer class="bg-grey-lighten-1" app> &copy; MemoBlend - 2025 </v-footer>
   </v-app>
 </template>

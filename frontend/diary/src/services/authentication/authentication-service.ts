@@ -1,4 +1,4 @@
-import { useAuthenticationStore } from "@/stores/authentication";
+import { useAuthenticationStore } from '@/stores/authentication';
 
 export async function signInAsync() {
   const authenticationStore = useAuthenticationStore();

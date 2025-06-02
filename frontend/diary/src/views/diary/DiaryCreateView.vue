@@ -15,7 +15,7 @@ const diary = ref<PostDiaryRequest>({
   createdDate: '',
   title: '',
   userId: 0,
-})
+});
 
 /**
  * v-date-input用Dateオブジェクト。
@@ -40,15 +40,22 @@ const createDiaryAsync = async () => {
     });
   }
   router.push({ name: 'diaries' });
-}
+};
 </script>
 <template>
-
   <v-sheet class="mx-auto" width="500">
     <v-form @submit.prevent>
       <v-container>
-        <v-text-field v-model="diary.title" label="タイトル" required></v-text-field>
-        <v-text-field v-model="diary.content" label="内容" required></v-text-field>
+        <v-text-field
+          v-model="diary.title"
+          label="タイトル"
+          required
+        ></v-text-field>
+        <v-text-field
+          v-model="diary.content"
+          label="内容"
+          required
+        ></v-text-field>
         <v-date-input v-model="selectedDate" label="日付"></v-date-input>
         <v-btn type="submit" block @click="createDiaryAsync">作成</v-btn>
       </v-container>

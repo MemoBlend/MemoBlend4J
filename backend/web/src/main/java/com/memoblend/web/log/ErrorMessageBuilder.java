@@ -16,12 +16,12 @@ import lombok.Getter;
 @AllArgsConstructor
 public class ErrorMessageBuilder {
 
-  private static final MessageSource messageSource = ApplicationContextWrapper.getBean(MessageSource.class);
+  private static final MessageSource MESSAGE_SOURCE = ApplicationContextWrapper.getBean(MessageSource.class);
 
-  private Exception ex;
-  private String exceptionId;
-  private String[] frontMessageValue;
-  private String[] logMessageValue;
+  private final Exception ex;
+  private final String exceptionId;
+  private final String[] frontMessageValue;
+  private final String[] logMessageValue;
 
   /**
    * ProblemDetails の detail 情報に格納するスタックトレースを作成します。
@@ -30,7 +30,7 @@ public class ErrorMessageBuilder {
    */
   public String createLogMessageStackTrace() {
     StringBuilder builder = new StringBuilder();
-    String exceptionMessage = messageSource.getMessage(exceptionId, logMessageValue, Locale.getDefault());
+    String exceptionMessage = MESSAGE_SOURCE.getMessage(exceptionId, logMessageValue, Locale.getDefault());
     builder.append(exceptionId).append(" ").append(exceptionMessage).append(SystemPropertyConstants.LINE_SEPARATOR);
     StringWriter writer = new StringWriter();
     ex.printStackTrace(new PrintWriter(writer));

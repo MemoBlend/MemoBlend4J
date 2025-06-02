@@ -1,5 +1,9 @@
-import { diaryApi } from "@/api-client";
-import type { GetDiariesResponse, PostDiaryRequest, PutDiaryRequest } from "@/generated/api-client";
+import { diaryApi } from '@/api-client';
+import type {
+  GetDiariesResponse,
+  PostDiaryRequest,
+  PutDiaryRequest,
+} from '@/generated/api-client';
 
 /**
  * 日記の一覧を取得します。

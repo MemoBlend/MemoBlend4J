@@ -9,7 +9,8 @@ function createConfig(): apiClient.Configuration {
 
 /** axios の共通の設定があればここに定義します。 */
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_AXIOS_BASE_ENDPOINT_ORIGIN || 'http://localhost:8080',
+  baseURL:
+    import.meta.env.VITE_AXIOS_BASE_ENDPOINT_ORIGIN || 'http://localhost:8080',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -19,22 +20,11 @@ const axiosInstance = axios.create({
 /**
  * 日記の API クライアントです。
  */
-const diaryApi = new apiClient.DiaryApi(
-  createConfig(),
-  '',
-  axiosInstance,
-);
+const diaryApi = new apiClient.DiaryApi(createConfig(), '', axiosInstance);
 
 /**
  * ユーザーの API クライアントです。
  */
-const userApi = new apiClient.UserApi(
-  createConfig(),
-  '',
-  axiosInstance,
-);
+const userApi = new apiClient.UserApi(createConfig(), '', axiosInstance);
 
-export {
-  diaryApi,
-  userApi
-};
+export { diaryApi, userApi };

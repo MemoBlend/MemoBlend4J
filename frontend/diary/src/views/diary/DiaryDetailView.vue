@@ -20,7 +20,7 @@ const diary = ref<GetDiaryResponse>({
   id: id,
   title: '',
   userId: 0,
-})
+});
 
 const router = useRouter();
 
@@ -34,7 +34,7 @@ const showDeleteModal = ref(false);
  */
 const closeDeleteModal = () => {
   showDeleteModal.value = false;
-}
+};
 
 /**
  * 日記を削除します。
@@ -50,14 +50,14 @@ const deleteDiaryAsync = async () => {
     });
   }
   router.push({ name: 'diaries' });
-}
+};
 
 /**
  * 編集画面に遷移します。
  */
 const goToEditDiary = () => {
   router.push({ name: 'edit' });
-}
+};
 
 onMounted(async () => {
   try {
@@ -86,9 +86,7 @@ onMounted(async () => {
         </template>
         <template v-slot:default>
           <v-card title="削除確認">
-            <v-card-text>
-              削除してもよろしいですか？
-            </v-card-text>
+            <v-card-text> 削除してもよろしいですか？ </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn text="はい" @click="deleteDiaryAsync"></v-btn>
