@@ -31,7 +31,7 @@ class Forecast:
     for area_code in tqdm(self.area_codes, desc="全国の天気予報を取得中..."):
       forecast = self._get_forecast_for_area(area_code)
       if forecast:
-        data = self._parse_tomorrow_forecast(forecast)
+        data = self._extract_tomorrow_forecast(forecast)
         if data:
           all_data.append(data)
 
@@ -94,7 +94,7 @@ class Forecast:
     except requests.RequestException as e:
       raise RuntimeError(f"指定地域の天気予報の取得に失敗しました: {e}")
 
-  def _parse_tomorrow_forecast(self, forecast_data: Dict) -> Optional[Dict]:
+  def _extract_tomorrow_forecast(self, forecast_data: Dict) -> Optional[Dict]:
     """
     APIレスポンスから「明日」のデータを抽出します
 
