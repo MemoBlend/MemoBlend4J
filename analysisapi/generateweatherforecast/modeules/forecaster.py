@@ -21,7 +21,7 @@ class Forecast:
 
   def get_tomorrow_forecast(self) -> List[Dict]:
     """
-    全国の明日の天気予報を取得
+    全国の明日の天気予報を取得します。
 
     Returns:
       List[Dict]: 地域ごとの天気予報リスト
