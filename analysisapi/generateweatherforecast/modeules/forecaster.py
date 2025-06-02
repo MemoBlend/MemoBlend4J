@@ -39,7 +39,7 @@ class Forecast:
 
   def _load_or_fetch_area_codes(self) -> List[str]:
     """
-    地域コード一覧を読み込み、なければ取得して保存。
+    地域コード一覧を読み込み、なければ取得して保存します。
 
     Returns:
       List[str]: 地域コードリスト
@@ -52,7 +52,7 @@ class Forecast:
 
   def _fetch_and_save_city_ids(self) -> None:
     """
-    RSSから地域コードを取得してJSONに保存。
+    RSSから地域コードを取得してJSONに保存します。
 
     Raises:
       RuntimeError: RSSフィードの取得に失敗した場合
@@ -72,7 +72,7 @@ class Forecast:
 
   def _fetch_forecast_for_area(self, area_code: str) -> Dict:
     """
-    指定地域の天気予報を取得。
+    指定地域の天気予報を取得します。
 
     Args:
       area_code (str): 地域コード
@@ -93,7 +93,7 @@ class Forecast:
 
   def _parse_tomorrow_forecast(self, forecast_data: Dict) -> Optional[Dict]:
     """
-    APIレスポンスから「明日」のデータを抽出。
+    APIレスポンスから「明日」のデータを抽出します
 
     Args:
       forecast_data (Dict): APIレスポンス
