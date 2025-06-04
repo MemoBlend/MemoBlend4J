@@ -8,9 +8,9 @@ from typing import List, Dict, Optional
 
 WEATHER_API_URL = "https://weather.tsukumijima.net/api/forecast/city"
 WEATHER_RSS_FEED_URL = "https://weather.tsukumijima.net/primary_area.xml"
-CITY_IDS_PATH = "./generateweatherforecast/property/city_ids.json"
+CITY_IDS_PATH = "./fetchforecastbatch/property/city_ids.json"
 
-class Forecast:
+class ForecastClient:
   def __init__(self, request_delay: float=1.0):
     """
     Args:
