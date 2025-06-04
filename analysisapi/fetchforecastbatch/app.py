@@ -4,7 +4,7 @@ import os
 import json
 from typing import List, Dict
 from datetime import datetime, timedelta
-from fetchforecastbatch.modeules.forecast_client import ForecastClient
+from fetchforecastbatch.forecast_client import ForecastClient
 
 
 # 明日の日付を取得し、ファイル名に指定
