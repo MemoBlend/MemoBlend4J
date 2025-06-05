@@ -2,12 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.memoblend.infrastructure.repository.mapper.DiaryMapper">
 
-	<select id="findAll" resultType="com.memoblend.applicationcore.diary.Diary">
+	<select id="findByYearAndMonth" resultType="com.memoblend.applicationcore.diary.Diary">
 		SELECT * FROM diaries
 		<where>
-			<if test="isDeleted != null">
-				is_deleted = false
+			<if test="year != null">
+				YEAR(created_date) = #{year}
 			</if>
+			<if test="month != null">
+				AND MONTH(created_date) = #{month}
+			</if>
+			AND is_deleted = false
 		</where>
 	</select>
 
@@ -17,24 +21,19 @@
 			<if test="id != null">
 				id = #{id}
 			</if>
-			<if test="isDeleted != null">
-				AND is_deleted = false
-			</if>
+			AND is_deleted = false
 		</where>
 	</select>
-
 	<select id="findByUserId" resultType="com.memoblend.applicationcore.diary.Diary">
 		SELECT * FROM diaries
 		<where>
 			<if test="userId != null">
 				user_id = #{userId}
 			</if>
-			<if test="isDeleted != null">
-				AND is_deleted = false
-			</if>
+			AND is_deleted = false
 		</where>
 	</select>
-	
+
 	<insert id="add" parameterType="com.memoblend.applicationcore.diary.Diary" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO diaries (user_id, title, content, created_date)
 		VALUES (#{userId}, #{title}, #{content}, #{createdDate})

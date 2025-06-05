@@ -17,8 +17,8 @@ public class MyBatisDiaryRepository implements DiaryRepository {
   private final DiaryMapper diaryMapper;
 
   @Override
-  public List<Diary> findAll() {
-    return diaryMapper.findAll();
+  public List<Diary> findByYearAndMonth(int year, int month) {
+    return diaryMapper.findByYearAndMonth(year, month);
   }
 
   @Override
