@@ -31,31 +31,39 @@ class DiaryControllerTest {
 
   @Test
   @WithMockUser
-  void testGetDiaries_正常系_日記のリストを返す() throws Exception {
-    this.mockMvc.perform(get("/api/diary/list"))
+  void testGetDiariesByYearAndMonth_正常系_指定の年月の日記のリストを返す() throws Exception {
+    this.mockMvc.perform(get("/api/diary?year=2025&month=4"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON));
   }
 
   @Test
-  void testGetDiaries_異常系_権限が足りない() throws Exception {
-    this.mockMvc.perform(get("/api/diary/list"))
+  @WithMockUser
+  void testGetDiariesByYearAndMonth_正常系_年月未指定の場合に当年月の日記のリストを返す() throws Exception {
+    this.mockMvc.perform(get("/api/diary"))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+  }
+
+  @Test
+  void testGetDiariesByYearAndMonth_異常系_権限が足りない() throws Exception {
+    this.mockMvc.perform(get("/api/diary"))
         .andExpect(status().isNotFound());
   }
 
   @Test
   @WithMockUser
   void testGetDiariesByUserId_正常系_日記のリストを返す() throws Exception {
-    long userId = 1;
-    this.mockMvc.perform(get("/api/diary/list/" + userId))
+    Long userId = 1L;
+    this.mockMvc.perform(get("/api/diary/user/" + userId))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON));
   }
 
   @Test
   void testGetDiariesByUserId_異常系_権限が足りない() throws Exception {
-    long userId = 1;
-    this.mockMvc.perform(get("/api/diary/list/" + userId))
+    Long userId = 1L;
+    this.mockMvc.perform(get("/api/diary/user/" + userId))
         .andExpect(status().isNotFound());
   }
 

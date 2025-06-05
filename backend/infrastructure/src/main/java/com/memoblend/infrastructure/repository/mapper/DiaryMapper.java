@@ -11,11 +11,13 @@ import com.memoblend.applicationcore.diary.Diary;
 public interface DiaryMapper {
 
   /**
-   * 日記を全件取得します。
+   * 年月を指定して、日記を取得します。
    * 
-   * @return 全ての日記。
+   * @param year  年。
+   * @param month 月。
+   * @return 指定した年月の日記のリスト。
    */
-  public List<Diary> findAll();
+  public List<Diary> findByYearAndMonth(int year, int month);
 
   /**
    * ユーザー ID を指定して、日記を取得します。

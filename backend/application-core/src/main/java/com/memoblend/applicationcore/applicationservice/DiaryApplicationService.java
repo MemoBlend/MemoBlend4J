@@ -33,17 +33,28 @@ public class DiaryApplicationService {
   private final Logger apLog = Logger.getLogger(SystemPropertyConstants.APPLICATION_LOGGER);
 
   /**
-   * 全ての日記をリストで取得します。
+   * 年月を指定して、日記をリストで取得します。
+   * 指定された年が null の場合、現在の年を使用します。
+   * 指定された月が null または 1 から 12 の範囲外の場合、現在の月を使用します。
    * 
-   * @return 全ての日記のリスト。
+   * @param year  年。
+   * @param month 月。
+   * @return 指定した年月の日記のリスト。
    * @throws PermissionDeniedException 認可が拒否された場合。
    */
-  public List<Diary> getDiaries() throws PermissionDeniedException {
-    apLog.info(messages.getMessage(MessageIdConstants.D_DIARY_GET_DIARIES, new Object[] {}, Locale.getDefault()));
-    if (!userStore.isInRole(UserRoleConstants.USER)) {
-      throw new PermissionDeniedException("getDiaries");
+  public List<Diary> getDiariesByYearAndMonth(Integer year, Integer month) throws PermissionDeniedException {
+    if (year == null) {
+      year = LocalDate.now().getYear();
     }
-    return diaryRepository.findAll();
+    if (month == null || month < 1 || month > 12) {
+      month = LocalDate.now().getMonthValue();
+    }
+    apLog.info(messages.getMessage(MessageIdConstants.D_DIARY_GET_DIARIES_BY_YEAR_AND_MONTH,
+        new Object[] { year, month }, Locale.getDefault()));
+    if (!userStore.isInRole(UserRoleConstants.USER)) {
+      throw new PermissionDeniedException("getDiariesByYearAndMonth");
+    }
+    return diaryRepository.findByYearAndMonth(year, month);
   }
 
   /**

@@ -57,44 +57,45 @@ class DiaryApplicationServiceTest {
   }
 
   @Test
-  void testGetDiaries_正常系_リポジトリのfindAllを1回呼び出す() throws PermissionDeniedException, DiaryValidationException {
+  void testGetDiariesByYearAndMonth_正常系_リポジトリのfindByYearAndMonthを1回呼び出す()
+      throws PermissionDeniedException, DiaryValidationException {
     // Arrange
-    List<LocalDate> dates = new ArrayList<>();
-    dates.add(LocalDate.of(2025, 1, 1));
-    List<Diary> diaries = createDiaries(dates);
-    when(diaryRepository.findAll()).thenReturn(diaries);
+    int year = 2025;
+    int month = 1;
+    List<Diary> diaries = createDiaries(List.of(LocalDate.of(year, month, 1)));
+    when(diaryRepository.findByYearAndMonth(year, month)).thenReturn(diaries);
     when(userStore.isInRole(UserRoleConstants.USER)).thenReturn(true);
     // Act
-    diaryApplicationService.getDiaries();
+    diaryApplicationService.getDiariesByYearAndMonth(year, month);
     // Assert
-    verify(diaryRepository, times(1)).findAll();
+    verify(diaryRepository, times(1)).findByYearAndMonth(year, month);
   }
 
   @Test
-  void testGetDiaries_正常系_日記のリストを返す() throws PermissionDeniedException, DiaryValidationException {
+  void testGetDiariesByYearAndMonth_正常系_日記のリストを返す() throws PermissionDeniedException, DiaryValidationException {
     // Arrange
-    List<LocalDate> dates = new ArrayList<>();
-    dates.add(LocalDate.of(2025, 1, 1));
-    List<Diary> diaries = createDiaries(dates);
-    when(diaryRepository.findAll()).thenReturn(diaries);
+    int year = 2025;
+    int month = 1;
+    List<Diary> diaries = createDiaries(List.of(LocalDate.of(year, month, 1)));
+    when(diaryRepository.findByYearAndMonth(year, month)).thenReturn(diaries);
     when(userStore.isInRole(UserRoleConstants.USER)).thenReturn(true);
     // Act
-    List<Diary> actual = diaryApplicationService.getDiaries();
+    List<Diary> actual = diaryApplicationService.getDiariesByYearAndMonth(year, month);
     // Assert
     assertThat(actual).isEqualTo(diaries);
   }
 
   @Test
-  void testGetDiaries_異常系_権限がない場合にPermissionDeniedExceptionが発生する() throws DiaryValidationException {
+  void testGetDiariesByYearAndMonth_異常系_権限がない場合にPermissionDeniedExceptionが発生する() throws DiaryValidationException {
     // Arrange
-    List<LocalDate> dates = new ArrayList<>();
-    dates.add(LocalDate.of(2025, 1, 1));
-    List<Diary> diaries = createDiaries(dates);
-    when(diaryRepository.findAll()).thenReturn(diaries);
+    int year = 2025;
+    int month = 1;
+    List<Diary> diaries = createDiaries(List.of(LocalDate.of(year, month, 1)));
+    when(diaryRepository.findByYearAndMonth(year, month)).thenReturn(diaries);
     when(userStore.isInRole(UserRoleConstants.USER)).thenReturn(false);
     // Act
     Executable action = () -> {
-      diaryApplicationService.getDiaries();
+      diaryApplicationService.getDiariesByYearAndMonth(year, month);
     };
     // Assert
     assertThrows(PermissionDeniedException.class, action);

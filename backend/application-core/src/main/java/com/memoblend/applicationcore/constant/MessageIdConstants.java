@@ -5,8 +5,8 @@ package com.memoblend.applicationcore.constant;
  */
 public class MessageIdConstants {
 
-  /** 日記の一覧を取得します。 */
-  public static final String D_DIARY_GET_DIARIES = "diaryApplicationServiceGetDiaries";
+  /** {}年{}月の日記の一覧を取得します。 */
+  public static final String D_DIARY_GET_DIARIES_BY_YEAR_AND_MONTH = "diaryApplicationServiceGetDiariesByYearAndMonth";
 
   /** ユーザーID：{0} の日記の一覧を取得します。 */
   public static final String D_DIARY_GET_DIARIES_BY_USER_ID = "diaryApplicationServiceGetDiariesByUserId";
