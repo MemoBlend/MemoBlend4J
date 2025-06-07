@@ -1,6 +1,5 @@
 package com.memoblend.web.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,25 +24,26 @@ public class WebSecurityConfig {
   @Value("${cors.allowed.origins:}")
   private String allowedOrigins;
 
+  @Value("${spring.profiles.active:}")
+  private String activeProfile;
+
   /**
    * CORS 設定、認可機能を設定します。
    * 
-   * @param http                     認証認可の設定クラス。
-   * @param dummyUserInjectionFilter ダミーユーザ注入フィルタ（開発環境用、任意）。
+   * @param http 認証認可の設定クラス。
    * @return フィルターチェーン。
    * @throws Exception 例外。
    */
   @Bean
-  public SecurityFilterChain securityFilterChain(HttpSecurity http,
-      @Autowired(required = false) DummyUserInjectionFilter dummyUserInjectionFilter) throws Exception {
+  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
         .securityMatcher("/api/**")
         .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"))
         .cors(cors -> cors.configurationSource(request -> createCorsConfiguration()))
         .anonymous(anon -> anon.disable());
 
-    if (dummyUserInjectionFilter != null) {
-      http.addFilterBefore(dummyUserInjectionFilter, UsernamePasswordAuthenticationFilter.class);
+    if (activeProfile.equals("local")) {
+      http.addFilterBefore(new DummyUserInjectionFilter(), UsernamePasswordAuthenticationFilter.class);
     }
     return http.build();
   }
