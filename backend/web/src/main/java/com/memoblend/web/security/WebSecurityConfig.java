@@ -3,6 +3,8 @@ package com.memoblend.web.security;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
+import org.springframework.core.env.Profiles;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -24,8 +26,11 @@ public class WebSecurityConfig {
   @Value("${cors.allowed.origins:}")
   private String allowedOrigins;
 
-  @Value("${spring.profiles.active:}")
-  private String activeProfile;
+  private final Environment environment;
+
+  public WebSecurityConfig(Environment environment) {
+    this.environment = environment;
+  }
 
   /**
    * CORS 設定、認可機能を設定します。
@@ -42,7 +47,7 @@ public class WebSecurityConfig {
         .cors(cors -> cors.configurationSource(request -> createCorsConfiguration()))
         .anonymous(anon -> anon.disable());
 
-    if (activeProfile.equals("local")) {
+    if (environment.acceptsProfiles(Profiles.of("local"))) {
       http.addFilterBefore(new DummyUserInjectionFilter(), UsernamePasswordAuthenticationFilter.class);
     }
     return http.build();
