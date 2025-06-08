@@ -2,13 +2,11 @@ package com.memoblend.web.filter;
 
 import java.io.IOException;
 import java.util.List;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import com.memoblend.applicationcore.constant.UserRoleConstants;
 import jakarta.servlet.FilterChain;
@@ -25,8 +23,6 @@ import jakarta.servlet.http.HttpServletResponse;
  * UsernamePasswordAuthenticationFilter の前に挿入します。
  * </p>
  */
-@Profile("local")
-@Component
 public class DummyUserInjectionFilter extends OncePerRequestFilter {
 
   private static final String DUMMY_USERNAME = "admin@example.com";
