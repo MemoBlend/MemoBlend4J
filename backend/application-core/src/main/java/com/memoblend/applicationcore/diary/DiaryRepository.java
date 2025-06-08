@@ -8,11 +8,13 @@ import java.util.List;
 public interface DiaryRepository {
 
   /**
-   * 全ての日記を取得します。
+   * 年月を指定して、日記を取得します。
    * 
-   * @return 全ての日記。
+   * @param year  年。
+   * @param month 月（1 から 12 の範囲）。
+   * @return 指定した年月の日記のリスト。
    */
-  List<Diary> findAll();
+  List<Diary> findByYearAndMonth(int year, int month);
 
   /**
    * ID を指定して、日記を取得します。

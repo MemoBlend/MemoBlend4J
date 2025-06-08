@@ -37,6 +37,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -55,21 +56,23 @@ public class DiaryController {
   private static final Logger apLog = LoggerFactory.getLogger(SystemPropertyConstants.APPLICATION_LOGGER);
 
   /**
-   * 日記を全件取得します。
+   * 年月を指定して、日記を取得します。
    * 
    * @return 日記情報。
    * @throws PermissionDeniedException 権限エラーが起きた場合。
    */
-  @Operation(summary = "日記を全件取得します。", description = "日記を全件取得します。")
+  @Operation(summary = "年月を指定して、日記を取得します。", description = "年月を指定して、日記を取得します。")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "成功。", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = GetDiariesResponse.class))),
       @ApiResponse(responseCode = "401", description = "未認証。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
       @ApiResponse(responseCode = "404", description = "対応した日記が存在しません。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
       @ApiResponse(responseCode = "500", description = "サーバーエラー。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class)))
   })
-  @GetMapping("list")
-  public ResponseEntity<GetDiariesResponse> getDiaries() throws PermissionDeniedException {
-    List<Diary> diaries = diaryApplicationService.getDiaries();
+  @GetMapping()
+  public ResponseEntity<GetDiariesResponse> getDiaries(@RequestParam(required = false) Integer year,
+      @RequestParam(required = false) Integer month)
+      throws PermissionDeniedException {
+    List<Diary> diaries = diaryApplicationService.getDiariesByYearAndMonth(year, month);
     GetDiariesResponse response = GetDiariesResponseMapper.convert(diaries);
     return ResponseEntity.ok().body(response);
   }
@@ -88,8 +91,8 @@ public class DiaryController {
       @ApiResponse(responseCode = "404", description = "対応した日記が存在しません。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
       @ApiResponse(responseCode = "500", description = "サーバーエラー。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class)))
   })
-  @GetMapping("list/{userId}")
-  public ResponseEntity<GetDiariesResponse> getDiariesByUserId(@PathVariable("userId") long userId)
+  @GetMapping("user/{userId}")
+  public ResponseEntity<GetDiariesResponse> getDiariesByUserId(@PathVariable Long userId)
       throws PermissionDeniedException {
     List<Diary> diaries = diaryApplicationService.getDiariesByUserId(userId);
     GetDiariesResponse response = GetDiariesResponseMapper.convert(diaries);
