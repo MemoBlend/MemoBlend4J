@@ -86,7 +86,7 @@ python-multipart==0.0.20
 pytz==2025.2
 PyYAML==6.0.2
 referencing==0.36.2
-requests==2.32.3
+requests==2.32.4
 requests-oauthlib==2.0.0
 rich==14.0.0
 rich-toolkit==0.14.6
