@@ -9,6 +9,13 @@
     "source.fixAll.stylelint": "explicit"
   },
 
+  // textlint の設定ファイルを指定
+  "textlint.configPath": "../../../.textlintrc",
+  "textlint.ignorePath": "../../../.textlintignore",
+
+  // markdownlint の設定ファイルを指定
+  "markdownlint.configFile": "../../../.markdownlint-cli2.yaml",
+
   // Formatter を Prettier にする
   "editor.defaultFormatter": "esbenp.prettier-vscode",
 
@@ -18,10 +25,10 @@
   "css.validate": false,
   "typescript.validate.enable": false,
 
-  "stylelint.validate": ["postcss", "vue"],
+  "stylelint.validate": ["vue"],
 
   "editor.guides.bracketPairs": true,
   "editor.bracketPairColorization.enabled": true,
-  "cSpell.words": ["dressca", "vite"],
+  "cSpell.words": [ "vite"],
   "files.eol": "\n"
 }
