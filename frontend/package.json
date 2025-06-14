@@ -1,7 +1,8 @@
 {
   "name": "frontend",
   "version": "1.0.0",
-  "main": "index.js",
+  "type": "module",
+  "private": "true",
   "scripts": {
     "lint:ci:diary": "npm run lint:ci -w diary",
     "type-check:diary": "npm run type-check -w diary",
@@ -9,37 +10,9 @@
     "build:prod:diary": "npm run build:prod -w diary",
     "test:unit:diary": "npm run test:unit -w diary",
     "dev:diary": "npm run dev -w diary",
-    "mock:diary": "npm run mock -w diary",
-    "lint": "eslint . --fix --ignore-pattern .gitignore && stylelint \"**/*.{vue,css}\" --fix"
+    "mock:diary": "npm run mock -w diary"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "module",
-  "private": "true",
-  "description": "",
   "workspaces": [
     "diary"
-  ],
-  "devDependencies": {
-    "@openapitools/openapi-generator-cli": "^2.18.4",
-    "@vitest/eslint-plugin": "^1.2.0",
-    "@vue/eslint-config-prettier": "^10.2.0",
-    "@vue/eslint-config-typescript": "^14.5.0",
-    "autoprefixer": "^10.4.20",
-    "eslint-plugin-cypress": "^4.3.0",
-    "stylelint": "^16.15.0",
-    "stylelint-config-recommended-vue": "^1.6.0",
-    "stylelint-config-standard": "^37.0.0",
-    "stylelint-prettier": "^5.0.3"
-  },
-  "dependencies": {
-    "@mdi/font": "^7.4.47",
-    "@vee-validate/yup": "^4.15.0",
-    "axios": "^1.8.2",
-    "vite-plugin-vuetify": "^2.1.0",
-    "vue-i18n": "^11.1.2",
-    "vuetify": "^3.7.14",
-    "yup": "^1.6.1"
-  }
+  ]
 }

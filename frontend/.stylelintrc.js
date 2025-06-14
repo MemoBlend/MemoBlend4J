@@ -10,10 +10,4 @@ export default {
     'at-rule-no-unknown': [true, { ignoreAtRules: ['define-mixin'] }],
   },
   ignoreFiles: ['dist/**/*'],
-  overrides: [
-    {
-      files: ['**/*.vue'],
-      customSyntax: 'postcss-html',
-    },
-  ],
 };
