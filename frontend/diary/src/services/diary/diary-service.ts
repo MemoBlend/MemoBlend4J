@@ -15,6 +15,20 @@ export async function getDiaries(): Promise<GetDiariesResponse> {
 }
 
 /**
+ * 年月を指定して日記一覧を取得します。
+ * @param year 取得したい日記の年。
+ * @param month 取得したい日記の月。
+ * @returns　指定した年月の日記の一覧。
+ */
+export async function getDiariesByYearMonth(
+  year: number,
+  month: number
+): Promise<GetDiariesResponse> {
+  const response = await diaryApi.getDiaries(year, month);
+  return response.data;
+}
+
+/**
  * ID に対応する日記を取得します。
  * @param id 取得したい日記の ID 。
  * @returns　ID に対応する日記。

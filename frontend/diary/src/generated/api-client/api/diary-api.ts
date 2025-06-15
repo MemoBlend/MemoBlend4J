@@ -103,15 +103,19 @@ export const DiaryApiAxiosParamCreator = function (
       };
     },
     /**
-     * 日記を全件取得します。
-     * @summary 日記を全件取得します。
+     * 年月を指定して、日記を取得します。
+     * @summary 年月を指定して、日記を取得します。
+     * @param {number} [year]
+     * @param {number} [month]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getDiaries: async (
+      year?: number,
+      month?: number,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      const localVarPath = `/api/diary/list`;
+      const localVarPath = `/api/diary`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -126,6 +130,14 @@ export const DiaryApiAxiosParamCreator = function (
       };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
+
+      if (year !== undefined) {
+        localVarQueryParameter['year'] = year;
+      }
+
+      if (month !== undefined) {
+        localVarQueryParameter['month'] = month;
+      }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions =
@@ -154,7 +166,7 @@ export const DiaryApiAxiosParamCreator = function (
     ): Promise<RequestArgs> => {
       // verify required parameter 'userId' is not null or undefined
       assertParamExists('getDiariesByUserId', 'userId', userId);
-      const localVarPath = `/api/diary/list/{userId}`.replace(
+      const localVarPath = `/api/diary/user/{userId}`.replace(
         `{${'userId'}}`,
         encodeURIComponent(String(userId)),
       );
@@ -374,12 +386,16 @@ export const DiaryApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
-     * 日記を全件取得します。
-     * @summary 日記を全件取得します。
+     * 年月を指定して、日記を取得します。
+     * @summary 年月を指定して、日記を取得します。
+     * @param {number} [year]
+     * @param {number} [month]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getDiaries(
+      year?: number,
+      month?: number,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (
@@ -387,8 +403,11 @@ export const DiaryApiFp = function (configuration?: Configuration) {
         basePath?: string,
       ) => AxiosPromise<GetDiariesResponse>
     > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.getDiaries(options);
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getDiaries(
+        year,
+        month,
+        options,
+      );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
         operationServerMap['DiaryApi.getDiaries']?.[
@@ -553,16 +572,20 @@ export const DiaryApiFactory = function (
         .then((request) => request(axios, basePath));
     },
     /**
-     * 日記を全件取得します。
-     * @summary 日記を全件取得します。
+     * 年月を指定して、日記を取得します。
+     * @summary 年月を指定して、日記を取得します。
+     * @param {number} [year]
+     * @param {number} [month]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getDiaries(
+      year?: number,
+      month?: number,
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<GetDiariesResponse> {
       return localVarFp
-        .getDiaries(options)
+        .getDiaries(year, month, options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -650,15 +673,21 @@ export class DiaryApi extends BaseAPI {
   }
 
   /**
-   * 日記を全件取得します。
-   * @summary 日記を全件取得します。
+   * 年月を指定して、日記を取得します。
+   * @summary 年月を指定して、日記を取得します。
+   * @param {number} [year]
+   * @param {number} [month]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof DiaryApi
    */
-  public getDiaries(options?: RawAxiosRequestConfig) {
+  public getDiaries(
+    year?: number,
+    month?: number,
+    options?: RawAxiosRequestConfig,
+  ) {
     return DiaryApiFp(this.configuration)
-      .getDiaries(options)
+      .getDiaries(year, month, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
