@@ -11,21 +11,21 @@ changelog:
           - pip
           - 開発環境改善
           - バグ
-    - title: ':wrench: Bug fixes'
+    - title: ':bomb: Bug fixes'
       labels:
         - バグ
-    - title: ':label: :green_circle: Gradle package dependencies'
+    - title: ':label: :green_circle: npm package dependencies'
       labels:
         - npm
-    - title: ':label: :green_circle: npm package dependencies'
+    - title: ':label: :orange_circle: Gradle package dependencies'
       labels:
         - gradle
-    - title: ':label: :green_circle: npm package dependencies'
+    - title: ':label: :black_circle: github-actions package dependencies'
       labels:
         - github-actions
-    - title: ':label: :green_circle: npm package dependencies'
+    - title: ':label: :blue_circle: pip package dependencies'
       labels:
         - pip
-    - title: ':lollipop: improvements in development'
+    - title: ':gear: improvements in development'
       labels:
         - 開発環境改善
