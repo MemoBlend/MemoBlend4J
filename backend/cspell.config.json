@@ -1,0 +1,15 @@
+{
+  "ignorePaths": [
+    "**/bin/**",
+    "**/build/**",
+    "**/*.java",
+    "**/*.class",
+    "**/*.gradle",
+    "**/*.properties",
+    "**/*.bat",
+    "**/gradlew",
+    "**/*.json",
+    "**/.gitignore",
+    "**/.gitattributes",
+  ]
+}
