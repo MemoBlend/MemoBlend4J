@@ -7,6 +7,7 @@ import { useRouter } from 'vue-router';
 import type { CalendarEvent } from '@/types';
 import { EventCalendar } from '@/components/organisms/EventCalendar';
 import { LoadingSpinnerOverlay } from '@/components/organisms/LoadingSpinnerOverlay';
+import { useDiaryStore } from '@/stores/diary';
 
 const showLoading = ref(true);
 const customErrorHandler = useCustomErrorHandler();
@@ -15,6 +16,7 @@ const diariesResponse = ref<GetDiariesResponse>({
 });
 const events = ref<CalendarEvent[]>([]);
 const router = useRouter();
+const diaryStore = useDiaryStore();
 
 /**
  * 日記詳細に遷移します。
@@ -33,6 +35,8 @@ const goToCreateDiary = () => {
 
 onMounted(async () => {
   showLoading.value = true;
+  console.log(diaryStore.getDiaryYear);
+  console.log(diaryStore.getDiaryMonth);
   try {
     diariesResponse.value = await getDiaries();
   } catch (error) {
