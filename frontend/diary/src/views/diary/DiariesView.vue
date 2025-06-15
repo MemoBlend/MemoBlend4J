@@ -35,8 +35,6 @@ const goToCreateDiary = () => {
 
 onMounted(async () => {
   showLoading.value = true;
-  console.log(diaryStore.getDiaryYear);
-  console.log(diaryStore.getDiaryMonth);
   try {
     diariesResponse.value = await getDiaries();
   } catch (error) {
@@ -69,12 +67,6 @@ onMounted(async () => {
   <div v-if="!showLoading">
     <EventCalendar :diaryData="events" :onEventClick="goToDiaryDetail" />
   </div>
-  <v-btn
-    style="z-index: 2"
-    icon="$plus"
-    class="position-fixed bottom-0 right-0 ma-4"
-    fab
-    color="blue-grey"
-    @click="goToCreateDiary"
-  ></v-btn>
+  <v-btn style="z-index: 2" icon="$plus" class="position-fixed bottom-0 right-0 ma-4" fab color="blue-grey"
+    @click="goToCreateDiary"></v-btn>
 </template>
