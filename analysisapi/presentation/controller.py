@@ -88,6 +88,6 @@ class Controller:
             status_code=200,
             content={
                 "message": "明日の予定の提案を取得しました",
-                "suggestion": response["choices"][0]["message"]["content"],
+                "suggestion": response.choices[0].message.content,
             },
         )
