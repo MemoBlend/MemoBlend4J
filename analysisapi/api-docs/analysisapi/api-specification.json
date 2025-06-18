@@ -6,14 +6,14 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/api/diary/{user_id}/{diary_id}": {
-      "get": {
+    "/api/diary/{user_id}": {
+      "post": {
         "tags": [
           "analysisapi"
         ],
         "summary": "Get Diary Add Db",
-        "description": "指定idのユーザーの指定idの日記を取得し、ベクトルDBに追加します。\n\nArgs:\n    user_id (int): ユーザーID。\n    diary_id (int): 日記ID。\n\nReturns:\n    dict: 日記が正常にDBに追加されたことを示すメッセージ。\n\nRaises:\n    HTTPException: サーバーからのHTTPエラー応答が発生した場合。\n    RequestException: 通信中にエラーが発生した場合。\n    Exception: その他の予期しないエラー。",
-        "operationId": "get_diary_add_db_api_diary__user_id___diary_id__get",
+        "description": "指定idのユーザーの日記を取得し、ベクトルDBに追加します。\n\nArgs:\n    user_id (int): ユーザーID。\n    post_diary_request (PostDiaryRequest): 日記をベクトルDBに登録するためのリクエストDTO。\n\nReturns:\n    JSONResponse: 日記が正常にDBに追加されたことを示すメッセージ。\n\nRaises:\n    CollectionLoadFailedException: コレクションのロードまたは作成に失敗した場合。",
+        "operationId": "get_diary_add_db_api_diary__user_id__post",
         "parameters": [
           {
             "name": "user_id",
@@ -23,27 +23,24 @@
               "type": "integer",
               "title": "User Id"
             }
-          },
-          {
-            "name": "diary_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "title": "Diary Id"
-            }
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostDiaryRequest"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "type": "object",
-                  "additionalProperties": true,
-                  "title": "Response Get Diary Add Db Api Diary  User Id   Diary Id  Get"
-                }
+                "schema": {}
               }
             }
           },
@@ -66,7 +63,7 @@
           "analysisapi"
         ],
         "summary": "Get Schedule Suggestion",
-        "description": "過去の日記を分析して、明日の予定の提案を取得します。\n\nArgs:\n    user_id (int): ユーザーID。\n\nReturns:\n    str: 明日の予定の提案。",
+        "description": "過去の日記を分析して、明日の予定の提案を取得します。\n\nArgs:\n    user_id (int): ユーザーID。\n\nReturns:\n    JSONResponse: 明日の予定の提案を含むJSONレスポンス。",
         "operationId": "get_schedule_suggestion_api_schedule__user_id__get",
         "parameters": [
           {
@@ -84,10 +81,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "type": "string",
-                  "title": "Response Get Schedule Suggestion Api Schedule  User Id  Get"
-                }
+                "schema": {}
               }
             }
           },
@@ -119,6 +113,25 @@
         },
         "type": "object",
         "title": "HTTPValidationError"
+      },
+      "PostDiaryRequest": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "diary_text": {
+            "type": "string",
+            "title": "Diary Text"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "diary_text"
+        ],
+        "title": "PostDiaryRequest",
+        "description": "日記のベクトルDBに登録するためのリクエストDTOです。"
       },
       "ValidationError": {
         "properties": {
