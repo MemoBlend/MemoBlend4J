@@ -1,4 +1,4 @@
-package com.memoblend.applicationcore.api;
+package com.memoblend.infrastructure.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AnalysisApiDiaryPostRequest {
-    private Long id;
-    @JsonProperty("diary_text")
-    private String diaryText;
+public class DiaryAnalysisApiPostRequest {
+  private Long id;
+  @JsonProperty("diary_text")
+  private String diaryText;
 }

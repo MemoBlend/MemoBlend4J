@@ -7,12 +7,10 @@ import java.util.Locale;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
-import com.memoblend.applicationcore.api.AnalysisApiDiaryPostRequest;
+import com.memoblend.applicationcore.api.DiaryAnalysisApiClient;
 import com.memoblend.applicationcore.api.ExternalApiException;
 import com.memoblend.applicationcore.auth.PermissionDeniedException;
 import com.memoblend.applicationcore.auth.UserStore;
-import com.memoblend.applicationcore.constant.ApiNameConstants;
 import com.memoblend.applicationcore.constant.MessageIdConstants;
 import com.memoblend.applicationcore.constant.UserRoleConstants;
 import com.memoblend.applicationcore.diary.Diary;
@@ -35,7 +33,7 @@ public class DiaryApplicationService {
   private final MessageSource messages;
   private final UserStore userStore;
   private final Logger apLog = Logger.getLogger(SystemPropertyConstants.APPLICATION_LOGGER);
-  private final RestTemplate restTemplate = new RestTemplate();
+  private final DiaryAnalysisApiClient diaryAnalysisApiClient;
 
   /**
    * 年月を指定して、日記をリストで取得します。
@@ -118,14 +116,8 @@ public class DiaryApplicationService {
 
     apLog.info(messages.getMessage(MessageIdConstants.D_ANALYTICS_REGISTER_DIARY,
         new Object[] { addedDiary.getUserId(), addedDiary.getId() }, Locale.getDefault()));
-    try {
-      String url = "http://localhost:8000/api/diary/" + addedDiary.getUserId();
-      AnalysisApiDiaryPostRequest request = new AnalysisApiDiaryPostRequest(
-          addedDiary.getId(), addedDiary.getContent());
-      restTemplate.postForEntity(url, request, String.class);
-    } catch (Exception e) {
-      throw new ExternalApiException(ApiNameConstants.AnalysisAPI);
-    }
+    diaryAnalysisApiClient.postDiaryAnalysis(addedDiary.getUserId(), addedDiary.getId(), addedDiary.getContent());
+
     return addedDiary;
   }
 

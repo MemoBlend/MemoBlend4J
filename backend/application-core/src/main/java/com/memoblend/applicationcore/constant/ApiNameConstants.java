@@ -5,11 +5,11 @@ package com.memoblend.applicationcore.constant;
  */
 public class ApiNameConstants {
 
-    /** 分析 API の名前 */
-    public static final String AnalysisAPI = "分析API";
+  /** 分析 API の名前です。 */
+  public static final String AnalysisAPI = "分析API";
 
-    // インスタンス化防止
-    private ApiNameConstants() {
-        throw new UnsupportedOperationException("ユーティリティクラスのためインスタンス化できません");
-    }
+  // インスタンス化防止
+  private ApiNameConstants() {
+    throw new UnsupportedOperationException("ユーティリティクラスのためインスタンス化できません");
+  }
 }
