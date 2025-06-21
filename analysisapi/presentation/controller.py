@@ -54,7 +54,7 @@ class Controller:
 
         try:
             self.diary_application_service.add_text_to_vector_db(
-                user_id, {"id": diary_id, "text": diary_text}
+                user_id, {"id": diary_id, "content": diary_text}
             )
         except CollectionLoadFailedException as e:
             self.logger.error(e.message)
