@@ -17,8 +17,8 @@ public class DiaryAnalysisApiClientImpl implements DiaryAnalysisApiClient {
 
   @Override
   public boolean postDiaryAnalysis(Long userId, Long diaryId, String content) throws ExternalApiException {
-    String url = "http://localhost:8000/api/diary/" + userId;
-    DiaryAnalysisApiPostRequest request = new DiaryAnalysisApiPostRequest(diaryId, content);
+    final String url = String.format("http://localhost:8000/api/diary/%d", userId);
+    final DiaryAnalysisApiPostRequest request = new DiaryAnalysisApiPostRequest(diaryId, content);
     try {
       restTemplate.postForEntity(url, request, String.class);
       return true;
