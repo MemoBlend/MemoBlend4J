@@ -5,6 +5,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.doThrow;
 
 import org.junit.jupiter.api.function.Executable;
 import java.time.LocalDate;
@@ -28,6 +29,8 @@ import com.memoblend.applicationcore.diary.DiaryDomainService;
 import com.memoblend.applicationcore.diary.DiaryNotFoundException;
 import com.memoblend.applicationcore.diary.DiaryRepository;
 import com.memoblend.applicationcore.diary.DiaryValidationException;
+import com.memoblend.applicationcore.api.DiaryAnalysisApiClient;
+import com.memoblend.applicationcore.api.ExternalApiException;
 
 /**
  * 日記のアプリケーションサービスのテストクラスです。
@@ -51,9 +54,13 @@ class DiaryApplicationServiceTest {
 
   private DiaryApplicationService diaryApplicationService;
 
+  @Mock
+  private DiaryAnalysisApiClient diaryAnalysisApiClient;
+
   @BeforeEach
   void setUp() {
-    diaryApplicationService = new DiaryApplicationService(diaryRepository, diaryDomainService, messages, userStore);
+    diaryApplicationService = new DiaryApplicationService(diaryRepository, diaryDomainService, messages, userStore,
+        diaryAnalysisApiClient);
   }
 
   @Test
@@ -210,7 +217,8 @@ class DiaryApplicationServiceTest {
   }
 
   @Test
-  void testAddDiary_正常系_リポジトリのaddを1回呼び出す() throws PermissionDeniedException, DiaryValidationException {
+  void testAddDiary_正常系_リポジトリのaddを1回呼び出す()
+      throws PermissionDeniedException, DiaryValidationException, ExternalApiException {
     // Arrange
     LocalDate createdDate = LocalDate.of(2025, 1, 1);
     Diary diary = createDiary(createdDate);
@@ -225,7 +233,7 @@ class DiaryApplicationServiceTest {
   }
 
   @Test
-  void testAddDiary_正常系_追加された日記を返す() throws PermissionDeniedException, DiaryValidationException {
+  void testAddDiary_正常系_追加された日記を返す() throws PermissionDeniedException, DiaryValidationException, ExternalApiException {
     // Arrange
     LocalDate createdDate = LocalDate.of(2025, 1, 1);
     Diary diary = createDiary(createdDate);
@@ -240,7 +248,7 @@ class DiaryApplicationServiceTest {
   }
 
   @Test
-  void testAddDiary_異常系_権限がない場合にPermissionDeniedExceptionが発生する() throws DiaryValidationException {
+  void testAddDiary_異常系_権限がない場合にPermissionDeniedExceptionが発生する() throws DiaryValidationException, ExternalApiException {
     // Arrange
     LocalDate createdDate = LocalDate.of(2025, 1, 1);
     Diary diary = createDiary(createdDate);
@@ -254,6 +262,41 @@ class DiaryApplicationServiceTest {
     };
     // Assert
     assertThrows(PermissionDeniedException.class, action);
+  }
+
+  @Test
+  void testAddDiary_異常系_外部Api呼び出しでExternalApiExceptionが発生する() throws DiaryValidationException, ExternalApiException {
+    // Arrange
+    LocalDate createdDate = LocalDate.of(2025, 1, 1);
+    Diary diary = createDiary(createdDate);
+    long id = diary.getId();
+    when(diaryDomainService.isExistDiary(id)).thenReturn(false);
+    when(diaryRepository.add(diary)).thenReturn(diary);
+    when(userStore.isInRole(UserRoleConstants.USER)).thenReturn(true);
+    doThrow(new ExternalApiException("test-external-api")).when(diaryAnalysisApiClient)
+        .postDiaryAnalysis(diary.getUserId(), diary.getId(), diary.getContent());
+    // Act
+    Executable action = () -> {
+      diaryApplicationService.addDiary(diary);
+    };
+    // Assert
+    assertThrows(ExternalApiException.class, action);
+  }
+
+  @Test
+  void testAddDiary_正常系_postDiaryAnalysisが1回呼ばれる()
+      throws PermissionDeniedException, DiaryValidationException, ExternalApiException {
+    // Arrange
+    LocalDate createdDate = LocalDate.of(2025, 1, 1);
+    Diary diary = createDiary(createdDate);
+    long id = diary.getId();
+    when(diaryDomainService.isExistDiary(id)).thenReturn(false);
+    when(diaryRepository.add(diary)).thenReturn(diary);
+    when(userStore.isInRole(UserRoleConstants.USER)).thenReturn(true);
+    // Act
+    diaryApplicationService.addDiary(diary);
+    // Assert
+    verify(diaryAnalysisApiClient, times(1)).postDiaryAnalysis(diary.getUserId(), diary.getId(), diary.getContent());
   }
 
   @Test

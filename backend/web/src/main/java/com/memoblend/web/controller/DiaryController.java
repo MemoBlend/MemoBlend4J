@@ -1,6 +1,7 @@
 package com.memoblend.web.controller;
 
 import org.springframework.web.bind.annotation.RestController;
+import com.memoblend.applicationcore.api.ExternalApiException;
 import com.memoblend.applicationcore.applicationservice.DiaryApplicationService;
 import com.memoblend.applicationcore.auth.PermissionDeniedException;
 import com.memoblend.applicationcore.diary.Diary;
@@ -141,6 +142,7 @@ public class DiaryController {
    * @return 登録結果。
    * @throws PermissionDeniedException 権限エラーが起きた場合。
    * @throws DiaryValidationException  日記が不正な場合。
+   * @throws ExternalApiException      外部APIエラーが発生した場合。
    */
   @Operation(summary = "日記情報を登録します。", description = "日記情報を登録します。")
   @ApiResponses(value = { @ApiResponse(responseCode = "201", description = "成功。", content = @Content),
@@ -151,7 +153,7 @@ public class DiaryController {
   })
   @PostMapping
   public ResponseEntity<?> postDiary(@RequestBody PostDiaryRequest request)
-      throws PermissionDeniedException, DiaryValidationException {
+      throws PermissionDeniedException, DiaryValidationException, ExternalApiException {
     Diary diary = PostDiaryRequestMapper.convert(request);
     Diary addedDiary = diaryApplicationService.addDiary(diary);
     return ResponseEntity.created(URI.create("/api/diary/" + addedDiary.getId())).build();

@@ -7,6 +7,8 @@ import java.util.Locale;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.memoblend.applicationcore.api.DiaryAnalysisApiClient;
+import com.memoblend.applicationcore.api.ExternalApiException;
 import com.memoblend.applicationcore.auth.PermissionDeniedException;
 import com.memoblend.applicationcore.auth.UserStore;
 import com.memoblend.applicationcore.constant.MessageIdConstants;
@@ -31,6 +33,7 @@ public class DiaryApplicationService {
   private final MessageSource messages;
   private final UserStore userStore;
   private final Logger apLog = Logger.getLogger(SystemPropertyConstants.APPLICATION_LOGGER);
+  private final DiaryAnalysisApiClient diaryAnalysisApiClient;
 
   /**
    * 年月を指定して、日記をリストで取得します。
@@ -101,7 +104,7 @@ public class DiaryApplicationService {
    * @return 追加された日記。
    * @throws PermissionDeniedException 認可が拒否された場合。
    */
-  public Diary addDiary(Diary diary) throws PermissionDeniedException {
+  public Diary addDiary(Diary diary) throws PermissionDeniedException, ExternalApiException {
     final LocalDate createdDate = diary.getCreatedDate();
     apLog.info(messages.getMessage(MessageIdConstants.D_DIARY_ADD_DIARY,
         new Object[] { createdDate.getYear(), createdDate.getMonthValue(), createdDate.getDayOfMonth() },
@@ -109,7 +112,13 @@ public class DiaryApplicationService {
     if (!userStore.isInRole(UserRoleConstants.USER)) {
       throw new PermissionDeniedException("addDiary");
     }
-    return diaryRepository.add(diary);
+    Diary addedDiary = diaryRepository.add(diary);
+
+    apLog.info(messages.getMessage(MessageIdConstants.D_ANALYTICS_REGISTER_DIARY,
+        new Object[] { addedDiary.getUserId(), addedDiary.getId() }, Locale.getDefault()));
+    diaryAnalysisApiClient.postDiaryAnalysis(addedDiary.getUserId(), addedDiary.getId(), addedDiary.getContent());
+
+    return addedDiary;
   }
 
   /**

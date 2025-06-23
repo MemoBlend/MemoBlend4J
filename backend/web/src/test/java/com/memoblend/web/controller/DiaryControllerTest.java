@@ -1,12 +1,15 @@
 package com.memoblend.web.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +17,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.web.servlet.MockMvc;
+import com.memoblend.applicationcore.api.DiaryAnalysisApiClient;
+import com.memoblend.applicationcore.api.ExternalApiException;
+import com.memoblend.applicationcore.constant.ApiNameConstants;
 import com.memoblend.web.WebApplication;
 
 /**
@@ -28,6 +35,9 @@ class DiaryControllerTest {
 
   @Autowired
   MockMvc mockMvc;
+
+  @MockitoBean
+  DiaryAnalysisApiClient diaryAnalysisApiClient;
 
   @Test
   @WithMockUser
@@ -94,6 +104,7 @@ class DiaryControllerTest {
   @Test
   @WithMockUser
   void testPostDiary_正常系_日記を登録する() throws Exception {
+    when(diaryAnalysisApiClient.postDiaryAnalysis(anyLong(), anyLong(), anyString())).thenReturn(true);
     String diaryJson = "{"
         + "\"userId\": 1, "
         + "\"title\": \"Test title\", "
@@ -109,6 +120,7 @@ class DiaryControllerTest {
 
   @Test
   void testPostDiary_異常系_権限が足りない() throws Exception {
+    when(diaryAnalysisApiClient.postDiaryAnalysis(anyLong(), anyLong(), anyString())).thenReturn(true);
     String diaryJson = "{"
         + "\"userId\": 1, "
         + "\"title\": \"Test title\", "
@@ -119,6 +131,23 @@ class DiaryControllerTest {
         .contentType(MediaType.APPLICATION_JSON)
         .content(diaryJson))
         .andExpect(status().isNotFound());
+  }
+
+  @Test
+  @WithMockUser
+  void testPostDiary_異常系_外部Apiの呼び出しに失敗する() throws Exception {
+    when(diaryAnalysisApiClient.postDiaryAnalysis(anyLong(), anyLong(), anyString()))
+        .thenThrow(new ExternalApiException(ApiNameConstants.AnalysisAPI));
+    String diaryJson = "{"
+        + "\"userId\": 1, "
+        + "\"title\": \"Test title\", "
+        + "\"content\": \"Test content\", "
+        + "\"createdDate\": \"2025-01-01\""
+        + "}";
+    this.mockMvc.perform(post("/api/diary")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(diaryJson))
+        .andExpect(status().isInternalServerError());
   }
 
   @Test

@@ -41,6 +41,7 @@ ext {
         postgresql : "org.postgresql:postgresql:$postgresqlVersion",
         commons_lang3 : "org.apache.commons:commons-lang3:$commonsLangVersion",
         servlet_api : "jakarta.servlet:jakarta.servlet-api:$servletApiVersion",
+        jackson_databind : "com.fasterxml.jackson.core:jackson-databind",
 
         lombok : "org.projectlombok:lombok",
         slf4j : "org.slf4j:slf4j-simple",

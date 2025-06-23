@@ -30,6 +30,8 @@ dependencies {
 	implementation supportDependencies.postgresql
 	implementation project(':application-core')
 	implementation project(':system-common')
+	implementation supportDependencies.spring_boot_starter_web
+	implementation supportDependencies.jackson_databind
 	testImplementation supportDependencies.spring_boot_starter_test
 	testImplementation supportDependencies.mybatis_spring_boot_starter_test
 }

@@ -26,6 +26,9 @@ public class ExceptionIdConstants {
   /** {0} を実行する権限がありません。 */
   public static final String E_PERMISSION_DENIED = "permissionDenied";
 
+  /** 外部API：{0}の呼び出しに失敗しました。 */
+  public static final String E_EXTERNAL_API_ERROR = "externalApiError";
+
   // インスタンス化防止
   private ExceptionIdConstants() {
     throw new UnsupportedOperationException("ユーティリティクラスのためインスタンス化できません");
