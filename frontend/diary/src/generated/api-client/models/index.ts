@@ -1,6 +1,7 @@
 export * from './diary';
 export * from './get-diaries-response';
 export * from './get-diary-response';
+export * from './get-recommended-schedule-response';
 export * from './get-user-response';
 export * from './post-diary-request';
 export * from './post-user-request';
