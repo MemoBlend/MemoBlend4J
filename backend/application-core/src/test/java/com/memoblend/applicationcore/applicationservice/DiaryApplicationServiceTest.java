@@ -29,8 +29,11 @@ import com.memoblend.applicationcore.diary.DiaryDomainService;
 import com.memoblend.applicationcore.diary.DiaryNotFoundException;
 import com.memoblend.applicationcore.diary.DiaryRepository;
 import com.memoblend.applicationcore.diary.DiaryValidationException;
+import com.memoblend.applicationcore.user.UserDomainService;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.memoblend.applicationcore.api.DiaryAnalysisApiClient;
 import com.memoblend.applicationcore.api.ExternalApiException;
+import com.memoblend.applicationcore.user.UserNotFoundException;
 
 /**
  * 日記のアプリケーションサービスのテストクラスです。
@@ -46,6 +49,9 @@ class DiaryApplicationServiceTest {
   @Mock
   private DiaryDomainService diaryDomainService;
 
+  @Mock
+  private UserDomainService userDomainService;
+
   @Autowired
   private MessageSource messages;
 
@@ -59,8 +65,8 @@ class DiaryApplicationServiceTest {
 
   @BeforeEach
   void setUp() {
-    diaryApplicationService = new DiaryApplicationService(diaryRepository, diaryDomainService, messages, userStore,
-        diaryAnalysisApiClient);
+    diaryApplicationService = new DiaryApplicationService(diaryRepository, diaryDomainService, userDomainService,
+        messages, userStore, diaryAnalysisApiClient);
   }
 
   @Test
@@ -384,6 +390,59 @@ class DiaryApplicationServiceTest {
     };
     // Assert
     assertThrows(PermissionDeniedException.class, action);
+  }
+
+  @Test
+  void testGetRecommendedSchedule_正常系_おすすめスケジュールを返す() throws Exception {
+    // Arrange
+    Long userId = 1L;
+    String expected = "test schedule";
+    JsonNode mockNode = org.mockito.Mockito.mock(JsonNode.class);
+    when(userDomainService.isExistUser(userId)).thenReturn(true);
+    when(userStore.isInRole(UserRoleConstants.USER)).thenReturn(true);
+    when(diaryAnalysisApiClient.getRecommendedSchedule(userId)).thenReturn(mockNode);
+    when(mockNode.get("suggestion")).thenReturn(org.mockito.Mockito.mock(JsonNode.class));
+    when(mockNode.get("suggestion").asText()).thenReturn(expected);
+    // Act
+    String actual = diaryApplicationService.getRecommendedSchedule(userId);
+    // Assert
+    assertThat(actual).isEqualTo(expected);
+  }
+
+  @Test
+  void testGetRecommendedSchedule_異常系_ユーザーが存在しない場合UserNotFoundExceptionが発生する() {
+    // Arrange
+    Long userId = 2L;
+    when(userDomainService.isExistUser(userId)).thenReturn(false);
+    // Act
+    Executable action = () -> diaryApplicationService.getRecommendedSchedule(userId);
+    // Assert
+    assertThrows(UserNotFoundException.class, action);
+  }
+
+  @Test
+  void testGetRecommendedSchedule_異常系_権限がない場合PermissionDeniedExceptionが発生する() {
+    // Arrange
+    Long userId = 1L;
+    when(userDomainService.isExistUser(userId)).thenReturn(true);
+    when(userStore.isInRole(UserRoleConstants.USER)).thenReturn(false);
+    // Act
+    Executable action = () -> diaryApplicationService.getRecommendedSchedule(userId);
+    // Assert
+    assertThrows(PermissionDeniedException.class, action);
+  }
+
+  @Test
+  void testGetRecommendedSchedule_異常系_外部Api例外時にExternalApiExceptionが発生する() throws Exception {
+    // Arrange
+    Long userId = 1L;
+    when(userDomainService.isExistUser(userId)).thenReturn(true);
+    when(userStore.isInRole(UserRoleConstants.USER)).thenReturn(true);
+    when(diaryAnalysisApiClient.getRecommendedSchedule(userId)).thenThrow(new ExternalApiException("test"));
+    // Act
+    Executable action = () -> diaryApplicationService.getRecommendedSchedule(userId);
+    // Assert
+    assertThrows(ExternalApiException.class, action);
   }
 
   private List<Diary> createDiaries(List<LocalDate> dates) throws DiaryValidationException {
