@@ -22,7 +22,7 @@ export async function getDiaries(): Promise<GetDiariesResponse> {
  */
 export async function getDiariesByYearMonth(
   year: number,
-  month: number
+  month: number,
 ): Promise<GetDiariesResponse> {
   const response = await diaryApi.getDiaries(year, month);
   return response.data;
