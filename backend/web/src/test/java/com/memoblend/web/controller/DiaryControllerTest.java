@@ -20,6 +20,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.web.servlet.MockMvc;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.memoblend.applicationcore.api.DiaryAnalysisApiClient;
 import com.memoblend.applicationcore.api.ExternalApiException;
 import com.memoblend.applicationcore.constant.ApiNameConstants;
@@ -217,6 +219,40 @@ class DiaryControllerTest {
     this.mockMvc.perform(put("/api/diary")
         .contentType(MediaType.APPLICATION_JSON)
         .content(diaryJson))
+        .andExpect(status().isNotFound());
+  }
+
+  @Test
+  @WithMockUser
+  void testGetRecommendedSchedule_正常系_おすすめスケジュールを返す() throws Exception {
+    long userId = 1L;
+    ObjectNode mockNode = com.fasterxml.jackson.databind.node.JsonNodeFactory.instance
+        .objectNode();
+    mockNode.put("suggestion", "test schedule");
+    when(diaryAnalysisApiClient.getRecommendedSchedule(userId)).thenReturn(mockNode);
+    this.mockMvc.perform(get("/api/diary/recommended-schedule/" + userId))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(content().json("{\"recommendedSchedule\":\"test schedule\"}"));
+  }
+
+  @Test
+  @WithMockUser
+  void testGetRecommendedSchedule_異常系_外部Apiの呼び出しに失敗する() throws Exception {
+    long userId = 1L;
+    when(diaryAnalysisApiClient.getRecommendedSchedule(userId))
+        .thenThrow(new ExternalApiException(ApiNameConstants.AnalysisAPI));
+    this.mockMvc.perform(get("/api/diary/recommended-schedule/" + userId))
+        .andExpect(status().isInternalServerError());
+  }
+
+  @Test
+  @WithMockUser
+  void testGetRecommendedSchedule_異常系_ユーザーが存在しない() throws Exception {
+    long userId = 999L;
+    when(diaryAnalysisApiClient.getRecommendedSchedule(userId))
+        .thenReturn(JsonNodeFactory.instance.textNode("dummy"));
+    this.mockMvc.perform(get("/api/diary/recommended-schedule/" + userId))
         .andExpect(status().isNotFound());
   }
 }

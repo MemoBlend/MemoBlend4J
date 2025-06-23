@@ -41,6 +41,9 @@ public class MessageIdConstants {
   /** 分析APIにユーザーID：{0} 日記ID：{1}の日記を登録します。 */
   public static final String D_ANALYTICS_REGISTER_DIARY = "analysisApiRegisterDiary";
 
+  /** 分析APIにユーザーID：{0}の日記のおすすめスケジュールを取得します。 */
+  public static final String D_ANALYTICS_GET_RECOMMENDED_SCHEDULE = "analysisApiGetRecommendedSchedule";
+
   // インスタンス化防止
   private MessageIdConstants() {
     throw new UnsupportedOperationException("ユーティリティクラスのためインスタンス化できません");

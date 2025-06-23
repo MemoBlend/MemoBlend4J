@@ -7,6 +7,7 @@ import java.util.Locale;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.memoblend.applicationcore.api.DiaryAnalysisApiClient;
 import com.memoblend.applicationcore.api.ExternalApiException;
 import com.memoblend.applicationcore.auth.PermissionDeniedException;
@@ -17,6 +18,8 @@ import com.memoblend.applicationcore.diary.Diary;
 import com.memoblend.applicationcore.diary.DiaryDomainService;
 import com.memoblend.applicationcore.diary.DiaryNotFoundException;
 import com.memoblend.applicationcore.diary.DiaryRepository;
+import com.memoblend.applicationcore.user.UserDomainService;
+import com.memoblend.applicationcore.user.UserNotFoundException;
 import com.memoblend.systemcommon.constant.SystemPropertyConstants;
 import lombok.AllArgsConstructor;
 
@@ -30,6 +33,7 @@ public class DiaryApplicationService {
 
   private final DiaryRepository diaryRepository;
   private final DiaryDomainService diaryDomainService;
+  private final UserDomainService userDomainService;
   private final MessageSource messages;
   private final UserStore userStore;
   private final Logger apLog = Logger.getLogger(SystemPropertyConstants.APPLICATION_LOGGER);
@@ -95,6 +99,30 @@ public class DiaryApplicationService {
       throw new DiaryNotFoundException(id);
     }
     return diary;
+  }
+
+  /**
+   * ユーザー ID を指定して、おすすめのスケジュールを取得します。
+   * 
+   * @param userId ユーザー ID 。
+   * @return おすすめのスケジュールの文字列（suggestionキーの値）。
+   * @throws UserNotFoundException     ユーザーが見つからない場合。
+   * @throws ExternalApiException      外部 API の呼び出しに失敗した場合。
+   * @throws PermissionDeniedException 認可が拒否された場合。
+   */
+  public String getRecommendedSchedule(Long userId)
+      throws UserNotFoundException, ExternalApiException, PermissionDeniedException {
+    apLog.info(messages.getMessage(MessageIdConstants.D_ANALYTICS_GET_RECOMMENDED_SCHEDULE,
+        new Object[] { userId }, Locale.getDefault()));
+    if (!userDomainService.isExistUser(userId)) {
+      throw new UserNotFoundException(userId);
+    }
+    if (!userStore.isInRole(UserRoleConstants.USER)) {
+      throw new PermissionDeniedException("getRecommendedSchedule");
+    }
+    JsonNode recommendedSchedule = diaryAnalysisApiClient.getRecommendedSchedule(userId);
+    JsonNode suggestNode = recommendedSchedule.get("suggestion");
+    return suggestNode != null ? suggestNode.asText() : null;
   }
 
   /**

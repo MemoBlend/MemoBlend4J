@@ -1,5 +1,7 @@
 package com.memoblend.applicationcore.api;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 /**
  * 日記の分析 API を呼び出すためのクライアントインターフェースです。
  */
@@ -14,4 +16,13 @@ public interface DiaryAnalysisApiClient {
    * @throws ExternalApiException 外部 API の呼び出しに失敗した場合にスローされます。
    */
   boolean postDiaryAnalysis(Long userId, Long diaryId, String content) throws ExternalApiException;
+
+  /**
+   * ユーザーのおすすめスケジュールを取得するための API を呼び出します。
+   *
+   * @param userId ユーザー ID 。
+   * @return おすすめスケジュールのレスポンス（JSONをJsonNodeで返却）。
+   * @throws ExternalApiException 外部 API の呼び出しに失敗した場合にスローされます。
+   */
+  JsonNode getRecommendedSchedule(long userId) throws ExternalApiException;
 }

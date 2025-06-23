@@ -7,10 +7,12 @@ import com.memoblend.applicationcore.auth.PermissionDeniedException;
 import com.memoblend.applicationcore.diary.Diary;
 import com.memoblend.applicationcore.diary.DiaryNotFoundException;
 import com.memoblend.applicationcore.diary.DiaryValidationException;
+import com.memoblend.applicationcore.user.UserNotFoundException;
 import com.memoblend.systemcommon.constant.CommonExceptionIdConstants;
 import com.memoblend.systemcommon.constant.SystemPropertyConstants;
 import com.memoblend.web.controller.dto.diary.GetDiariesResponse;
 import com.memoblend.web.controller.dto.diary.GetDiaryResponse;
+import com.memoblend.web.controller.dto.diary.GetRecommendedScheduleResponse;
 import com.memoblend.web.controller.dto.diary.PostDiaryRequest;
 import com.memoblend.web.controller.dto.diary.PutDiaryRequest;
 import com.memoblend.web.controller.mapper.diary.GetDiariesResponseMapper;
@@ -133,6 +135,42 @@ public class DiaryController {
     }
     GetDiaryResponse response = GetDiaryResponseMapper.convert(diary);
     return ResponseEntity.ok().body(response);
+  }
+
+  /**
+   * ユーザー ID を指定しておすすめスケジュールを取得します。
+   * 
+   * @param userId ユーザー ID。
+   * @return おすすめスケジュールのレスポンス。
+   * @throws PermissionDeniedException 権限エラーが起きた場合。
+   * @throws ExternalApiException      外部 API の呼び出しに失敗
+   * @throws UserNotFoundException     ユーザーが見つからない場合。
+   */
+  @Operation(summary = "ユーザー ID を指定しておすすめスケジュールを取得します。", description = "ユーザー ID を指定しておすすめスケジュールを取得します。")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "成功。", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = GetRecommendedScheduleResponse.class))),
+      @ApiResponse(responseCode = "401", description = "未認証。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
+      @ApiResponse(responseCode = "404", description = "対応したユーザーが存在しません。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
+      @ApiResponse(responseCode = "500", description = "サーバーエラー。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class)))
+  })
+  @GetMapping("recommended-schedule/{userId}")
+  public ResponseEntity<?> getRecommendedSchedule(@PathVariable long userId)
+      throws PermissionDeniedException, ExternalApiException {
+    try {
+      String recommendedSchedule = diaryApplicationService.getRecommendedSchedule(userId);
+      GetRecommendedScheduleResponse response = new GetRecommendedScheduleResponse(recommendedSchedule);
+      return ResponseEntity.ok().body(response);
+    } catch (UserNotFoundException e) {
+      apLog.info(e.getMessage());
+      apLog.debug(ExceptionUtils.getStackTrace(e));
+      ErrorMessageBuilder errorBuilder = new ErrorMessageBuilder(e, e.getExceptionId(),
+          e.getLogMessageValue(), e.getFrontMessageValue());
+      ProblemDetail problemDetail = problemDetailsFactory.createProblemDetail(errorBuilder,
+          CommonExceptionIdConstants.E_BUSINESS, HttpStatus.NOT_FOUND);
+      return ResponseEntity.status(HttpStatus.NOT_FOUND)
+          .contentType(MediaType.APPLICATION_PROBLEM_JSON)
+          .body(problemDetail);
+    }
   }
 
   /**
