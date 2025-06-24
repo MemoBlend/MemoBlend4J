@@ -85,10 +85,10 @@ const signOut = async () => {
         <v-list-item>
           <v-list-item-title>
             <RouterLink
-              to="#"
+              to="/schedule/suggest"
               class="text-decoration-none"
               :class="darkTheme ? 'text-white' : 'text-black'"
-              >ANALYSIS
+              >SCHEDULE
             </RouterLink>
           </v-list-item-title>
         </v-list-item>
