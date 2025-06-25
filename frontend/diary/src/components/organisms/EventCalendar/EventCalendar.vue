@@ -60,25 +60,23 @@ async function fetchMonthEvents(year: number, month: number) {
 }
 
 function nextMonth() {
-  currentDate.value = new Date(
-    currentYear.value,
-    currentMonth.value + 1,
-    1,
-  );
+  currentDate.value = new Date(currentYear.value, currentMonth.value + 1, 1);
   diaryStore.setDiaryYear(currentDate.value.getFullYear());
   diaryStore.setDiaryMonth(currentDate.value.getMonth() + 1);
-  fetchMonthEvents(currentDate.value.getFullYear(), currentDate.value.getMonth());
+  fetchMonthEvents(
+    currentDate.value.getFullYear(),
+    currentDate.value.getMonth(),
+  );
 }
 
 function prevMonth() {
-  currentDate.value = new Date(
-    currentYear.value,
-    currentMonth.value - 1,
-    1,
-  );
+  currentDate.value = new Date(currentYear.value, currentMonth.value - 1, 1);
   diaryStore.setDiaryYear(currentDate.value.getFullYear());
   diaryStore.setDiaryMonth(currentDate.value.getMonth() + 1);
-  fetchMonthEvents(currentDate.value.getFullYear(), currentDate.value.getMonth());
+  fetchMonthEvents(
+    currentDate.value.getFullYear(),
+    currentDate.value.getMonth(),
+  );
 }
 
 function goToday() {
@@ -141,20 +139,31 @@ const weeks = computed(() => {
 
     <div class="ma-3">
       <v-row>
-        <v-col v-for="(day, i) in weekDays" :key="i" class="text-center font-weight-bold">
+        <v-col
+          v-for="(day, i) in weekDays"
+          :key="i"
+          class="text-center font-weight-bold"
+        >
           {{ day }}
         </v-col>
       </v-row>
 
       <v-row v-for="(week, wIdx) in weeks" :key="wIdx">
-        <v-col v-for="(cell, cIdx) in week" :key="cIdx" :class="[
-          'border',
-          { 'today-cell': typeof cell === 'number' && isToday(cell) },
-        ]">
+        <v-col
+          v-for="(cell, cIdx) in week"
+          :key="cIdx"
+          :class="[
+            'border',
+            { 'today-cell': typeof cell === 'number' && isToday(cell) },
+          ]"
+        >
           <template v-if="cell !== undefined">
             <span>{{ cell }}</span>
-            <EventList v-if="typeof cell === 'number' && hasDiaryEntry(cell)" :event-list="getDiaryEvents(cell)"
-              :onEventClick="onEventClick" />
+            <EventList
+              v-if="typeof cell === 'number' && hasDiaryEntry(cell)"
+              :event-list="getDiaryEvents(cell)"
+              :onEventClick="onEventClick"
+            />
           </template>
         </v-col>
       </v-row>

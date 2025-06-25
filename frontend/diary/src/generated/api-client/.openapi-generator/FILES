@@ -12,6 +12,7 @@ index.ts
 models/diary.ts
 models/get-diaries-response.ts
 models/get-diary-response.ts
+models/get-recommended-schedule-response.ts
 models/get-user-response.ts
 models/index.ts
 models/post-diary-request.ts
