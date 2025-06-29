@@ -7,7 +7,7 @@ ext {
 
     // -- PLUGINS_TOOL
     jacocoToolVersion = "0.8.12"
-    checkstyleToolVersion = "10.21.4"
+    checkstyleToolVersion = "10.25.1"
     spotbugsToolVersion = "4.8.6"
 
     // -- DEPENDENCIES
