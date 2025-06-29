@@ -8,7 +8,7 @@ ext {
     // -- PLUGINS_TOOL
     jacocoToolVersion = "0.8.12"
     checkstyleToolVersion = "10.25.1"
-    spotbugsToolVersion = "4.8.6"
+    spotbugsToolVersion = "4.9.3"
 
     // -- DEPENDENCIES
     springBatchTestVersion = "5.2.2"
