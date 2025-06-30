@@ -1,9 +1,8 @@
 """日記のリポジトリクラスです。"""
 
 import chromadb
-
+from infrastructure.diary_repository_failed_exception import DiaryRepositoryFailedException
 from infrastructure.infrastructure_constants import InfrastructureConstants
-
 
 class DiaryRepository:
     """
@@ -90,7 +89,8 @@ class DiaryRepository:
             ValueError: CHUNK_OVERLAP が CHUNK_SIZE 以上の場合。
         """
         if InfrastructureConstants.CHUNK_OVERLAP >= InfrastructureConstants.CHUNK_SIZE:
-            raise ValueError("CHUNK_OVERLAP は CHUNK_SIZE 未満を指定してください")
+            raise DiaryRepositoryFailedException()
+
 
         chunks: list[str] = []
         start = 0
