@@ -111,7 +111,6 @@ class DiaryRepository:
 
             chunk = text[start:end].strip()
             if chunk:
-                print(f"Chunk created: {chunk}")
                 chunks.append(chunk)
 
             if end >= text_length:
