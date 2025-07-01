@@ -91,14 +91,32 @@ class DiaryRepository:
         if InfrastructureConstants.CHUNK_OVERLAP >= InfrastructureConstants.CHUNK_SIZE:
             raise DiaryRepositoryFailedException()
 
-
         chunks: list[str] = []
         start = 0
-        length = len(text)
+        text_length = len(text)
 
-        while start < length:
-            end = start + InfrastructureConstants.CHUNK_SIZE
-            chunks.append(text[start:end])
-            start += (InfrastructureConstants.CHUNK_SIZE - InfrastructureConstants.CHUNK_OVERLAP)
+        while start < text_length:
+            end = min(start + InfrastructureConstants.CHUNK_SIZE, text_length)
+            if end < text_length:
+                best_break = end
+                for pivot in ["。", "！", "？", "\n"]:
+                    idx = text.rfind(pivot, start, end)
+                    if idx != -1:
+                        tmp_break = idx + 1
+                        # チャンクが小さすぎないか確認
+                        if tmp_break > start + InfrastructureConstants.CHUNK_SIZE // 2:
+                            best_break = tmp_break
+                            break
+                end = best_break
+
+            chunk = text[start:end].strip()
+            if chunk:
+                print(f"Chunk created: {chunk}")
+                chunks.append(chunk)
+
+            if end >= text_length:
+                break
+
+            start = max(end - InfrastructureConstants.CHUNK_OVERLAP, start + 1)
 
         return chunks
