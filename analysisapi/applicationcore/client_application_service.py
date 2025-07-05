@@ -35,7 +35,7 @@ class ClientApplicationService:
             user_id (int): ユーザーID。
 
         Returns:
-            dict: LLMの出力結果。
+            dict: LLMの出力結果。提案された予定を含むJSON形式のデータ。
         """
         self.logger.info("user_id: %s の過去の日記を取得します。", user_id)
         response = self.diary_repository.find_by_sentence(
@@ -88,4 +88,4 @@ class ClientApplicationService:
         # Function Calling の結果を反映し、再度 OpenAI API を呼び出す
         final_response = self.openai_client.call_openai(messages)
 
-        return final_response
+        return json.loads(final_response.choices[0].message.content)
