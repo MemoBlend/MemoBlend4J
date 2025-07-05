@@ -2,7 +2,7 @@
 データベースへ文章を追加することに失敗した場合の例外クラスです。
 """
 
-from analysisapi.infrastructure.infrastructure_constants import InfrastructureConstants
+from infrastructure.infrastructure_constants import InfrastructureConstants
 from systemcommon.business_exception import BusinessException
 
 

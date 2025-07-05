@@ -1,7 +1,7 @@
 """日記のリポジトリクラスです。"""
 
 import chromadb
-from infrastructure.diary_repository_failed_exception import DiaryRepositoryFailedException
+from infrastructure.text_chunk_split_failed_exception import TextChunkSplitFailedException
 from infrastructure.infrastructure_constants import InfrastructureConstants
 
 class DiaryRepository:
@@ -86,10 +86,10 @@ class DiaryRepository:
             list[str]: 分割されたテキストのリスト。
 
         Raises:
-            ValueError: CHUNK_OVERLAP が CHUNK_SIZE 以上の場合。
+            TextChunkSplitFailedException: 分割に失敗した場合。
         """
         if InfrastructureConstants.CHUNK_OVERLAP >= InfrastructureConstants.CHUNK_SIZE:
-            raise DiaryRepositoryFailedException()
+            raise TextChunkSplitFailedException()
 
         chunks: list[str] = []
         start = 0
@@ -112,6 +112,7 @@ class DiaryRepository:
             chunk = text[start:end].strip()
             if chunk:
                 chunks.append(chunk)
+                print(f"Chunk created: {chunk}")
 
             if end >= text_length:
                 break
