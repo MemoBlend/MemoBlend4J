@@ -7,6 +7,7 @@ from infrastructure.client.client_openai import ClientOpenAI
 from infrastructure.client.client_weather import ClientWeather
 from infrastructure.diary_repository import DiaryRepository
 from systemcommon.logger_config import LoggerConfig
+from datetime import date, timedelta
 
 
 # pylint: disable=too-few-public-methods
@@ -48,6 +49,7 @@ class ClientApplicationService:
             diary_text=diary_text,
             latitude=location["latitude"],
             longitude=location["longitude"],
+            tomorrow=(date.today() + timedelta(days=1)).strftime('%Y年%m月%d日'),
         )
 
         # LLMに送信するメッセージを構築

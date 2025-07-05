@@ -1,7 +1,3 @@
-"""プロンプトの定型文章を定義するクラスです。"""
-
-
-# pylint: disable=too-few-public-methods
 class PromptConstants:
     """プロンプトの定型文章を定義するクラスです。"""
 
@@ -10,7 +6,7 @@ class PromptConstants:
         "以上の文章は同一人物が書いた日記である。"
         "この人物は明日の休日の予定が決まっていない。"
         "現在位置の緯度は{latitude}、経度は{longitude}である。"
-        "上記の日記から、この人物の明日の予定を決めて。\n"
+        "以下の条件に従って、この人物の明日の予定を提案してほしい。\n"
         "# 条件\n"
         "- 複数の予定を時間列に沿って提案すること。\n"
         "- 日本語で出力すること。\n"
@@ -21,6 +17,7 @@ class PromptConstants:
         "- 「point_name」は詳細な場所の名前、「description」はその場所の説明を含む。\n"
         "- 「start_time」は予定の開始時間、「end_time」は終了時間を含む。\n"
         "- 「start_time」「end_time」は ISO 8601 形式。\n"
+        "- 明日の日付は、{tomorrow}である。\n"
     )
 
     # Function Calling の設定
