@@ -6,11 +6,9 @@ from analysisapi.infrastructure.infrastructure_constants import InfrastructureCo
 from systemcommon.business_exception import BusinessException
 
 
-class DiaryRepositoryFailedException(BusinessException):
+class TextChunkSplitFailedException(BusinessException):
     """
     文章の分割に失敗した場合の例外クラスです。
-    Attributes:
-        user_id (int): ユーザーID 。
     """
 
     def __init__(self):
