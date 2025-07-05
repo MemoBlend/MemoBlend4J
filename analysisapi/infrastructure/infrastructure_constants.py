@@ -8,3 +8,6 @@ class InfrastructureConstants:
     # 日記のベクトル DB のパスです。
     # 日記のリポジトリクラスからの相対パスで定義します。
     DIARY_DB_PATH: str = "./infrastructure/diary"
+
+    CHUNK_SIZE: int = 30
+    CHUNK_OVERLAP: int = 5

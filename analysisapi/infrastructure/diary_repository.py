@@ -1,9 +1,8 @@
 """日記のリポジトリクラスです。"""
 
 import chromadb
-
+from infrastructure.text_chunk_split_failed_exception import TextChunkSplitFailedException
 from infrastructure.infrastructure_constants import InfrastructureConstants
-
 
 class DiaryRepository:
     """
@@ -37,15 +36,14 @@ class DiaryRepository:
             sentence (str): 追加する文章。
 
         """
-
         self._load_collection(user_id)
-        self.collection.add(
-            # 主キーに相当する。UUIDを使用する予定。
-            ids=[f"diary_id_{diary_id}"],
-            documents=[sentence],
-            # メタデータにユーザーIDと日記IDを追加
-            metadatas=[{"user_id": user_id, "diary_id": diary_id}],
-        )
+        chunks = self._chunk_text(sentence)
+        for i, chunk in enumerate(chunks, 1):
+            self.collection.add(
+                ids=[f"{diary_id}_{i}"],
+                documents=[chunk],
+                metadatas=[{"user_id": user_id, "diary_id": diary_id}],
+            )
 
     def find_by_sentence(self, user_id: int, sentence: str, n_results: int = 2) -> dict:
         """
@@ -75,3 +73,49 @@ class DiaryRepository:
         self.collection = self.chroma_db_client.create_collection(
             name=f"user_id_{user_id}", get_or_create=True
         )
+
+    def _chunk_text(self, text: str) -> list[str]:
+        """
+        text を指定の CHUNK_SIZE 文字ごとに分割し、
+        各チャンク間を CHUNK_OVERLAP 文字分だけ重複させて返す。
+
+        Args:
+            text (str): 分割するテキスト。
+
+        Returns:
+            list[str]: 分割されたテキストのリスト。
+
+        Raises:
+            TextChunkSplitFailedException: 分割に失敗した場合。
+        """
+        if InfrastructureConstants.CHUNK_OVERLAP >= InfrastructureConstants.CHUNK_SIZE:
+            raise TextChunkSplitFailedException()
+
+        chunks: list[str] = []
+        start = 0
+        text_length = len(text)
+
+        while start < text_length:
+            end = min(start + InfrastructureConstants.CHUNK_SIZE, text_length)
+            if end < text_length:
+                best_break = end
+                for pivot in ["。", "！", "？", "\n"]:
+                    idx = text.rfind(pivot, start, end)
+                    if idx != -1:
+                        tmp_break = idx + 1
+                        # チャンクが小さすぎないか確認
+                        if tmp_break > start + InfrastructureConstants.CHUNK_SIZE // 2:
+                            best_break = tmp_break
+                            break
+                end = best_break
+
+            chunk = text[start:end].strip()
+            if chunk:
+                chunks.append(chunk)
+
+            if end >= text_length:
+                break
+
+            start = max(end - InfrastructureConstants.CHUNK_OVERLAP, start + 1)
+
+        return chunks
