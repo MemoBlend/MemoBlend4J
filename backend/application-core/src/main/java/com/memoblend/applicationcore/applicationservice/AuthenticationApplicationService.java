@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.memoblend.applicationcore.constant.UserRoleConstants;
 import lombok.AllArgsConstructor;
 
 /**
@@ -50,13 +51,13 @@ public class AuthenticationApplicationService implements UserDetailsService {
       return User.builder()
           .username("admin")
           .password(passwordEncoder.encode("password"))
-          .authorities("ROLE_ADMIN")
+          .authorities(UserRoleConstants.ADMIN)
           .build();
     } else if ("user".equals(username)) {
       return User.builder()
           .username("user")
           .password(passwordEncoder.encode("password"))
-          .authorities("ROLE_USER")
+          .authorities(UserRoleConstants.USER)
           .build();
     }
     throw new UsernameNotFoundException("ユーザー名：" + username + "のユーザーが見つかりません。");
