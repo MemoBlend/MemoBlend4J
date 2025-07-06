@@ -23,6 +23,7 @@ dependencies {
 	implementation supportDependencies.spring_boot_starter_validation
 	implementation supportDependencies.commons_lang3
 	implementation supportDependencies.jackson_databind
+	implementation supportDependencies.spring_boot_security_starter
 	implementation project(':system-common')
 	testImplementation supportDependencies.spring_boot_starter_test
 }

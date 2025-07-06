@@ -21,6 +21,66 @@
     }
   ],
   "paths": {
+    "/api/auth/login": {
+      "post": {
+        "operationId": "login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "auth-controller"
+        ]
+      }
+    },
+    "/api/auth/validate": {
+      "post": {
+        "operationId": "validate",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TokenValidationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "auth-controller"
+        ]
+      }
+    },
     "/api/diary": {
       "get": {
         "description": "年月を指定して、日記を取得します。",
@@ -492,6 +552,66 @@
         ]
       }
     },
+    "/api/secure/admin": {
+      "get": {
+        "operationId": "getAdminInfo",
+        "responses": {
+          "200": {
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "secure-controller"
+        ]
+      }
+    },
+    "/api/secure/data": {
+      "get": {
+        "operationId": "getData",
+        "responses": {
+          "200": {
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "secure-controller"
+        ]
+      }
+    },
+    "/api/secure/user": {
+      "get": {
+        "operationId": "getUserInfo",
+        "responses": {
+          "200": {
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "secure-controller"
+        ]
+      }
+    },
     "/api/user": {
       "post": {
         "description": "ユーザー情報を登録します。",
@@ -798,6 +918,17 @@
           }
         }
       },
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          }
+        }
+      },
       "PostDiaryRequest": {
         "type": "object",
         "properties": {
@@ -837,9 +968,7 @@
           },
           "properties": {
             "type": "object",
-            "additionalProperties": {
-              "type": "object"
-            }
+            "additionalProperties": {}
           },
           "status": {
             "type": "integer",
@@ -885,6 +1014,14 @@
             "format": "int64"
           },
           "name": {
+            "type": "string"
+          }
+        }
+      },
+      "TokenValidationRequest": {
+        "type": "object",
+        "properties": {
+          "token": {
             "type": "string"
           }
         }
