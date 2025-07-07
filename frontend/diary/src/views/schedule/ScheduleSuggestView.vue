@@ -9,6 +9,7 @@ interface ScheduleItem {
   description: string;
   start_time: string;
   end_time: string;
+  order: string;
 }
 
 const recommendedSchedule = ref<GetRecommendedScheduleResponse | null>(null);
@@ -59,22 +60,43 @@ onMounted(async () => {
         おすすめスケジュール
       </v-card-title>
       <v-card-text>
-        <v-progress-circular v-if="loading" indeterminate color="primary" size="48" class="mx-auto d-block mb-4" />
-        <v-alert v-else-if="errorMessage" type="error" class="mb-4" border="start" border-color="error">
+        <v-progress-circular
+          v-if="loading"
+          indeterminate
+          color="primary"
+          size="48"
+          class="mx-auto d-block mb-4"
+        />
+        <v-alert
+          v-else-if="errorMessage"
+          type="error"
+          class="mb-4"
+          border="start"
+          border-color="error"
+        >
           <v-icon start color="error">mdi-alert-circle</v-icon>
           {{ errorMessage }}
         </v-alert>
         <div v-else-if="scheduleItems.length > 0" class="my-6">
-          <v-card v-for="(item, index) in scheduleItems" :key="index" class="mb-4" elevation="2">
+          <v-card
+            v-for="item in scheduleItems"
+            :key="item.order"
+            class="mb-4"
+            elevation="2"
+          >
             <v-card-title class="text-h6 pb-2">
               <v-icon color="primary" class="mr-2">mdi-map-marker</v-icon>
               {{ item.point_name }}
             </v-card-title>
             <v-card-text class="pt-0">
               <div class="mb-2">
-                <v-icon size="small" color="primary" class="mr-1">mdi-clock-outline</v-icon>
-                <strong>{{ formatTime(item.start_time) }} -
-                  {{ formatTime(item.end_time) }}</strong>
+                <v-icon size="small" color="primary" class="mr-1"
+                  >mdi-clock-outline</v-icon
+                >
+                <strong
+                  >{{ formatTime(item.start_time) }} -
+                  {{ formatTime(item.end_time) }}</strong
+                >
               </div>
               <div class="text-body-2">
                 {{ item.description }}
@@ -82,7 +104,13 @@ onMounted(async () => {
             </v-card-text>
           </v-card>
         </div>
-        <v-alert v-else type="info" class="mb-4" border="start" border-color="info">
+        <v-alert
+          v-else
+          type="info"
+          class="mb-4"
+          border="start"
+          border-color="info"
+        >
           <v-icon start color="info">mdi-information</v-icon>
           おすすめスケジュールがありません。
         </v-alert>
