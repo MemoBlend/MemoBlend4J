@@ -32,7 +32,7 @@ public class TestSecurityConfig {
   public SecurityFilterChain testSecurityFilterChain(HttpSecurity http) throws Exception {
     http
         .securityMatcher("/api/**")
-        .csrf(csrf -> csrf.disable())
+        .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"))
         .authorizeHttpRequests(authz -> authz.anyRequest().permitAll());
 
     return http.build();
