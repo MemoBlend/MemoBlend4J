@@ -1,6 +1,7 @@
 package com.memoblend.web.controller;
 
 import org.springframework.web.bind.annotation.RestController;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.memoblend.applicationcore.api.ExternalApiException;
 import com.memoblend.applicationcore.applicationservice.DiaryApplicationService;
 import com.memoblend.applicationcore.auth.PermissionDeniedException;
@@ -157,7 +158,7 @@ public class DiaryController {
   public ResponseEntity<?> getRecommendedSchedule(@PathVariable long userId)
       throws PermissionDeniedException, ExternalApiException {
     try {
-      String recommendedSchedule = diaryApplicationService.getRecommendedSchedule(userId);
+      JsonNode recommendedSchedule = diaryApplicationService.getRecommendedSchedule(userId);
       GetRecommendedScheduleResponse response = new GetRecommendedScheduleResponse(recommendedSchedule);
       return ResponseEntity.ok().body(response);
     } catch (UserNotFoundException e) {

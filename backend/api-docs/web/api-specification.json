@@ -782,7 +782,7 @@
         "type": "object",
         "properties": {
           "recommendedSchedule": {
-            "type": "string"
+            "$ref": "#/components/schemas/JsonNode"
           }
         }
       },
@@ -798,6 +798,7 @@
           }
         }
       },
+      "JsonNode": {},
       "PostDiaryRequest": {
         "type": "object",
         "properties": {
@@ -837,9 +838,7 @@
           },
           "properties": {
             "type": "object",
-            "additionalProperties": {
-              "type": "object"
-            }
+            "additionalProperties": {}
           },
           "status": {
             "type": "integer",
