@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.env.Environment;
+import org.springframework.core.env.Profiles;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -32,6 +34,7 @@ public class WebSecurityConfig {
   private String allowedOrigins;
 
   private final JwtProperties jwtProperties;
+  private final Environment environment;
 
   /**
    * CORS 設定、認可機能を設定します。
@@ -57,7 +60,11 @@ public class WebSecurityConfig {
             .requestMatchers("/api/auth/**", "/api-docs/**", "/swagger-ui/**", "/h2-console/**").permitAll()
             .anyRequest().authenticated())
         .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .anonymous(anon -> anon.disable());
+    if (environment.acceptsProfiles(Profiles.of("local"))) {
+      http.addFilterBefore(new DummyUserInjectionFilter(), UsernamePasswordAuthenticationFilter.class);
+    }
     return http.build();
   }
 
