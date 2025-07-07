@@ -100,6 +100,7 @@ public class JwtTokenUtil {
         .subject(subject)
         .issuedAt(Date.from(now))
         .expiration(Date.from(expiration))
+        .issuer(jwtProperties.getIssuer())
         .signWith(key)
         .compact();
   }
