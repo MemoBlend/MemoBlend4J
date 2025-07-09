@@ -110,7 +110,7 @@ public class DiaryApplicationService {
    * @throws ExternalApiException      外部 API の呼び出しに失敗した場合。
    * @throws PermissionDeniedException 認可が拒否された場合。
    */
-  public String getRecommendedSchedule(Long userId)
+  public JsonNode getRecommendedSchedule(Long userId)
       throws UserNotFoundException, ExternalApiException, PermissionDeniedException {
     apLog.info(messages.getMessage(MessageIdConstants.D_ANALYTICS_GET_RECOMMENDED_SCHEDULE,
         new Object[] { userId }, Locale.getDefault()));
@@ -122,7 +122,7 @@ public class DiaryApplicationService {
     }
     JsonNode recommendedSchedule = diaryAnalysisApiClient.getRecommendedSchedule(userId);
     JsonNode suggestNode = recommendedSchedule.get("suggestion");
-    return suggestNode != null ? suggestNode.asText() : null;
+    return suggestNode != null ? suggestNode : null;
   }
 
   /**

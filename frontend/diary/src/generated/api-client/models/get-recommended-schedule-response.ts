@@ -20,8 +20,8 @@
 export interface GetRecommendedScheduleResponse {
   /**
    *
-   * @type {string}
+   * @type {any}
    * @memberof GetRecommendedScheduleResponse
    */
-  recommendedSchedule?: string;
+  recommendedSchedule?: any;
 }

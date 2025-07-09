@@ -15,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration;
@@ -396,17 +397,16 @@ class DiaryApplicationServiceTest {
   void testGetRecommendedSchedule_正常系_おすすめスケジュールを返す() throws Exception {
     // Arrange
     Long userId = 1L;
-    String expected = "test schedule";
-    JsonNode mockNode = org.mockito.Mockito.mock(JsonNode.class);
+    JsonNode mockNode = Mockito.mock(JsonNode.class);
+    JsonNode suggestionNode = Mockito.mock(JsonNode.class);
     when(userDomainService.isExistUser(userId)).thenReturn(true);
     when(userStore.isInRole(UserRoleConstants.USER)).thenReturn(true);
     when(diaryAnalysisApiClient.getRecommendedSchedule(userId)).thenReturn(mockNode);
-    when(mockNode.get("suggestion")).thenReturn(org.mockito.Mockito.mock(JsonNode.class));
-    when(mockNode.get("suggestion").asText()).thenReturn(expected);
+    when(mockNode.get("suggestion")).thenReturn(suggestionNode);
     // Act
-    String actual = diaryApplicationService.getRecommendedSchedule(userId);
+    JsonNode actual = diaryApplicationService.getRecommendedSchedule(userId);
     // Assert
-    assertThat(actual).isEqualTo(expected);
+    assertThat(actual).isEqualTo(suggestionNode);
   }
 
   @Test

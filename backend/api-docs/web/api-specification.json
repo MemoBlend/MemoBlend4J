@@ -902,7 +902,7 @@
         "type": "object",
         "properties": {
           "recommendedSchedule": {
-            "type": "string"
+            "$ref": "#/components/schemas/JsonNode"
           }
         }
       },
@@ -918,6 +918,7 @@
           }
         }
       },
+      "JsonNode": {},
       "LoginRequest": {
         "type": "object",
         "properties": {
