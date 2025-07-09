@@ -21,6 +21,7 @@ ext {
     commonsLangVersion = "3.17.0"
     springSecurityVersion = "3.4.3"
     mybatisGeneratorVersion = "1.4.2"
+    jjwtVersion = "0.12.6"
 
     supportDependencies = [
         spring_boot_starter : "org.springframework.boot:spring-boot-starter",
@@ -31,7 +32,6 @@ ext {
         spring_boot_starter_web : "org.springframework.boot:spring-boot-starter-web",
         spring_boot_security_starter : "org.springframework.boot:spring-boot-starter-security",
         spring_boot_devtools : "org.springframework.boot:spring-boot-devtools",
-
         spring_batch_test : "org.springframework.batch:spring-batch-test:$springBatchTestVersion",
         springdoc_openapi_starter_webmvc_ui : "org.springdoc:springdoc-openapi-starter-webmvc-ui:$springdocOpenapiVersion",
         mybatis_spring_boot_starter : "org.mybatis.spring.boot:mybatis-spring-boot-starter:$mybatisSpringBootStarterVersion",
@@ -42,6 +42,9 @@ ext {
         commons_lang3 : "org.apache.commons:commons-lang3:$commonsLangVersion",
         servlet_api : "jakarta.servlet:jakarta.servlet-api:$servletApiVersion",
         jackson_databind : "com.fasterxml.jackson.core:jackson-databind",
+        jjwt_api : "io.jsonwebtoken:jjwt-api:$jjwtVersion",
+        jjwt_impl : "io.jsonwebtoken:jjwt-impl:$jjwtVersion",
+        jjwt_jackson : "io.jsonwebtoken:jjwt-jackson:$jjwtVersion",
 
         lombok : "org.projectlombok:lombok",
         slf4j : "org.slf4j:slf4j-simple",

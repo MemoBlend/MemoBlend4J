@@ -1,4 +1,4 @@
-package com.memoblend.web.filter;
+package com.memoblend.web.security;
 
 import java.io.IOException;
 import java.util.List;
