@@ -3,7 +3,7 @@
 <mapper namespace="com.memoblend.infrastructure.repository.mapper.UserMapper">
 
 	<select id="findAll" resultType="com.memoblend.applicationcore.user.User">
-		SELECT * FROM users
+		SELECT id, name, is_deleted FROM users
 		<where>
 			<if test="isDeleted != null">
 				is_deleted = false
@@ -12,7 +12,7 @@
 	</select>
 
 	<select id="findById" resultType="com.memoblend.applicationcore.user.User">
-		SELECT * FROM users 
+		SELECT id, name, is_deleted FROM users 
 		<where>
 			<if test="id != null">
 				id = #{id}
@@ -24,8 +24,8 @@
 	</select>
 	
 	<insert id="add" parameterType="com.memoblend.applicationcore.user.User" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO users (name, is_deleted)
-		VALUES (#{name}, #{isDeleted})
+		INSERT INTO users (user_id, name, is_deleted)
+		VALUES ('user_1', #{name}, #{isDeleted})
 	</insert>
 	
 	<update id="delete" parameterType="long">
