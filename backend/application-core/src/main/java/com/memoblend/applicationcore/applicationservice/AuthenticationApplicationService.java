@@ -7,7 +7,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.memoblend.applicationcore.constant.UserRoleConstants;
+import com.memoblend.applicationcore.auth.Auth;
+import com.memoblend.applicationcore.auth.AuthRepository;
 import lombok.AllArgsConstructor;
 
 /**
@@ -19,6 +20,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AuthenticationApplicationService implements UserDetailsService {
   private final PasswordEncoder passwordEncoder;
+  private final AuthRepository authRepository;
 
   /**
    * ユーザーの認証を行います。
@@ -39,27 +41,17 @@ public class AuthenticationApplicationService implements UserDetailsService {
     }
   }
 
-  /**
-   * ユーザー名でユーザー情報を取得します。
-   * 
-   * @param username ユーザー名。
-   * @return UserDetails ユーザーの詳細情報。
-   * @throws UsernameNotFoundException ユーザー名に対応するユーザーが見つからない場合にスローされます。
-   */
+  @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    if ("admin".equals(username)) {
-      return User.builder()
-          .username("admin")
-          .password(passwordEncoder.encode("password"))
-          .authorities(UserRoleConstants.ADMIN)
-          .build();
-    } else if ("user".equals(username)) {
-      return User.builder()
-          .username("user")
-          .password(passwordEncoder.encode("password"))
-          .authorities(UserRoleConstants.USER)
-          .build();
+
+    Auth auth = authRepository.findById(username);
+    if (auth == null || auth.isDeleted()) {
+      throw new UsernameNotFoundException("ユーザーID：" + username + "のユーザーが見つかりません。");
     }
-    throw new UsernameNotFoundException("ユーザー名：" + username + "のユーザーが見つかりません。");
+    return User.builder()
+        .username(auth.getId())
+        .password(auth.getPassword())
+        .authorities(auth.getUserRole())
+        .build();
   }
 }
