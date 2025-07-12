@@ -12,7 +12,22 @@
  * Do not edit the class manually.
  */
 
-export * from './api/auth-controller-api';
-export * from './api/diary-api';
-export * from './api/secure-controller-api';
-export * from './api/user-api';
+/**
+ *
+ * @export
+ * @interface LoginRequest
+ */
+export interface LoginRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof LoginRequest
+   */
+  password?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof LoginRequest
+   */
+  username?: string;
+}

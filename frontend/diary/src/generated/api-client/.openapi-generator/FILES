@@ -2,7 +2,9 @@
 .npmignore
 .openapi-generator-ignore
 api.ts
+api/auth-controller-api.ts
 api/diary-api.ts
+api/secure-controller-api.ts
 api/user-api.ts
 base.ts
 common.ts
@@ -15,8 +17,10 @@ models/get-diary-response.ts
 models/get-recommended-schedule-response.ts
 models/get-user-response.ts
 models/index.ts
+models/login-request.ts
 models/post-diary-request.ts
 models/post-user-request.ts
 models/problem-detail.ts
 models/put-diary-request.ts
 models/put-user-request.ts
+models/token-validation-request.ts
