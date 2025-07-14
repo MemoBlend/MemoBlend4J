@@ -15,19 +15,19 @@
 /**
  *
  * @export
- * @interface LoginRequest
+ * @interface TokenValidationResponse
  */
-export interface LoginRequest {
+export interface TokenValidationResponse {
   /**
    *
    * @type {string}
-   * @memberof LoginRequest
+   * @memberof TokenValidationResponse
    */
-  authId?: string;
+  username?: string;
   /**
    *
-   * @type {string}
-   * @memberof LoginRequest
+   * @type {boolean}
+   * @memberof TokenValidationResponse
    */
-  password?: string;
+  valid?: boolean;
 }

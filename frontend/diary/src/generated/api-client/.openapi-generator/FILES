@@ -18,9 +18,11 @@ models/get-recommended-schedule-response.ts
 models/get-user-response.ts
 models/index.ts
 models/login-request.ts
+models/login-response.ts
 models/post-diary-request.ts
 models/post-user-request.ts
 models/problem-detail.ts
 models/put-diary-request.ts
 models/put-user-request.ts
 models/token-validation-request.ts
+models/token-validation-response.ts

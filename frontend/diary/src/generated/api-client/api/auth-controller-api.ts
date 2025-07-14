@@ -41,7 +41,13 @@ import {
 // @ts-ignore
 import type { LoginRequest } from '../models';
 // @ts-ignore
+import type { LoginResponse } from '../models';
+// @ts-ignore
+import type { ProblemDetail } from '../models';
+// @ts-ignore
 import type { TokenValidationRequest } from '../models';
+// @ts-ignore
+import type { TokenValidationResponse } from '../models';
 /**
  * AuthControllerApi - axios parameter creator
  * @export
@@ -51,7 +57,8 @@ export const AuthControllerApiAxiosParamCreator = function (
 ) {
   return {
     /**
-     *
+     * ログイン処理を行い、JWTトークンを生成します。
+     * @summary ログイン処理を行い、JWTトークンを生成します。
      * @param {LoginRequest} loginRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -100,7 +107,8 @@ export const AuthControllerApiAxiosParamCreator = function (
       };
     },
     /**
-     *
+     * トークンの有効性検証を行います。
+     * @summary トークンの有効性検証を行います。
      * @param {TokenValidationRequest} tokenValidationRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -164,7 +172,8 @@ export const AuthControllerApiFp = function (configuration?: Configuration) {
     AuthControllerApiAxiosParamCreator(configuration);
   return {
     /**
-     *
+     * ログイン処理を行い、JWTトークンを生成します。
+     * @summary ログイン処理を行い、JWTトークンを生成します。
      * @param {LoginRequest} loginRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -173,7 +182,7 @@ export const AuthControllerApiFp = function (configuration?: Configuration) {
       loginRequest: LoginRequest,
       options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<LoginResponse>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.login(
         loginRequest,
@@ -193,7 +202,8 @@ export const AuthControllerApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
-     *
+     * トークンの有効性検証を行います。
+     * @summary トークンの有効性検証を行います。
      * @param {TokenValidationRequest} tokenValidationRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -202,7 +212,10 @@ export const AuthControllerApiFp = function (configuration?: Configuration) {
       tokenValidationRequest: TokenValidationRequest,
       options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<TokenValidationResponse>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.validate(
         tokenValidationRequest,
@@ -236,7 +249,8 @@ export const AuthControllerApiFactory = function (
   const localVarFp = AuthControllerApiFp(configuration);
   return {
     /**
-     *
+     * ログイン処理を行い、JWTトークンを生成します。
+     * @summary ログイン処理を行い、JWTトークンを生成します。
      * @param {LoginRequest} loginRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -244,13 +258,14 @@ export const AuthControllerApiFactory = function (
     login(
       loginRequest: LoginRequest,
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<object> {
+    ): AxiosPromise<LoginResponse> {
       return localVarFp
         .login(loginRequest, options)
         .then((request) => request(axios, basePath));
     },
     /**
-     *
+     * トークンの有効性検証を行います。
+     * @summary トークンの有効性検証を行います。
      * @param {TokenValidationRequest} tokenValidationRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -258,7 +273,7 @@ export const AuthControllerApiFactory = function (
     validate(
       tokenValidationRequest: TokenValidationRequest,
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<object> {
+    ): AxiosPromise<TokenValidationResponse> {
       return localVarFp
         .validate(tokenValidationRequest, options)
         .then((request) => request(axios, basePath));
@@ -274,7 +289,8 @@ export const AuthControllerApiFactory = function (
  */
 export class AuthControllerApi extends BaseAPI {
   /**
-   *
+   * ログイン処理を行い、JWTトークンを生成します。
+   * @summary ログイン処理を行い、JWTトークンを生成します。
    * @param {LoginRequest} loginRequest
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -287,7 +303,8 @@ export class AuthControllerApi extends BaseAPI {
   }
 
   /**
-   *
+   * トークンの有効性検証を行います。
+   * @summary トークンの有効性検証を行います。
    * @param {TokenValidationRequest} tokenValidationRequest
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}

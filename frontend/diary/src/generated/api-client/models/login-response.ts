@@ -15,19 +15,31 @@
 /**
  *
  * @export
- * @interface LoginRequest
+ * @interface LoginResponse
  */
-export interface LoginRequest {
+export interface LoginResponse {
+  /**
+   *
+   * @type {any}
+   * @memberof LoginResponse
+   */
+  authorities?: any;
   /**
    *
    * @type {string}
-   * @memberof LoginRequest
+   * @memberof LoginResponse
    */
-  authId?: string;
+  token?: string;
   /**
    *
    * @type {string}
-   * @memberof LoginRequest
+   * @memberof LoginResponse
    */
-  password?: string;
+  tokenType?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof LoginResponse
+   */
+  username?: string;
 }
