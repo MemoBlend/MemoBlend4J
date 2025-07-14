@@ -48,7 +48,7 @@ export function createCustomErrorHandler(): CustomErrorHandler {
           if (handlingUnauthorizedError) {
             handlingUnauthorizedError();
           } else {
-            router.push({ name: 'authentication/login' });
+            router.push({ name: 'login' });
           }
         } else if (error instanceof NetworkError) {
           if (handlingNetworkError) {
