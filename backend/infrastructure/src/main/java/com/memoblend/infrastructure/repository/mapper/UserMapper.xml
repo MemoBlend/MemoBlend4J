@@ -27,7 +27,7 @@
 		SELECT id, name, is_deleted FROM users
 		<where>
 			<if test="authId != null">
-				user_id = #{authId}
+				auth_id = #{authId}
 			</if>
 			<if test="isDeleted != null">
 				AND is_deleted = false
