@@ -20,7 +20,7 @@ INSERT INTO auth (id, password, user_role) VALUES
 ('user_19', '$2b$08$591Nz4QR2DXmdnRFnsait.l8dih29chKbEkkCmvgQk9hZ2LiHDe9m', 'ROLE_USER'),
 ('user_20', '$2b$08$zy.0BWv.y91KM8tELjPLTubMNUwEgPGYWtFT2.HAMo3e8C6z.Xkme', 'ROLE_USER');
 
-INSERT INTO users (user_id, name) VALUES
+INSERT INTO users (auth_id, name) VALUES
 ('user_1', '山田 太郎'),
 ('user_2', '佐藤 花子'),
 ('user_3', '鈴木 一郎'),

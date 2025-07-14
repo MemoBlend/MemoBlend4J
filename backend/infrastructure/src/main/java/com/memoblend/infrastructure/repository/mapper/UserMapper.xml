@@ -22,9 +22,21 @@
 			</if>
 		</where>
 	</select>
-	
+
+	<select id="findByAuthId" resultType="com.memoblend.applicationcore.user.User">
+		SELECT id, name, is_deleted FROM users
+		<where>
+			<if test="authId != null">
+				user_id = #{authId}
+			</if>
+			<if test="isDeleted != null">
+				AND is_deleted = false
+			</if>
+		</where>
+	</select>
+
 	<insert id="add" parameterType="com.memoblend.applicationcore.user.User" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO users (user_id, name, is_deleted)
+		INSERT INTO users (auth_id, name, is_deleted)
 		VALUES ('user_1', #{name}, #{isDeleted})
 	</insert>
 	

@@ -27,6 +27,11 @@ public class MyBatisUserRepository implements UserRepository {
   }
 
   @Override
+  public User findByAuthId(String authId) {
+    return userMapper.findByAuthId(authId);
+  }
+
+  @Override
   public User add(User user) {
     userMapper.add(user);
     return user;
