@@ -12,6 +12,10 @@
   ],
   "tags": [
     {
+      "description": "認証関連の API です。",
+      "name": "Auth"
+    },
+    {
       "description": "ユーザーの情報にアクセスする API です。",
       "name": "User"
     },
@@ -89,7 +93,7 @@
         },
         "summary": "ログイン処理を行い、JWTトークンを生成します。",
         "tags": [
-          "auth-controller"
+          "Auth"
         ]
       }
     },
@@ -151,7 +155,7 @@
         },
         "summary": "トークンの有効性検証を行います。",
         "tags": [
-          "auth-controller"
+          "Auth"
         ]
       }
     },
