@@ -29,7 +29,7 @@ axiosInstance.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 // レスポンスインターセプターを追加して401エラーを処理
@@ -51,13 +51,17 @@ axiosInstance.interceptors.response.use(
       }
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 /**
  * 認証の API クライアントです。
  */
-const authControllerApi = new apiClient.AuthControllerApi(createConfig(), '', axiosInstance);
+const authControllerApi = new apiClient.AuthApi(
+  createConfig(),
+  '',
+  axiosInstance,
+);
 
 /**
  * 日記の API クライアントです。

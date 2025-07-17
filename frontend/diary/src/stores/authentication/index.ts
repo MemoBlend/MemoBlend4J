@@ -44,7 +44,9 @@ export const useAuthenticationStore = defineStore('authentication', {
           JSON.stringify(this.authenticationState),
         );
       } else {
-        throw new Error('ログインに失敗しました。トークンが取得できませんでした。');
+        throw new Error(
+          'ログインに失敗しました。トークンが取得できませんでした。',
+        );
       }
     },
     /**
@@ -69,7 +71,9 @@ export const useAuthenticationStore = defineStore('authentication', {
       if (token) {
         this.tokenState = token;
         this.usernameState = sessionStorage.getItem('username') || '';
-        this.nameState = JSON.parse(sessionStorage.getItem('name') || '""') as string;
+        this.nameState = JSON.parse(
+          sessionStorage.getItem('name') || '""',
+        ) as string;
         this.authenticationState = true;
 
         // トークンの有効性をチェック

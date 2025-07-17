@@ -32,7 +32,8 @@ const login = async () => {
     router.push({ name: 'diaries' });
   } catch (error) {
     console.error('ログインエラー:', error);
-    errorMessage.value = 'ログインに失敗しました。認証IDとパスワードを確認してください。';
+    errorMessage.value =
+      'ログインに失敗しました。認証IDとパスワードを確認してください。';
   } finally {
     isLoading.value = false;
   }
@@ -50,21 +51,39 @@ const isInValid = () => {
     <v-card-item>
       <v-card-title> ログイン </v-card-title>
 
-      <v-card-subtitle>
-        認証IDとパスワードを入力してください
-      </v-card-subtitle>
+      <v-card-subtitle> 認証IDとパスワードを入力してください </v-card-subtitle>
     </v-card-item>
 
     <v-card-text>
       <!-- エラーメッセージ表示 -->
-      <v-alert v-if="errorMessage" type="error" class="mb-4" :text="errorMessage"></v-alert>
+      <v-alert
+        v-if="errorMessage"
+        type="error"
+        class="mb-4"
+        :text="errorMessage"
+      ></v-alert>
 
       <v-form>
-        <v-text-field v-model="authId" label="認証ID" :error-messages="errors.authId"
-          :disabled="isLoading"></v-text-field>
-        <v-text-field v-model="password" label="パスワード" type="password" :error-messages="errors.password"
-          :disabled="isLoading"></v-text-field>
-        <v-btn block color="primary" @click="login" :disabled="isInValid()" :loading="isLoading">
+        <v-text-field
+          v-model="authId"
+          label="認証ID"
+          :error-messages="errors.authId"
+          :disabled="isLoading"
+        ></v-text-field>
+        <v-text-field
+          v-model="password"
+          label="パスワード"
+          type="password"
+          :error-messages="errors.password"
+          :disabled="isLoading"
+        ></v-text-field>
+        <v-btn
+          block
+          color="primary"
+          @click="login"
+          :disabled="isInValid()"
+          :loading="isLoading"
+        >
           ログイン
         </v-btn>
       </v-form>

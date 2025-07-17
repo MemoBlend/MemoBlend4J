@@ -49,10 +49,10 @@ import type { TokenValidationRequest } from '../models';
 // @ts-ignore
 import type { TokenValidationResponse } from '../models';
 /**
- * AuthControllerApi - axios parameter creator
+ * AuthApi - axios parameter creator
  * @export
  */
-export const AuthControllerApiAxiosParamCreator = function (
+export const AuthApiAxiosParamCreator = function (
   configuration?: Configuration,
 ) {
   return {
@@ -164,12 +164,11 @@ export const AuthControllerApiAxiosParamCreator = function (
 };
 
 /**
- * AuthControllerApi - functional programming interface
+ * AuthApi - functional programming interface
  * @export
  */
-export const AuthControllerApiFp = function (configuration?: Configuration) {
-  const localVarAxiosParamCreator =
-    AuthControllerApiAxiosParamCreator(configuration);
+export const AuthApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = AuthApiAxiosParamCreator(configuration);
   return {
     /**
      * ログイン処理を行い、JWTトークンを生成します。
@@ -190,9 +189,8 @@ export const AuthControllerApiFp = function (configuration?: Configuration) {
       );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['AuthControllerApi.login']?.[
-          localVarOperationServerIndex
-        ]?.url;
+        operationServerMap['AuthApi.login']?.[localVarOperationServerIndex]
+          ?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -223,9 +221,8 @@ export const AuthControllerApiFp = function (configuration?: Configuration) {
       );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['AuthControllerApi.validate']?.[
-          localVarOperationServerIndex
-        ]?.url;
+        operationServerMap['AuthApi.validate']?.[localVarOperationServerIndex]
+          ?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -238,15 +235,15 @@ export const AuthControllerApiFp = function (configuration?: Configuration) {
 };
 
 /**
- * AuthControllerApi - factory interface
+ * AuthApi - factory interface
  * @export
  */
-export const AuthControllerApiFactory = function (
+export const AuthApiFactory = function (
   configuration?: Configuration,
   basePath?: string,
   axios?: AxiosInstance,
 ) {
-  const localVarFp = AuthControllerApiFp(configuration);
+  const localVarFp = AuthApiFp(configuration);
   return {
     /**
      * ログイン処理を行い、JWTトークンを生成します。
@@ -282,22 +279,22 @@ export const AuthControllerApiFactory = function (
 };
 
 /**
- * AuthControllerApi - object-oriented interface
+ * AuthApi - object-oriented interface
  * @export
- * @class AuthControllerApi
+ * @class AuthApi
  * @extends {BaseAPI}
  */
-export class AuthControllerApi extends BaseAPI {
+export class AuthApi extends BaseAPI {
   /**
    * ログイン処理を行い、JWTトークンを生成します。
    * @summary ログイン処理を行い、JWTトークンを生成します。
    * @param {LoginRequest} loginRequest
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof AuthControllerApi
+   * @memberof AuthApi
    */
   public login(loginRequest: LoginRequest, options?: RawAxiosRequestConfig) {
-    return AuthControllerApiFp(this.configuration)
+    return AuthApiFp(this.configuration)
       .login(loginRequest, options)
       .then((request) => request(this.axios, this.basePath));
   }
@@ -308,13 +305,13 @@ export class AuthControllerApi extends BaseAPI {
    * @param {TokenValidationRequest} tokenValidationRequest
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof AuthControllerApi
+   * @memberof AuthApi
    */
   public validate(
     tokenValidationRequest: TokenValidationRequest,
     options?: RawAxiosRequestConfig,
   ) {
-    return AuthControllerApiFp(this.configuration)
+    return AuthApiFp(this.configuration)
       .validate(tokenValidationRequest, options)
       .then((request) => request(this.axios, this.basePath));
   }
