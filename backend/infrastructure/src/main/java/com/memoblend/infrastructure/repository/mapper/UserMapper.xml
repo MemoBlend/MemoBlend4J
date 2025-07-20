@@ -2,58 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.memoblend.infrastructure.repository.mapper.UserMapper">
 
+	<sql id="selectUser">
+		SELECT * FROM USERS
+	</sql>
+
 	<select id="findAll" resultType="com.memoblend.applicationcore.user.User">
-		SELECT id, name, is_deleted FROM users
-		<where>
-			<if test="isDeleted != null">
-				is_deleted = false
-			</if>
-		</where>
+		<include refid="selectUser" />
+		WHERE IS_DELETED = false
 	</select>
 
 	<select id="findById" resultType="com.memoblend.applicationcore.user.User">
-		SELECT id, name, is_deleted FROM users 
-		<where>
-			<if test="id != null">
-				id = #{id}
-			</if>
-			<if test="isDeleted != null">
-				AND is_deleted = false
-			</if>
-		</where>
+		<include refid="selectUser" />
+		WHERE ID = #{id}
+		AND IS_DELETED = false
 	</select>
 	
 	<insert id="add" parameterType="com.memoblend.applicationcore.user.User" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO users (user_id, name, is_deleted)
-		VALUES ('user_1', #{name}, #{isDeleted})
+		INSERT INTO USERS (NAME, IS_DELETED, AUTH_ID)
+		VALUES (#{name}, #{isDeleted}, #{authId})
 	</insert>
 	
 	<update id="delete" parameterType="long">
-		UPDATE users
-		<set>
-			<if test="isDeleted != null">
-				is_deleted = true
-			</if>
-		</set>
-		<where>
-			<if test="id != null">
-				id = #{id}
-			</if>
-		</where>
+		UPDATE USERS
+		SET IS_DELETED = true
+		WHERE ID = #{id}
 	</update>
 
 	<update id="update" parameterType="com.memoblend.applicationcore.user.User">
-		UPDATE users
-		<set>
-			<if test="name != null">
-				name = #{name}
-			</if>
-		</set>
-		<where>
-			<if test="id != null">
-				id = #{id}
-			</if>
-		</where>
+		UPDATE USERS
+		SET NAME = #{name}
+		WHERE ID = #{id}
 	</update>
 	
 </mapper>

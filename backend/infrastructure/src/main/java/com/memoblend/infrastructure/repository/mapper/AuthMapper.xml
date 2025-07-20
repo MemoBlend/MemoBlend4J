@@ -2,8 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.memoblend.infrastructure.repository.mapper.AuthMapper">
 
-	<select id="findById" resultType="com.memoblend.applicationcore.auth.Auth">
-		SELECT * FROM auth
-		WHERE id = #{id}
+	<sql id="selectAuthWithRole">
+		SELECT
+			AUTHES.ID,
+			AUTHES.PASSWORD_HASH,
+			ROLES.NAME
+		FROM AUTHES
+		INNER JOIN ROLES ON AUTHES.ID = ROLES.ID
+	</sql>	
+	
+	<resultMap id="authWithRoleResultMap" type="com.memoblend.applicationcore.auth.Auth">
+		<id property="id" column="ID" />
+		<result property="passwordHash" column="PASSWORD_HASH" />
+		<association property="role" javaType="com.memoblend.applicationcore.auth.Role">
+			<result property="name" column="NAME" />
+		</association>
+	</resultMap>
+
+	<select id="findById" resultMap="authWithRoleResultMap">
+		<include refid="selectAuthWithRole" />
+		WHERE AUTHES.ID = #{id}
 	</select>
 </mapper>
