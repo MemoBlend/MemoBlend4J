@@ -52,6 +52,7 @@ class UserDomainServiceTest {
   private User createUser(String name) throws UserValidationException {
     long id = 1L;
     boolean isDeleted = false;
-    return new User(id, name, isDeleted);
+    String authId = "auth_" + id;
+    return new User(id, name, isDeleted, authId);
   }
 }

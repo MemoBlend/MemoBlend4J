@@ -21,7 +21,7 @@ class UserTest {
   @Test
   void testNoError_正常系_ユーザーを作成できる() {
     // Act
-    assertDoesNotThrow(() -> new User(1L, "testName", false));
+    assertDoesNotThrow(() -> new User(1L, "testName", false, "auth_1"));
   }
 
   @ParameterizedTest
@@ -29,14 +29,14 @@ class UserTest {
   @ValueSource(strings = { " ", "" })
   void testNameIsNull_異常系_nameが空(String name) {
     UserValidationException e = assertThrows(UserValidationException.class,
-        () -> new User(1L, name, false));
+        () -> new User(1L, name, false, "auth_1"));
     assertEquals(ExceptionIdConstants.E_USER_FIELD_IS_REQUIRED, e.getExceptionId());
   }
 
   @Test
   void testNameIsTooLong_異常系_nameの文字数オーバー() {
     UserValidationException e = assertThrows(UserValidationException.class,
-        () -> new User(1L, "a".repeat(16), false));
+        () -> new User(1L, "a".repeat(16), false, "auth_1"));
     assertEquals(ExceptionIdConstants.E_USER_VALUE_IS_OUT_OF_RANGE, e.getExceptionId());
   }
 }

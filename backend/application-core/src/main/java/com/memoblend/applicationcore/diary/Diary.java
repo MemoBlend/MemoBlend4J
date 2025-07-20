@@ -14,8 +14,6 @@ public class Diary {
   @NonNull
   private long id;
   @NonNull
-  private long userId;
-  @NonNull
   private Title title;
   @NonNull
   private Content content;
@@ -23,26 +21,28 @@ public class Diary {
   private CreatedDate createdDate;
   @NonNull
   private boolean isDeleted;
+  @NonNull
+  private long userId;
 
   /**
    * {@link Diary} クラスの新しいインスタンスを初期化します。
    * 
    * @param id          ID。
-   * @param userId      ユーザー ID。
    * @param title       タイトル。
    * @param content     コンテンツ。
    * @param createdDate 作成日時。
    * @param isDeleted   削除フラグ。
+   * @param userId      ユーザー ID。
    * @throws DiaryValidationException 日記が不正な場合。
    */
-  public Diary(long id, long userId, String title, String content, LocalDate createdDate, boolean isDeleted)
+  public Diary(long id, String title, String content, LocalDate createdDate, boolean isDeleted, long userId)
       throws DiaryValidationException {
     this.id = id;
-    this.userId = userId;
     this.title = new Title(title);
     this.content = new Content(content);
     this.createdDate = new CreatedDate(createdDate);
     this.isDeleted = isDeleted;
+    this.userId = userId;
   }
 
   /**
@@ -52,15 +52,6 @@ public class Diary {
    */
   public long getId() {
     return this.id;
-  }
-
-  /**
-   * ユーザー ID を取得します。
-   * 
-   * @return ユーザー ID。
-   */
-  public long getUserId() {
-    return this.userId;
   }
 
   /**
@@ -100,21 +91,21 @@ public class Diary {
   }
 
   /**
+   * ユーザー ID を取得します。
+   * 
+   * @return ユーザー ID。
+   */
+  public long getUserId() {
+    return this.userId;
+  }
+
+  /**
    * ID を設定します。
    * 
    * @param id ID。
    */
   public void setId(long id) {
     this.id = id;
-  }
-
-  /**
-   * ユーザー ID を設定します。
-   * 
-   * @param userId ユーザー ID。
-   */
-  public void setUserId(long userId) {
-    this.userId = userId;
   }
 
   /**
@@ -154,5 +145,14 @@ public class Diary {
    */
   public void setIsDeleted(boolean isDeleted) {
     this.isDeleted = isDeleted;
+  }
+
+  /**
+   * ユーザー ID を設定します。
+   * 
+   * @param userId ユーザー ID。
+   */
+  public void setUserId(long userId) {
+    this.userId = userId;
   }
 }

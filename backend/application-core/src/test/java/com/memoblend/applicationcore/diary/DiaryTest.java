@@ -18,7 +18,7 @@ class DiaryTest {
 
   @Test
   void testNoError_正常系_日記を作成できる() {
-    assertDoesNotThrow(() -> new Diary(1L, 1L, "testTitle", "testContent", LocalDate.of(2025, 1, 1), false));
+    assertDoesNotThrow(() -> new Diary(1L, "testTitle", "testContent", LocalDate.of(2025, 1, 1), false, 1L));
   }
 
   @ParameterizedTest
@@ -27,7 +27,7 @@ class DiaryTest {
   void testTitleIsNull_異常系_titleが空(String title) {
     DiaryValidationException e = assertThrows(
         DiaryValidationException.class,
-        () -> new Diary(1L, 1L, title, "testContent", LocalDate.of(2025, 1, 1), false));
+        () -> new Diary(1L, title, "testContent", LocalDate.of(2025, 1, 1), false, 1L));
     assertEquals(ExceptionIdConstants.E_DIARY_FIELD_IS_REQUIRED, e.getExceptionId());
   }
 
@@ -35,8 +35,7 @@ class DiaryTest {
   void testTitleIsTooLong_異常系_titleの文字数オーバー() {
     DiaryValidationException e = assertThrows(
         DiaryValidationException.class,
-        () -> new Diary(1L, 1L, "a".repeat(31), "testContent", LocalDate.of(2025, 1,
-            1), false));
+        () -> new Diary(1L, "a".repeat(31), "testContent", LocalDate.of(2025, 1, 1), false, 1L));
     assertEquals(ExceptionIdConstants.E_DIARY_VALUE_IS_OUT_OF_RANGE, e.getExceptionId());
   }
 
@@ -46,7 +45,7 @@ class DiaryTest {
   void testContentIsNull_異常系_contentが空(String content) {
     DiaryValidationException e = assertThrows(
         DiaryValidationException.class,
-        () -> new Diary(1L, 1L, "testTitle", content, LocalDate.of(2025, 1, 1), false));
+        () -> new Diary(1L, "testTitle", content, LocalDate.of(2025, 1, 1), false, 1L));
     assertEquals(ExceptionIdConstants.E_DIARY_FIELD_IS_REQUIRED, e.getExceptionId());
   }
 
@@ -54,15 +53,14 @@ class DiaryTest {
   void testContentIsTooLong_異常系_contentの文字数オーバー() {
     DiaryValidationException e = assertThrows(
         DiaryValidationException.class,
-        () -> new Diary(1L, 1L, "testTitle", "a".repeat(1001), LocalDate.of(2025, 1,
-            1), false));
+        () -> new Diary(1L, "testTitle", "a".repeat(1001), LocalDate.of(2025, 1, 1), false, 1L));
     assertEquals(ExceptionIdConstants.E_DIARY_VALUE_IS_OUT_OF_RANGE, e.getExceptionId());
   }
 
   @Test
   void testDateIsNull_異常系_作成日時がnull() {
     DiaryValidationException e = assertThrows(DiaryValidationException.class,
-        () -> new Diary(1L, 1L, "testTitle", "testContent", null, false));
+        () -> new Diary(1L, "testTitle", "testContent", null, false, 1L));
     assertEquals(ExceptionIdConstants.E_DIARY_FIELD_IS_REQUIRED, e.getExceptionId());
   }
 }

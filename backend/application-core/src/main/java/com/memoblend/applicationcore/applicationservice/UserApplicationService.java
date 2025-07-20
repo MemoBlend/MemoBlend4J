@@ -25,6 +25,7 @@ public class UserApplicationService {
   private final UserRepository userRepository;
   private final UserDomainService userDomainService;
   private final MessageSource messages;
+
   private final Logger apLog = Logger.getLogger(SystemPropertyConstants.APPLICATION_LOGGER);
 
   /**
@@ -45,8 +46,7 @@ public class UserApplicationService {
    * @throws UserNotFoundException ユーザーが見つからない場合。
    */
   public User getUser(long id) throws UserNotFoundException {
-    apLog.info(messages.getMessage(MessageIdConstants.D_USER_GET_USER,
-        new Object[] { id }, Locale.getDefault()));
+    apLog.info(messages.getMessage(MessageIdConstants.D_USER_GET_USER, new Object[] { id }, Locale.getDefault()));
     User user = userRepository.findById(id);
     if (user == null) {
       throw new UserNotFoundException(id);
@@ -63,8 +63,7 @@ public class UserApplicationService {
   public User addUser(User user) {
     User addedUser = userRepository.add(user);
     long addedId = addedUser.getId();
-    apLog.info(messages.getMessage(MessageIdConstants.D_USER_ADD_USER,
-        new Object[] { addedId }, Locale.getDefault()));
+    apLog.info(messages.getMessage(MessageIdConstants.D_USER_ADD_USER, new Object[] { addedId }, Locale.getDefault()));
     return addedUser;
   }
 
@@ -76,8 +75,7 @@ public class UserApplicationService {
    */
   public void updateUser(User user) throws UserNotFoundException {
     final long id = user.getId();
-    apLog.info(messages.getMessage(MessageIdConstants.D_USER_UPDATE_USER,
-        new Object[] { id }, Locale.getDefault()));
+    apLog.info(messages.getMessage(MessageIdConstants.D_USER_UPDATE_USER, new Object[] { id }, Locale.getDefault()));
     if (!userDomainService.isExistUser(id)) {
       throw new UserNotFoundException(id);
     }
@@ -91,8 +89,7 @@ public class UserApplicationService {
    * @throws UserNotFoundException ユーザーが見つからない場合。
    */
   public void deleteUser(long id) throws UserNotFoundException {
-    apLog.info(messages.getMessage(MessageIdConstants.D_USER_DELETE_USER,
-        new Object[] { id }, Locale.getDefault()));
+    apLog.info(messages.getMessage(MessageIdConstants.D_USER_DELETE_USER, new Object[] { id }, Locale.getDefault()));
     if (!userDomainService.isExistUser(id)) {
       throw new UserNotFoundException(id);
     }

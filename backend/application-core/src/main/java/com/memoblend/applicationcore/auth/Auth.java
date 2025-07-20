@@ -1,5 +1,6 @@
 package com.memoblend.applicationcore.auth;
 
+import java.util.List;
 import lombok.Data;
 
 /**
@@ -8,7 +9,6 @@ import lombok.Data;
 @Data
 public class Auth {
   private String id;
-  private String password;
-  private String userRole;
-  private boolean isDeleted;
+  private String passwordHash;
+  private List<Role> roles;
 }

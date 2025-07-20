@@ -1,8 +1,8 @@
 package com.memoblend.applicationcore.applicationservice;
 
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,20 +18,20 @@ import lombok.AllArgsConstructor;
 @Service
 @Transactional(rollbackFor = Exception.class)
 @AllArgsConstructor
-public class AuthenticationApplicationService implements UserDetailsService {
+public class AuthApplicationService {
   private final PasswordEncoder passwordEncoder;
   private final AuthRepository authRepository;
 
   /**
    * ユーザーの認証を行います。
-   * 
-   * @param username ユーザー名。
+   *
+   * @param authId   認証ID。
    * @param password パスワード。
    * @return 認証が成功した場合のUserDetails、失敗した場合またはUsernameNotFoundExceptionが発生した場合はnull。
    */
-  public UserDetails authenticate(String username, String password) {
+  public UserDetails authenticate(String authId, String password) {
     try {
-      UserDetails userDetails = loadUserByUsername(username);
+      UserDetails userDetails = loadUserByAuthId(authId);
       if (!passwordEncoder.matches(password, userDetails.getPassword())) {
         return null;
       }
@@ -41,17 +41,24 @@ public class AuthenticationApplicationService implements UserDetailsService {
     }
   }
 
-  @Override
-  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-    Auth auth = authRepository.findById(username);
-    if (auth == null || auth.isDeleted()) {
-      throw new UsernameNotFoundException("ユーザーID：" + username + "のユーザーが見つかりません。");
+  /**
+   * 認証IDでユーザーをロードします。
+   *
+   * @param authId 認証ID。
+   * @return UserDetails オブジェクト。
+   * @throws UsernameNotFoundException ユーザーが見つからない場合にスローされます。
+   */
+  private UserDetails loadUserByAuthId(String authId) throws UsernameNotFoundException {
+    Auth auth = authRepository.findById(authId);
+    if (auth == null) {
+      throw new UsernameNotFoundException("認証ID：" + authId + "のユーザーが見つかりません。");
     }
     return User.builder()
         .username(auth.getId())
-        .password(auth.getPassword())
-        .authorities(auth.getUserRole())
+        .password(auth.getPasswordHash())
+        .authorities(auth.getRoles().stream()
+            .map(role -> new SimpleGrantedAuthority(role.getName()))
+            .toList())
         .build();
   }
 }

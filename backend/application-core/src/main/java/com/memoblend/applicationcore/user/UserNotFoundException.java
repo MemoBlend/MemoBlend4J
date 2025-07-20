@@ -13,8 +13,7 @@ public class UserNotFoundException extends LogicException {
    * @param id ユーザー ID 。
    */
   public UserNotFoundException(long id) {
-    super(null, ExceptionIdConstants.E_USER_NOT_FOUND,
-        new String[] { String.valueOf(id) },
+    super(null, ExceptionIdConstants.E_USER_NOT_FOUND, new String[] { String.valueOf(id) },
         new String[] { String.valueOf(id) });
   }
 }
