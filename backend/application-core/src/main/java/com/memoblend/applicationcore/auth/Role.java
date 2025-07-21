@@ -1,5 +1,6 @@
 package com.memoblend.applicationcore.auth;
 
+import org.springframework.lang.NonNull;
 import lombok.Data;
 
 /**
@@ -7,6 +8,8 @@ import lombok.Data;
  */
 @Data
 public class Role {
+  @NonNull
   private int id;
+  @NonNull
   private String name;
 }
