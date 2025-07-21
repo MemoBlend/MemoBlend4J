@@ -12,6 +12,10 @@
   ],
   "tags": [
     {
+      "description": "認証関連の API です。",
+      "name": "Auth"
+    },
+    {
       "description": "ユーザーの情報にアクセスする API です。",
       "name": "User"
     },
@@ -47,7 +51,7 @@
           }
         },
         "tags": [
-          "auth-controller"
+          "Auth"
         ]
       }
     },
@@ -77,7 +81,7 @@
           }
         },
         "tags": [
-          "auth-controller"
+          "Auth"
         ]
       }
     },
@@ -549,66 +553,6 @@
         "summary": "ID を指定して、日記情報を取得します。",
         "tags": [
           "Diary"
-        ]
-      }
-    },
-    "/api/secure/admin": {
-      "get": {
-        "operationId": "getAdminInfo",
-        "responses": {
-          "200": {
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            },
-            "description": "OK"
-          }
-        },
-        "tags": [
-          "secure-controller"
-        ]
-      }
-    },
-    "/api/secure/data": {
-      "get": {
-        "operationId": "getData",
-        "responses": {
-          "200": {
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            },
-            "description": "OK"
-          }
-        },
-        "tags": [
-          "secure-controller"
-        ]
-      }
-    },
-    "/api/secure/user": {
-      "get": {
-        "operationId": "getUserInfo",
-        "responses": {
-          "200": {
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            },
-            "description": "OK"
-          }
-        },
-        "tags": [
-          "secure-controller"
         ]
       }
     },
