@@ -16,7 +16,13 @@
 		WHERE ID = #{id}
 		AND IS_DELETED = false
 	</select>
-	
+
+	<select id="findByAuthId" resultType="com.memoblend.applicationcore.user.User">
+		<include refid="selectUser" />
+		WHERE AUTH_ID = #{authId}
+		AND IS_DELETED = false
+	</select>
+
 	<insert id="add" parameterType="com.memoblend.applicationcore.user.User" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO USERS (NAME, IS_DELETED, AUTH_ID)
 		VALUES (#{name}, #{isDeleted}, #{authId})
