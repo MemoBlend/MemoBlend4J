@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.memoblend.applicationcore.auth.Auth;
 import com.memoblend.applicationcore.auth.AuthRepository;
+import com.memoblend.applicationcore.user.UserNotFoundException;
 import lombok.AllArgsConstructor;
 
 /**
@@ -46,5 +47,26 @@ public class AuthApplicationService {
       return null;
     }
     return userDetails;
+  }
+
+  /**
+   * 認証 ID を使用してユーザーデータを取得します。
+   * 
+   * @param authId 認証 ID。
+   * @throws UserNotFoundException 認証 ID に対応するユーザーが存在しない場合。
+   */
+  public UserDetails loadUserByAuthId(String authId) throws UserNotFoundException {
+    Auth auth = authRepository.findById(authId);
+    if (auth == null) {
+      throw new UserNotFoundException(authId);
+    }
+    return User.builder()
+        .username(auth.getId())
+        .password(auth.getPasswordHash())
+        .authorities(auth.getRoles()
+            .stream()
+            .map(role -> new SimpleGrantedAuthority(role.getName()))
+            .toList())
+        .build();
   }
 }

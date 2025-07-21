@@ -9,10 +9,10 @@ import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 import com.memoblend.applicationcore.applicationservice.AuthApplicationService;
+import com.memoblend.applicationcore.user.UserNotFoundException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.SignatureException;
@@ -25,7 +25,7 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
   private final JwtTokenUtil jwtTokenUtil;
-  private final AuthApplicationService authenticationApplicationService;
+  private final AuthApplicationService authApplicationService;
 
   @Override
   protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
@@ -58,7 +58,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
       try {
 
-        UserDetails userDetails = this.authenticationApplicationService.authenticate(username, jwtToken);
+        UserDetails userDetails = this.authApplicationService.loadUserByAuthId(username);
 
         if (userDetails != null && jwtTokenUtil.isTokenValid(jwtToken, userDetails)) {
           UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
@@ -66,7 +66,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
           authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
           SecurityContextHolder.getContext().setAuthentication(authToken);
         }
-      } catch (UsernameNotFoundException e) {
+      } catch (UserNotFoundException e) {
         logger.warn("ユーザーが見つかりません: " + username);
       }
     }
