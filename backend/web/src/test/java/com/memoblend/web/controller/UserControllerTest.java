@@ -31,6 +31,8 @@ class UserControllerTest {
   @Autowired
   MockMvc mockMvc;
 
+  private ObjectMapper objectMapper = new ObjectMapper();
+
   @Test
   @WithMockUser
   void testGetUser_正常系_ユーザーを返す() throws Exception {
@@ -52,7 +54,6 @@ class UserControllerTest {
   @WithMockUser
   void testPostUser_正常系_ユーザーを登録する() throws Exception {
 
-    ObjectMapper objectMapper = new ObjectMapper();
     ObjectNode userJsonNode = objectMapper.createObjectNode();
     userJsonNode.put("name", "Test name");
     userJsonNode.put("authId", "user_1");
@@ -85,7 +86,6 @@ class UserControllerTest {
   @WithMockUser
   void testPutUser_正常系_ユーザーを更新する() throws Exception {
 
-    ObjectMapper objectMapper = new ObjectMapper();
     ObjectNode userJsonNode = objectMapper.createObjectNode();
     userJsonNode.put("id", 1);
     userJsonNode.put("name", "Test name");
@@ -102,7 +102,6 @@ class UserControllerTest {
   @WithMockUser
   void testPutUser_異常系_ユーザーが存在しない() throws Exception {
 
-    ObjectMapper objectMapper = new ObjectMapper();
     ObjectNode userJsonNode = objectMapper.createObjectNode();
     userJsonNode.put("id", 999);
     userJsonNode.put("name", "Test name");

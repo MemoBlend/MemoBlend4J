@@ -41,6 +41,8 @@ public class AuthControllerTest {
   @MockitoBean
   JwtTokenUtil jwtTokenUtil;
 
+  private ObjectMapper objectMapper = new ObjectMapper();
+
   @Test
   void testLogin_正常系_認証成功時にjwtトークンを返す() throws Exception {
     // テストデータの準備
@@ -56,7 +58,6 @@ public class AuthControllerTest {
     when(jwtTokenUtil.generateToken(userDetails)).thenReturn(expectedToken);
 
     // リクエストJSONの作成
-    ObjectMapper objectMapper = new ObjectMapper();
     ObjectNode loginRequest = objectMapper.createObjectNode();
     loginRequest.put("authId", authId);
     loginRequest.put("password", password);
@@ -84,7 +85,6 @@ public class AuthControllerTest {
     when(authApplicationService.authenticate(authId, password)).thenReturn(null);
 
     // リクエストJSONの作成
-    ObjectMapper objectMapper = new ObjectMapper();
     ObjectNode loginRequest = objectMapper.createObjectNode();
     loginRequest.put("authId", authId);
     loginRequest.put("password", password);
@@ -108,7 +108,6 @@ public class AuthControllerTest {
     when(jwtTokenUtil.isTokenValid(validToken)).thenReturn(true);
 
     // リクエストJSONの作成
-    ObjectMapper objectMapper = new ObjectMapper();
     ObjectNode validateRequest = objectMapper.createObjectNode();
     validateRequest.put("token", validToken);
     String requestJson = objectMapper.writeValueAsString(validateRequest);
@@ -131,7 +130,6 @@ public class AuthControllerTest {
     when(jwtTokenUtil.isTokenValid(invalidToken)).thenReturn(false);
 
     // リクエストJSONの作成
-    ObjectMapper objectMapper = new ObjectMapper();
     ObjectNode validateRequest = objectMapper.createObjectNode();
     validateRequest.put("token", invalidToken);
     String requestJson = objectMapper.writeValueAsString(validateRequest);

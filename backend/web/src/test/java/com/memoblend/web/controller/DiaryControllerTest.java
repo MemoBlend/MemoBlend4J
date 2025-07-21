@@ -42,6 +42,8 @@ class DiaryControllerTest {
   @MockitoBean
   DiaryAnalysisApiClient diaryAnalysisApiClient;
 
+  private ObjectMapper objectMapper = new ObjectMapper();
+
   @Test
   @WithMockUser
   void testGetDiariesByYearAndMonth_正常系_指定の年月の日記のリストを返す() throws Exception {
@@ -109,7 +111,6 @@ class DiaryControllerTest {
   void testPostDiary_正常系_日記を登録する() throws Exception {
     when(diaryAnalysisApiClient.postDiaryAnalysis(anyLong(), anyLong(), anyString())).thenReturn(true);
 
-    ObjectMapper objectMapper = new ObjectMapper();
     ObjectNode diaryJsonNode = objectMapper.createObjectNode();
     diaryJsonNode.put("userId", 1);
     diaryJsonNode.put("title", "Test title");
@@ -128,7 +129,6 @@ class DiaryControllerTest {
   void testPostDiary_異常系_権限が足りない() throws Exception {
     when(diaryAnalysisApiClient.postDiaryAnalysis(anyLong(), anyLong(), anyString())).thenReturn(true);
 
-    ObjectMapper objectMapper = new ObjectMapper();
     ObjectNode diaryJsonNode = objectMapper.createObjectNode();
     diaryJsonNode.put("userId", 1);
     diaryJsonNode.put("title", "Test title");
@@ -148,7 +148,6 @@ class DiaryControllerTest {
     when(diaryAnalysisApiClient.postDiaryAnalysis(anyLong(), anyLong(), anyString()))
         .thenThrow(new ExternalApiException(ApiNameConstants.AnalysisAPI));
 
-    ObjectMapper objectMapper = new ObjectMapper();
     ObjectNode diaryJsonNode = objectMapper.createObjectNode();
     diaryJsonNode.put("userId", 1);
     diaryJsonNode.put("title", "Test title");
@@ -189,7 +188,6 @@ class DiaryControllerTest {
   @WithMockUser
   void testPutDiary_正常系_日記を更新する() throws Exception {
 
-    ObjectMapper objectMapper = new ObjectMapper();
     ObjectNode diaryJsonNode = objectMapper.createObjectNode();
     diaryJsonNode.put("id", 1);
     diaryJsonNode.put("userId", 1);
@@ -208,7 +206,6 @@ class DiaryControllerTest {
   @WithMockUser
   void testPutDiary_異常系_日記が存在しない() throws Exception {
 
-    ObjectMapper objectMapper = new ObjectMapper();
     ObjectNode diaryJsonNode = objectMapper.createObjectNode();
     diaryJsonNode.put("id", 999);
     diaryJsonNode.put("userId", 1);
@@ -226,7 +223,6 @@ class DiaryControllerTest {
   @Test
   void testPutDiary_異常系_権限が足りない() throws Exception {
 
-    ObjectMapper objectMapper = new ObjectMapper();
     ObjectNode diaryJsonNode = objectMapper.createObjectNode();
     diaryJsonNode.put("id", 1);
     diaryJsonNode.put("userId", 1);
@@ -246,7 +242,6 @@ class DiaryControllerTest {
   void testGetRecommendedSchedule_正常系_おすすめスケジュールを返す() throws Exception {
     long userId = 1L;
 
-    ObjectMapper objectMapper = new ObjectMapper();
     ObjectNode diaryJsonNode = objectMapper.createObjectNode();
     diaryJsonNode.put("suggestion", "test schedule");
 
