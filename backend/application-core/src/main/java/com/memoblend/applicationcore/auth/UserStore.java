@@ -15,11 +15,6 @@ public interface UserStore {
   public String getAuthId();
 
   /**
-   * ログインしているユーザーのユーザー名を取得します。
-   */
-  public String getUserName();
-
-  /**
    * ログインしているユーザーのロール名を取得します。
    */
   public List<String> getUserRoles();

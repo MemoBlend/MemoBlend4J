@@ -55,6 +55,23 @@ public class UserApplicationService {
   }
 
   /**
+   * 認証 ID を指定して、ユーザーを取得します。
+   *
+   * @param authId 認証 ID 。
+   * @return 条件に合うユーザー。
+   * @throws UserNotFoundException ユーザーが見つからない場合。
+   */
+  public User getUserByAuthId(String authId) throws UserNotFoundException {
+    apLog.info(messages.getMessage(MessageIdConstants.D_USER_GET_USER_BY_AUTH_ID, new Object[] { authId },
+        Locale.getDefault()));
+    User user = userRepository.findByAuthId(authId);
+    if (user == null) {
+      throw new UserNotFoundException(authId);
+    }
+    return user;
+  }
+
+  /**
    * ユーザーを追加します。
    * 
    * @param user 追加するユーザー。

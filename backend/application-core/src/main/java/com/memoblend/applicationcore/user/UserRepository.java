@@ -22,6 +22,14 @@ public interface UserRepository {
   User findById(long id);
 
   /**
+   * 認証 ID を指定して、 {@link User} を取得します。
+   * 
+   * @param authId 認証 ID 。
+   * @return 条件に合うユーザー。
+   */
+  User findByAuthId(String authId);
+
+  /**
    * ユーザーを追加します。
    * 
    * @param user 追加するユーザー。

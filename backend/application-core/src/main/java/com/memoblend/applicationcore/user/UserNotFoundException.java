@@ -16,4 +16,14 @@ public class UserNotFoundException extends LogicException {
     super(null, ExceptionIdConstants.E_USER_NOT_FOUND, new String[] { String.valueOf(id) },
         new String[] { String.valueOf(id) });
   }
+
+  /**
+   * 認証 ID を指定して、{@link UserNotFoundException} クラスのインスタンスを初期化します。
+   * 
+   * @param authId 認証 ID 。
+   */
+  public UserNotFoundException(String authId) {
+    super(null, ExceptionIdConstants.E_USER_NOT_FOUND, new String[] { authId },
+        new String[] { authId });
+  }
 }

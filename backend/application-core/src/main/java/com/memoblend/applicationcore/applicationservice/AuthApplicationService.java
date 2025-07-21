@@ -3,7 +3,6 @@ package com.memoblend.applicationcore.applicationservice;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,38 +26,25 @@ public class AuthApplicationService {
    *
    * @param authId   認証ID。
    * @param password パスワード。
-   * @return 認証が成功した場合のUserDetails、失敗した場合またはUsernameNotFoundExceptionが発生した場合はnull。
+   * @return 認証が成功した場合のUserDetails、失敗した場合はnull。
    */
   public UserDetails authenticate(String authId, String password) {
-    try {
-      UserDetails userDetails = loadUserByAuthId(authId);
-      if (!passwordEncoder.matches(password, userDetails.getPassword())) {
-        return null;
-      }
-      return userDetails;
-    } catch (UsernameNotFoundException e) {
-      return null;
-    }
-  }
-
-  /**
-   * 認証IDでユーザーをロードします。
-   *
-   * @param authId 認証ID。
-   * @return UserDetails オブジェクト。
-   * @throws UsernameNotFoundException ユーザーが見つからない場合にスローされます。
-   */
-  private UserDetails loadUserByAuthId(String authId) throws UsernameNotFoundException {
     Auth auth = authRepository.findById(authId);
     if (auth == null) {
-      throw new UsernameNotFoundException("認証ID：" + authId + "のユーザーが見つかりません。");
+      return null;
     }
-    return User.builder()
+    UserDetails userDetails = User.builder()
         .username(auth.getId())
         .password(auth.getPasswordHash())
-        .authorities(auth.getRoles().stream()
+        .authorities(auth.getRoles()
+            .stream()
             .map(role -> new SimpleGrantedAuthority(role.getName()))
             .toList())
         .build();
+
+    if (!passwordEncoder.matches(password, userDetails.getPassword())) {
+      return null;
+    }
+    return userDetails;
   }
 }
