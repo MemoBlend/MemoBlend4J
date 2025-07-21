@@ -26,6 +26,14 @@ public interface UserMapper {
   public User findById(long id);
 
   /**
+   * 認証 ID を指定して、ユーザーを取得します。
+   * 
+   * @param authId 認証 ID 。
+   * @return 条件に合うユーザー。
+   */
+  public User findByAuthId(String authId);
+
+  /**
    * ユーザーを追加します。
    * 
    * @param user 追加するユーザー。

@@ -205,6 +205,7 @@ class UserApplicationServiceTest {
   private User createUser(String name) throws UserValidationException {
     long id = 1L;
     boolean isDeleted = false;
-    return new User(id, name, isDeleted);
+    String authId = "auth_" + id; // Example authId
+    return new User(id, name, isDeleted, authId);
   }
 }

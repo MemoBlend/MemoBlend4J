@@ -8,11 +8,6 @@ import com.memoblend.web.controller.dto.user.GetUserResponse;
  */
 public class GetUserResponseMapper {
 
-  // インスタンス化防止
-  private GetUserResponseMapper() {
-    throw new UnsupportedOperationException("ユーティリティクラスのためインスタンス化できません");
-  }
-
   /**
    * {@link User} を {@link GetUserResponse} に変換します。
    * 
@@ -22,6 +17,12 @@ public class GetUserResponseMapper {
   public static GetUserResponse convert(User user) {
     return new GetUserResponse(
         user.getId(),
-        user.getName());
+        user.getName(),
+        user.getAuthId());
+  }
+
+  // インスタンス化防止
+  private GetUserResponseMapper() {
+    throw new UnsupportedOperationException("ユーティリティクラスのためインスタンス化できません");
   }
 }

@@ -36,8 +36,9 @@ public class DiaryApplicationService {
   private final UserDomainService userDomainService;
   private final MessageSource messages;
   private final UserStore userStore;
-  private final Logger apLog = Logger.getLogger(SystemPropertyConstants.APPLICATION_LOGGER);
   private final DiaryAnalysisApiClient diaryAnalysisApiClient;
+
+  private final Logger apLog = Logger.getLogger(SystemPropertyConstants.APPLICATION_LOGGER);
 
   /**
    * 年月を指定して、日記をリストで取得します。
@@ -58,7 +59,7 @@ public class DiaryApplicationService {
     }
     apLog.info(messages.getMessage(MessageIdConstants.D_DIARY_GET_DIARIES_BY_YEAR_AND_MONTH,
         new Object[] { year, month }, Locale.getDefault()));
-    if (!userStore.isInRole(UserRoleConstants.USER)) {
+    if (!userStore.isInRole(UserRoleConstants.USER) && !userStore.isInRole(UserRoleConstants.ADMIN)) {
       throw new PermissionDeniedException("getDiariesByYearAndMonth");
     }
     return diaryRepository.findByYearAndMonth(year, month);
@@ -74,7 +75,7 @@ public class DiaryApplicationService {
   public List<Diary> getDiariesByUserId(long userId) throws PermissionDeniedException {
     apLog.info(messages.getMessage(MessageIdConstants.D_DIARY_GET_DIARIES_BY_USER_ID,
         new Object[] { userId }, Locale.getDefault()));
-    if (!userStore.isInRole(UserRoleConstants.USER)) {
+    if (!userStore.isInRole(UserRoleConstants.USER) && !userStore.isInRole(UserRoleConstants.ADMIN)) {
       throw new PermissionDeniedException("getDiariesByUserId");
     }
     return diaryRepository.findByUserId(userId);
@@ -91,7 +92,7 @@ public class DiaryApplicationService {
   public Diary getDiary(long id) throws DiaryNotFoundException, PermissionDeniedException {
     apLog.info(messages.getMessage(MessageIdConstants.D_DIARY_GET_DIARY,
         new Object[] { id }, Locale.getDefault()));
-    if (!userStore.isInRole(UserRoleConstants.USER)) {
+    if (!userStore.isInRole(UserRoleConstants.USER) && !userStore.isInRole(UserRoleConstants.ADMIN)) {
       throw new PermissionDeniedException("getDiary");
     }
     Diary diary = diaryRepository.findById(id);
@@ -117,7 +118,7 @@ public class DiaryApplicationService {
     if (!userDomainService.isExistUser(userId)) {
       throw new UserNotFoundException(userId);
     }
-    if (!userStore.isInRole(UserRoleConstants.USER)) {
+    if (!userStore.isInRole(UserRoleConstants.USER) && !userStore.isInRole(UserRoleConstants.ADMIN)) {
       throw new PermissionDeniedException("getRecommendedSchedule");
     }
     JsonNode recommendedSchedule = diaryAnalysisApiClient.getRecommendedSchedule(userId);
@@ -137,7 +138,7 @@ public class DiaryApplicationService {
     apLog.info(messages.getMessage(MessageIdConstants.D_DIARY_ADD_DIARY,
         new Object[] { createdDate.getYear(), createdDate.getMonthValue(), createdDate.getDayOfMonth() },
         Locale.getDefault()));
-    if (!userStore.isInRole(UserRoleConstants.USER)) {
+    if (!userStore.isInRole(UserRoleConstants.USER) && !userStore.isInRole(UserRoleConstants.ADMIN)) {
       throw new PermissionDeniedException("addDiary");
     }
     Diary addedDiary = diaryRepository.add(diary);
@@ -160,7 +161,7 @@ public class DiaryApplicationService {
     final long id = diary.getId();
     apLog.info(messages.getMessage(MessageIdConstants.D_DIARY_UPDATE_DIARY,
         new Object[] { id }, Locale.getDefault()));
-    if (!userStore.isInRole(UserRoleConstants.USER)) {
+    if (!userStore.isInRole(UserRoleConstants.USER) && !userStore.isInRole(UserRoleConstants.ADMIN)) {
       throw new PermissionDeniedException("updateDiary");
     }
     if (!diaryDomainService.isExistDiary(id)) {

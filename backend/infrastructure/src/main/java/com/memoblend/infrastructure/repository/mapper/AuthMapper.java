@@ -4,14 +4,14 @@ import org.apache.ibatis.annotations.Mapper;
 import com.memoblend.applicationcore.auth.Auth;
 
 /**
- * 認証情報に関するMyBatisマッパーインターフェースです。
+ * 認証情報に関する MyBatis マッパーインターフェースです。
  */
 @Mapper
 public interface AuthMapper {
   /**
-   * ユーザーIDを指定して、認証情報を取得します。
+   * ID を指定して、認証情報を取得します。
    * 
-   * @param id ユーザーID。
+   * @param id ID。
    * @return 認証情報。
    */
   public Auth findById(String id);

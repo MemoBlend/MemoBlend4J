@@ -4,8 +4,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.core.env.Environment;
-import org.springframework.core.env.Profiles;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -15,7 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
-import com.memoblend.applicationcore.applicationservice.AuthenticationApplicationService;
+import com.memoblend.applicationcore.applicationservice.AuthApplicationService;
 import lombok.RequiredArgsConstructor;
 import java.util.Arrays;
 import java.util.List;
@@ -34,7 +32,6 @@ public class WebSecurityConfig {
   private String allowedOrigins;
 
   private final JwtProperties jwtProperties;
-  private final Environment environment;
 
   /**
    * CORS 設定、認可機能を設定します。
@@ -45,12 +42,12 @@ public class WebSecurityConfig {
    */
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http,
-      AuthenticationApplicationService authenticationApplicationService)
+      AuthApplicationService authApplicationService)
       throws Exception {
 
     JwtTokenUtil jwtTokenUtil = new JwtTokenUtil(jwtProperties);
     JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(
-        jwtTokenUtil, authenticationApplicationService);
+        jwtTokenUtil, authApplicationService);
 
     http
         .securityMatcher("/api/**")
@@ -62,9 +59,6 @@ public class WebSecurityConfig {
         .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .anonymous(anon -> anon.disable());
-    if (environment.acceptsProfiles(Profiles.of("local"))) {
-      http.addFilterBefore(new DummyUserInjectionFilter(), UsernamePasswordAuthenticationFilter.class);
-    }
     return http.build();
   }
 

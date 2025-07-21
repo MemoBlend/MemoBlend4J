@@ -17,6 +17,9 @@ public class ExceptionIdConstants {
   /** ユーザーID：{0}のユーザーが見つかりませんでした。 */
   public static final String E_USER_NOT_FOUND = "userNotFound";
 
+  /** 認証ID：{0}のユーザーが見つかりませんでした。 */
+  public static final String E_USER_NOT_FOUND_BY_AUTH_ID = "userNotFoundByAuthId";
+
   /** ユーザーの{0}は必須です。 */
   public static final String E_USER_FIELD_IS_REQUIRED = "userFieldIsRequired";
 

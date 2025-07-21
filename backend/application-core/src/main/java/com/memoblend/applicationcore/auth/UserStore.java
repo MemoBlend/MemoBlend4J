@@ -8,14 +8,16 @@ import java.util.List;
 public interface UserStore {
 
   /**
-   * ログインしているユーザーのユーザー名を取得します。
+   * ログインしているユーザーの認証IDを取得します。
+   *
+   * @return 認証ID。
    */
-  public String getLoginUserName();
+  public String getAuthId();
 
   /**
    * ログインしているユーザーのロール名を取得します。
    */
-  public List<String> getLoginUserRoles();
+  public List<String> getUserRoles();
 
   /**
    * ログインしているユーザーが指定されたロールに所属しているかどうかを判定します。

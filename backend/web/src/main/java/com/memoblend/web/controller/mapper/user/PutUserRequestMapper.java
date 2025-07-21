@@ -9,11 +9,6 @@ import com.memoblend.web.controller.dto.user.PutUserRequest;
  */
 public class PutUserRequestMapper {
 
-  // インスタンス化防止
-  private PutUserRequestMapper() {
-    throw new UnsupportedOperationException("ユーティリティクラスのためインスタンス化できません");
-  }
-
   /**
    * {@link PutUserRequest} から {@link User} へ変換します。
    * 
@@ -25,6 +20,12 @@ public class PutUserRequestMapper {
     return new User(
         request.getId(),
         request.getName(),
-        false);
+        false,
+        request.getAuthId());
+  }
+
+  // インスタンス化防止
+  private PutUserRequestMapper() {
+    throw new UnsupportedOperationException("ユーティリティクラスのためインスタンス化できません");
   }
 }

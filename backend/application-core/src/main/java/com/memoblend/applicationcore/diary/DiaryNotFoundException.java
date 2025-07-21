@@ -14,8 +14,7 @@ public class DiaryNotFoundException extends LogicException {
    * @param id 日記の ID 。
    */
   public DiaryNotFoundException(long id) {
-    super(null, ExceptionIdConstants.E_DIARY_NOT_FOUND,
-        new String[] { String.valueOf(id) },
+    super(null, ExceptionIdConstants.E_DIARY_NOT_FOUND, new String[] { String.valueOf(id) },
         new String[] { String.valueOf(id) });
   }
 }

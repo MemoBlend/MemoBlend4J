@@ -14,6 +14,8 @@ public class User {
   private Name name;
   @NonNull
   private boolean isDeleted;
+  @NonNull
+  private String authId;
 
   /**
    * ユーザーオブジェクトを生成します。
@@ -21,12 +23,14 @@ public class User {
    * @param id        ユーザーの ID 。
    * @param name      ユーザーの名前。
    * @param isDeleted 削除済みの場合 true 、 未削除の場合 false 。
+   * @param authId    認証情報の ID 。
    * @throws UserValidationException ユーザーが不正な場合。
    */
-  public User(long id, String name, boolean isDeleted) throws UserValidationException {
+  public User(long id, String name, boolean isDeleted, String authId) throws UserValidationException {
     this.id = id;
     this.name = new Name(name);
     this.isDeleted = isDeleted;
+    this.authId = authId;
   }
 
   /**
@@ -57,6 +61,15 @@ public class User {
   }
 
   /**
+   * ユーザーの認証情報 ID を取得します。
+   *
+   * @return 認証情報の ID 。
+   */
+  public String getAuthId() {
+    return this.authId;
+  }
+
+  /**
    * ユーザーのIDを設定します。
    *
    * @param id 新しいユーザー ID 。
@@ -82,5 +95,14 @@ public class User {
    */
   public void setIsDeleted(boolean isDeleted) {
     this.isDeleted = isDeleted;
+  }
+
+  /**
+   * ユーザーの認証情報 ID を設定します。
+   *
+   * @param authId 新しい認証情報 ID 。
+   */
+  public void setAuthId(String authId) {
+    this.authId = authId;
   }
 }

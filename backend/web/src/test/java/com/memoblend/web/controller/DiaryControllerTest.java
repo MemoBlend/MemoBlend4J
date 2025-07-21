@@ -20,6 +20,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.web.servlet.MockMvc;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.memoblend.applicationcore.api.DiaryAnalysisApiClient;
@@ -40,6 +41,8 @@ class DiaryControllerTest {
 
   @MockitoBean
   DiaryAnalysisApiClient diaryAnalysisApiClient;
+
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   @Test
   @WithMockUser
@@ -107,12 +110,14 @@ class DiaryControllerTest {
   @WithMockUser
   void testPostDiary_正常系_日記を登録する() throws Exception {
     when(diaryAnalysisApiClient.postDiaryAnalysis(anyLong(), anyLong(), anyString())).thenReturn(true);
-    String diaryJson = "{"
-        + "\"userId\": 1, "
-        + "\"title\": \"Test title\", "
-        + "\"content\": \"Test content\", "
-        + "\"createdDate\": \"2025-01-01\""
-        + "}";
+
+    ObjectNode diaryJsonNode = objectMapper.createObjectNode();
+    diaryJsonNode.put("userId", 1);
+    diaryJsonNode.put("title", "Test title");
+    diaryJsonNode.put("content", "Test content");
+    diaryJsonNode.put("createdDate", "2025-01-01");
+    String diaryJson = objectMapper.writeValueAsString(diaryJsonNode);
+
     this.mockMvc.perform(post("/api/diary")
         .contentType(MediaType.APPLICATION_JSON)
         .content(diaryJson))
@@ -123,12 +128,14 @@ class DiaryControllerTest {
   @Test
   void testPostDiary_異常系_権限が足りない() throws Exception {
     when(diaryAnalysisApiClient.postDiaryAnalysis(anyLong(), anyLong(), anyString())).thenReturn(true);
-    String diaryJson = "{"
-        + "\"userId\": 1, "
-        + "\"title\": \"Test title\", "
-        + "\"content\": \"Test content\", "
-        + "\"createdDate\": \"2025-01-01\""
-        + "}";
+
+    ObjectNode diaryJsonNode = objectMapper.createObjectNode();
+    diaryJsonNode.put("userId", 1);
+    diaryJsonNode.put("title", "Test title");
+    diaryJsonNode.put("content", "Test content");
+    diaryJsonNode.put("createdDate", "2025-01-01");
+    String diaryJson = objectMapper.writeValueAsString(diaryJsonNode);
+
     this.mockMvc.perform(post("/api/diary")
         .contentType(MediaType.APPLICATION_JSON)
         .content(diaryJson))
@@ -140,12 +147,14 @@ class DiaryControllerTest {
   void testPostDiary_異常系_外部Apiの呼び出しに失敗する() throws Exception {
     when(diaryAnalysisApiClient.postDiaryAnalysis(anyLong(), anyLong(), anyString()))
         .thenThrow(new ExternalApiException(ApiNameConstants.AnalysisAPI));
-    String diaryJson = "{"
-        + "\"userId\": 1, "
-        + "\"title\": \"Test title\", "
-        + "\"content\": \"Test content\", "
-        + "\"createdDate\": \"2025-01-01\""
-        + "}";
+
+    ObjectNode diaryJsonNode = objectMapper.createObjectNode();
+    diaryJsonNode.put("userId", 1);
+    diaryJsonNode.put("title", "Test title");
+    diaryJsonNode.put("content", "Test content");
+    diaryJsonNode.put("createdDate", "2025-01-01");
+    String diaryJson = objectMapper.writeValueAsString(diaryJsonNode);
+
     this.mockMvc.perform(post("/api/diary")
         .contentType(MediaType.APPLICATION_JSON)
         .content(diaryJson))
@@ -178,13 +187,15 @@ class DiaryControllerTest {
   @Test
   @WithMockUser
   void testPutDiary_正常系_日記を更新する() throws Exception {
-    String diaryJson = "{"
-        + "\"id\": 1,"
-        + "\"userId\": 1, "
-        + "\"title\": \"Test title\", "
-        + "\"content\": \"Test content\", "
-        + "\"createdDate\": \"2025-01-01\""
-        + "}";
+
+    ObjectNode diaryJsonNode = objectMapper.createObjectNode();
+    diaryJsonNode.put("id", 1);
+    diaryJsonNode.put("userId", 1);
+    diaryJsonNode.put("title", "Test title");
+    diaryJsonNode.put("content", "Test content");
+    diaryJsonNode.put("createdDate", "2025-01-01");
+    String diaryJson = objectMapper.writeValueAsString(diaryJsonNode);
+
     this.mockMvc.perform(put("/api/diary")
         .contentType(MediaType.APPLICATION_JSON)
         .content(diaryJson))
@@ -194,13 +205,15 @@ class DiaryControllerTest {
   @Test
   @WithMockUser
   void testPutDiary_異常系_日記が存在しない() throws Exception {
-    String diaryJson = "{"
-        + "\"id\": 999,"
-        + "\"userId\": 1, "
-        + "\"title\": \"Test title\", "
-        + "\"content\": \"Test content\", "
-        + "\"createdDate\": \"2025-01-01\""
-        + "}";
+
+    ObjectNode diaryJsonNode = objectMapper.createObjectNode();
+    diaryJsonNode.put("id", 999);
+    diaryJsonNode.put("userId", 1);
+    diaryJsonNode.put("title", "Test title");
+    diaryJsonNode.put("content", "Test content");
+    diaryJsonNode.put("createdDate", "2025-01-01");
+    String diaryJson = objectMapper.writeValueAsString(diaryJsonNode);
+
     this.mockMvc.perform(put("/api/diary")
         .contentType(MediaType.APPLICATION_JSON)
         .content(diaryJson))
@@ -209,13 +222,15 @@ class DiaryControllerTest {
 
   @Test
   void testPutDiary_異常系_権限が足りない() throws Exception {
-    String diaryJson = "{"
-        + "\"id\": 1,"
-        + "\"userId\": 1, "
-        + "\"title\": \"Test title\", "
-        + "\"content\": \"Test content\", "
-        + "\"createdDate\": \"2025-01-01\""
-        + "}";
+
+    ObjectNode diaryJsonNode = objectMapper.createObjectNode();
+    diaryJsonNode.put("id", 1);
+    diaryJsonNode.put("userId", 1);
+    diaryJsonNode.put("title", "Test title");
+    diaryJsonNode.put("content", "Test content");
+    diaryJsonNode.put("createdDate", "2025-01-01");
+    String diaryJson = objectMapper.writeValueAsString(diaryJsonNode);
+
     this.mockMvc.perform(put("/api/diary")
         .contentType(MediaType.APPLICATION_JSON)
         .content(diaryJson))
@@ -226,10 +241,11 @@ class DiaryControllerTest {
   @WithMockUser
   void testGetRecommendedSchedule_正常系_おすすめスケジュールを返す() throws Exception {
     long userId = 1L;
-    ObjectNode mockNode = com.fasterxml.jackson.databind.node.JsonNodeFactory.instance
-        .objectNode();
-    mockNode.put("suggestion", "test schedule");
-    when(diaryAnalysisApiClient.getRecommendedSchedule(userId)).thenReturn(mockNode);
+
+    ObjectNode diaryJsonNode = objectMapper.createObjectNode();
+    diaryJsonNode.put("suggestion", "test schedule");
+
+    when(diaryAnalysisApiClient.getRecommendedSchedule(userId)).thenReturn(diaryJsonNode);
     this.mockMvc.perform(get("/api/diary/recommended-schedule/" + userId))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))

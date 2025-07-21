@@ -1,6 +1,5 @@
 package com.memoblend.web.controller.dto.auth;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
@@ -8,10 +7,9 @@ import lombok.Data;
  * JWTトークンとユーザー情報を含むレスポンスを表します。
  */
 @Data
-@AllArgsConstructor
 public class LoginResponse {
-  private String token;
-  private String tokenType;
-  private String username;
-  private Object authorities;
+  private final String token;
+  private final String tokenType;
+  private final String userName;
+  private final Object authorities;
 }

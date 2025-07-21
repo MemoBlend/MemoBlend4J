@@ -12,6 +12,10 @@
   ],
   "tags": [
     {
+      "description": "認証関連の API です。",
+      "name": "Auth"
+    },
+    {
       "description": "ユーザーの情報にアクセスする API です。",
       "name": "User"
     },
@@ -23,6 +27,7 @@
   "paths": {
     "/api/auth/login": {
       "post": {
+        "description": "ログイン処理を行い、JWTトークンを生成します。",
         "operationId": "login",
         "requestBody": {
           "content": {
@@ -37,22 +42,44 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
-                  "type": "object"
+                  "$ref": "#/components/schemas/LoginResponse"
                 }
               }
             },
-            "description": "OK"
+            "description": "成功。"
+          },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "認証失敗。ユーザーが見つからない場合やパスワードが間違っている場合。"
+          },
+          "500": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "サーバーエラー。"
           }
         },
+        "summary": "ログイン処理を行い、JWTトークンを生成します。",
         "tags": [
-          "auth-controller"
+          "Auth"
         ]
       }
     },
     "/api/auth/validate": {
       "post": {
+        "description": "トークンの有効性検証を行います。",
         "operationId": "validate",
         "requestBody": {
           "content": {
@@ -67,17 +94,28 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
-                  "type": "object"
+                  "$ref": "#/components/schemas/TokenValidationResponse"
                 }
               }
             },
-            "description": "OK"
+            "description": "成功。"
+          },
+          "500": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "サーバーエラー。"
           }
         },
+        "summary": "トークンの有効性検証を行います。",
         "tags": [
-          "auth-controller"
+          "Auth"
         ]
       }
     },
@@ -552,66 +590,6 @@
         ]
       }
     },
-    "/api/secure/admin": {
-      "get": {
-        "operationId": "getAdminInfo",
-        "responses": {
-          "200": {
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            },
-            "description": "OK"
-          }
-        },
-        "tags": [
-          "secure-controller"
-        ]
-      }
-    },
-    "/api/secure/data": {
-      "get": {
-        "operationId": "getData",
-        "responses": {
-          "200": {
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            },
-            "description": "OK"
-          }
-        },
-        "tags": [
-          "secure-controller"
-        ]
-      }
-    },
-    "/api/secure/user": {
-      "get": {
-        "operationId": "getUserInfo",
-        "responses": {
-          "200": {
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            },
-            "description": "OK"
-          }
-        },
-        "tags": [
-          "secure-controller"
-        ]
-      }
-    },
     "/api/user": {
       "post": {
         "description": "ユーザー情報を登録します。",
@@ -909,6 +887,9 @@
       "GetUserResponse": {
         "type": "object",
         "properties": {
+          "authId": {
+            "type": "string"
+          },
           "id": {
             "type": "integer",
             "format": "int64"
@@ -922,10 +903,25 @@
       "LoginRequest": {
         "type": "object",
         "properties": {
-          "password": {
+          "authId": {
             "type": "string"
           },
-          "username": {
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "authorities": {},
+          "token": {
+            "type": "string"
+          },
+          "tokenType": {
+            "type": "string"
+          },
+          "userName": {
             "type": "string"
           }
         }
@@ -952,6 +948,9 @@
       "PostUserRequest": {
         "type": "object",
         "properties": {
+          "authId": {
+            "type": "string"
+          },
           "name": {
             "type": "string"
           }
@@ -1010,6 +1009,9 @@
       "PutUserRequest": {
         "type": "object",
         "properties": {
+          "authId": {
+            "type": "string"
+          },
           "id": {
             "type": "integer",
             "format": "int64"
@@ -1024,6 +1026,14 @@
         "properties": {
           "token": {
             "type": "string"
+          }
+        }
+      },
+      "TokenValidationResponse": {
+        "type": "object",
+        "properties": {
+          "valid": {
+            "type": "boolean"
           }
         }
       }

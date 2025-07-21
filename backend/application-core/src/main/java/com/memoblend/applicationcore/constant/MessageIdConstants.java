@@ -29,6 +29,9 @@ public class MessageIdConstants {
   /** ユーザーID：{0}のユーザーを取得します。 */
   public static final String D_USER_GET_USER = "userApplicationServiceGetUser";
 
+  /** 認証ID：{0}のユーザーを取得します。 */
+  public static final String D_USER_GET_USER_BY_AUTH_ID = "userApplicationServiceGetUserByAuthId";
+
   /** ユーザーID：{0}のユーザーを追加します。 */
   public static final String D_USER_ADD_USER = "userApplicationServiceAddUser";
 
