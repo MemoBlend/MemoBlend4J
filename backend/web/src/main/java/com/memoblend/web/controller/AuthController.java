@@ -1,6 +1,6 @@
 package com.memoblend.web.controller;
 
-import com.memoblend.applicationcore.applicationservice.AuthenticationApplicationService;
+import com.memoblend.applicationcore.applicationservice.AuthApplicationService;
 import com.memoblend.web.controller.dto.auth.LoginRequest;
 import com.memoblend.web.controller.dto.auth.LoginResponse;
 import com.memoblend.web.controller.dto.auth.TokenValidationRequest;
@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
   private final JwtTokenUtil jwtTokenUtil;
-  private final AuthenticationApplicationService authenticationApplicationService;
+  private final AuthApplicationService authApplicationService;
 
   /**
    * ログイン処理を行い、JWTトークンを生成します。
@@ -36,7 +36,7 @@ public class AuthController {
    */
   @PostMapping("/login")
   public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-    UserDetails userDetails = authenticationApplicationService.authenticate(request.getUsername(),
+    UserDetails userDetails = authApplicationService.authenticate(request.getAuthId(),
         request.getPassword());
     if (userDetails == null) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -57,11 +57,9 @@ public class AuthController {
   @PostMapping("/validate")
   public ResponseEntity<?> validate(@RequestBody TokenValidationRequest request) {
     boolean isValid = false;
-    String username = null;
     if (jwtTokenUtil.isTokenValid(request.getToken())) {
       isValid = true;
-      username = jwtTokenUtil.getUsernameFromToken(request.getToken());
     }
-    return ResponseEntity.ok(new TokenValidationResponse(isValid, username));
+    return ResponseEntity.ok(new TokenValidationResponse(isValid));
   }
 }

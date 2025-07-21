@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
-import com.memoblend.applicationcore.applicationservice.AuthenticationApplicationService;
+import com.memoblend.applicationcore.applicationservice.AuthApplicationService;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.SignatureException;
@@ -25,7 +25,7 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
   private final JwtTokenUtil jwtTokenUtil;
-  private final AuthenticationApplicationService authenticationApplicationService;
+  private final AuthApplicationService authenticationApplicationService;
 
   @Override
   protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
@@ -57,7 +57,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     // トークンが有効で、セキュリティコンテキストが未設定の場合
     if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
       try {
-        UserDetails userDetails = this.authenticationApplicationService.loadUserByUsername(username);
+
+        UserDetails userDetails = this.authenticationApplicationService.authenticate(username, jwtToken);
 
         if (userDetails != null && jwtTokenUtil.isTokenValid(jwtToken, userDetails)) {
           UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(

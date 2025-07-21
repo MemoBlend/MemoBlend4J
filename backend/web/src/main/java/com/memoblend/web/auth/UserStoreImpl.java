@@ -16,23 +16,28 @@ import com.memoblend.applicationcore.auth.UserStore;
 public class UserStoreImpl implements UserStore {
 
   @Override
-  public String getLoginUserName() {
+  public String getAuthId() {
     return Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication())
         .map(Authentication::getName)
         .orElse("");
   }
 
   @Override
-  public List<String> getLoginUserRoles() {
+  public List<String> getUserRoles() {
     return Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication())
-        .map(auth -> auth.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList())
+        .map(auth -> auth.getAuthorities()
+            .stream()
+            .map(GrantedAuthority::getAuthority)
+            .toList())
         .orElseGet(ArrayList::new);
   }
 
   @Override
   public boolean isInRole(String role) {
     return Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication())
-        .map(auth -> auth.getAuthorities().stream().map(GrantedAuthority::getAuthority)
+        .map(auth -> auth.getAuthorities()
+            .stream()
+            .map(GrantedAuthority::getAuthority)
             .anyMatch(roles -> roles.equals(role)))
         .orElse(false);
   }

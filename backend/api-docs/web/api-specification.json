@@ -909,6 +909,9 @@
       "GetUserResponse": {
         "type": "object",
         "properties": {
+          "authId": {
+            "type": "string"
+          },
           "id": {
             "type": "integer",
             "format": "int64"
@@ -922,10 +925,10 @@
       "LoginRequest": {
         "type": "object",
         "properties": {
-          "password": {
+          "authId": {
             "type": "string"
           },
-          "username": {
+          "password": {
             "type": "string"
           }
         }
@@ -952,6 +955,9 @@
       "PostUserRequest": {
         "type": "object",
         "properties": {
+          "authId": {
+            "type": "string"
+          },
           "name": {
             "type": "string"
           }
@@ -1010,6 +1016,9 @@
       "PutUserRequest": {
         "type": "object",
         "properties": {
+          "authId": {
+            "type": "string"
+          },
           "id": {
             "type": "integer",
             "format": "int64"

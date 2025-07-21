@@ -8,11 +8,6 @@ import com.memoblend.web.controller.dto.diary.GetDiaryResponse;
  */
 public class GetDiaryResponseMapper {
 
-  // インスタンス化防止
-  private GetDiaryResponseMapper() {
-    throw new UnsupportedOperationException("ユーティリティクラスのためインスタンス化できません");
-  }
-
   /**
    * {@link Diary} を {@link GetDiaryResponse} に変換します。
    * 
@@ -27,4 +22,10 @@ public class GetDiaryResponseMapper {
         diary.getContent(),
         diary.getCreatedDate());
   }
+
+  // インスタンス化防止
+  private GetDiaryResponseMapper() {
+    throw new UnsupportedOperationException("ユーティリティクラスのためインスタンス化できません");
+  }
+
 }

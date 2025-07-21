@@ -1,9 +1,9 @@
 package com.memoblend.web.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -50,7 +50,8 @@ class UserControllerTest {
   @WithMockUser
   void testPostUser_正常系_ユーザーを登録する() throws Exception {
     String userJson = "{"
-        + "\"name\": \"Test name\""
+        + "\"name\": \"Test name\","
+        + "\"authId\": \"user_1\""
         + "}";
     this.mockMvc.perform(post("/api/user")
         .contentType(MediaType.APPLICATION_JSON)
