@@ -16,6 +16,8 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.web.servlet.MockMvc;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.memoblend.web.WebApplication;
 
 /**
@@ -49,10 +51,13 @@ class UserControllerTest {
   @Test
   @WithMockUser
   void testPostUser_正常系_ユーザーを登録する() throws Exception {
-    String userJson = "{"
-        + "\"name\": \"Test name\","
-        + "\"authId\": \"user_1\""
-        + "}";
+
+    ObjectMapper objectMapper = new ObjectMapper();
+    ObjectNode userJsonNode = objectMapper.createObjectNode();
+    userJsonNode.put("name", "Test name");
+    userJsonNode.put("authId", "user_1");
+    String userJson = objectMapper.writeValueAsString(userJsonNode);
+
     this.mockMvc.perform(post("/api/user")
         .contentType(MediaType.APPLICATION_JSON)
         .content(userJson))
@@ -79,10 +84,14 @@ class UserControllerTest {
   @Test
   @WithMockUser
   void testPutUser_正常系_ユーザーを更新する() throws Exception {
-    String userJson = "{"
-        + "\"id\": 1,"
-        + "\"name\": \"Test name\""
-        + "}";
+
+    ObjectMapper objectMapper = new ObjectMapper();
+    ObjectNode userJsonNode = objectMapper.createObjectNode();
+    userJsonNode.put("id", 1);
+    userJsonNode.put("name", "Test name");
+    userJsonNode.put("authId", "user_1");
+    String userJson = objectMapper.writeValueAsString(userJsonNode);
+
     this.mockMvc.perform(put("/api/user")
         .contentType(MediaType.APPLICATION_JSON)
         .content(userJson))
@@ -92,10 +101,14 @@ class UserControllerTest {
   @Test
   @WithMockUser
   void testPutUser_異常系_ユーザーが存在しない() throws Exception {
-    String userJson = "{"
-        + "\"id\": 999,"
-        + "\"name\": \"Test name\""
-        + "}";
+
+    ObjectMapper objectMapper = new ObjectMapper();
+    ObjectNode userJsonNode = objectMapper.createObjectNode();
+    userJsonNode.put("id", 999);
+    userJsonNode.put("name", "Test name");
+    userJsonNode.put("authId", "user_999");
+    String userJson = objectMapper.writeValueAsString(userJsonNode);
+
     this.mockMvc.perform(put("/api/user")
         .contentType(MediaType.APPLICATION_JSON)
         .content(userJson))
