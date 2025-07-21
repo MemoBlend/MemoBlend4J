@@ -23,7 +23,7 @@ public class UserNotFoundException extends LogicException {
    * @param authId 認証 ID 。
    */
   public UserNotFoundException(String authId) {
-    super(null, ExceptionIdConstants.E_USER_NOT_FOUND, new String[] { authId },
+    super(null, ExceptionIdConstants.E_USER_NOT_FOUND_BY_AUTH_ID, new String[] { authId },
         new String[] { authId });
   }
 }
