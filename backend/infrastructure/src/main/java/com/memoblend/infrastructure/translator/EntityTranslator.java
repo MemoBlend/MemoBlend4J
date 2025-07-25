@@ -1,5 +1,7 @@
 package com.memoblend.infrastructure.translator;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import org.springframework.beans.BeanUtils;
 import com.memoblend.applicationcore.appuser.AppUser;
 import com.memoblend.applicationcore.auth.Auth;
@@ -116,14 +118,12 @@ public class EntityTranslator {
       return null;
     }
     try {
-      // DiaryEntityのcreatedDateをLocalDateに変換してからDiaryコンストラクタを使用
-      java.time.LocalDate createdDate = null;
+      LocalDate createdDate = null;
       if (entity.getCreatedDate() != null) {
         createdDate = entity.getCreatedDate().toInstant()
             .atZone(java.time.ZoneId.systemDefault())
             .toLocalDate();
       }
-
       return new Diary(
           entity.getId(),
           entity.getTitle(),
@@ -150,13 +150,10 @@ public class EntityTranslator {
     entity.setId(diary.getId());
     entity.setTitle(diary.getTitle());
     entity.setContent(diary.getContent());
-
-    // LocalDateをDateに変換
     if (diary.getCreatedDate() != null) {
-      entity.setCreatedDate(java.sql.Timestamp.valueOf(
+      entity.setCreatedDate(Timestamp.valueOf(
           diary.getCreatedDate().atStartOfDay()));
     }
-
     entity.setIsDeleted(diary.getIsDeleted());
     entity.setUserId(diary.getUserId());
     return entity;
