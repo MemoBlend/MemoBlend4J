@@ -5,7 +5,7 @@
   <sql id="selectAuthsIncludeUser">
     SELECT
       AUTHES.ID,
-      AUTHES.USER_ID,
+      AUTHES.PASSWORD_HASH,
       USER_ROLES.ID AS ROLE_ID,
       USER_ROLES.NAME AS ROLE_NAME
     FROM AUTHES
@@ -16,7 +16,7 @@
 
   <resultMap id="AuthWithRoles" type="com.memoblend.applicationcore.auth.Auth">
     <id property="id" column="ID"/>
-    <result property="userId" column="USER_ID"/>
+    <result property="passwordHash" column="PASSWORD_HASH"/>
     <collection property="userRoles" ofType="com.memoblend.applicationcore.auth.UserRole">
       <id property="id" column="ROLE_ID"/>
       <result property="name" column="ROLE_NAME"/>
