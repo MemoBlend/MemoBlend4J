@@ -1,6 +1,8 @@
 package com.memoblend.applicationcore.auth;
 
 import org.springframework.lang.NonNull;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,7 +11,8 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @NoArgsConstructor
-public class Role {
+@AllArgsConstructor
+public class UserRole {
   @NonNull
   private int id;
   @NonNull

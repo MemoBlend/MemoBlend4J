@@ -4,12 +4,12 @@ import org.springframework.beans.BeanUtils;
 
 import com.memoblend.applicationcore.appuser.AppUser;
 import com.memoblend.applicationcore.auth.Auth;
-import com.memoblend.applicationcore.auth.Role;
+import com.memoblend.applicationcore.auth.UserRole;
 import com.memoblend.applicationcore.diary.Diary;
+import com.memoblend.infrastructure.mybatis.generated.entity.AppUserEntity;
 import com.memoblend.infrastructure.mybatis.generated.entity.AuthEntity;
 import com.memoblend.infrastructure.mybatis.generated.entity.DiaryEntity;
-import com.memoblend.infrastructure.mybatis.generated.entity.RoleEntity;
-import com.memoblend.infrastructure.mybatis.generated.entity.UserEntity;
+import com.memoblend.infrastructure.mybatis.generated.entity.UserRoleEntity;
 
 /**
  * エンティティとドメインオブジェクトの変換を行うクラスです。
@@ -17,25 +17,25 @@ import com.memoblend.infrastructure.mybatis.generated.entity.UserEntity;
 public class EntityTranslator {
 
   /**
-   * {@link RoleEntity}を{@link Role}に変換します。
+   * {@link UserRoleEntity}を{@link UserRole}に変換します。
    * 
-   * @param entity 変換対象の{@link RoleEntity}
-   * @return 変換後の{@link Role}
+   * @param entity 変換対象の{@link UserRoleEntity}
+   * @return 変換後の{@link UserRole}
    */
-  public static Role RoleEntityToRole(RoleEntity entity) {
-    Role role = new Role();
+  public static UserRole UserRoleEntityToUserRole(UserRoleEntity entity) {
+    UserRole role = new UserRole();
     BeanUtils.copyProperties(entity, role);
     return role;
   }
 
   /**
-   * {@link Role}を{@link RoleEntity}に変換します。
+   * {@link UserRole}を{@link UserRoleEntity}に変換します。
    * 
-   * @param role 変換対象の{@link Role}
-   * @return 変換後の{@link RoleEntity}
+   * @param role 変換対象の{@link UserRole}
+   * @return 変換後の{@link UserRoleEntity}
    */
-  public static RoleEntity RoleToRoleEntity(Role role) {
-    RoleEntity entity = new RoleEntity();
+  public static UserRoleEntity UserRoleToUserRoleEntity(UserRole role) {
+    UserRoleEntity entity = new UserRoleEntity();
     BeanUtils.copyProperties(role, entity);
     return entity;
   }
@@ -65,25 +65,25 @@ public class EntityTranslator {
   }
 
   /**
-   * {@link UserEntity}を{@link AppUser}に変換します。
+   * {@link AppUserEntity}を{@link AppUser}に変換します。
    * 
-   * @param entity 変換対象の{@link UserEntity}
+   * @param entity 変換対象の{@link AppUserEntity}
    * @return 変換後の{@link AppUser}
    */
-  public static AppUser UserEntityToUser(UserEntity entity) {
+  public static AppUser AppUserEntityToAppUser(AppUserEntity entity) {
     AppUser user = new AppUser();
     BeanUtils.copyProperties(entity, user);
     return user;
   }
 
   /**
-   * {@link AppUser}を{@link UserEntity}に変換します。
+   * {@link AppUser}を{@link AppUserEntity}に変換します。
    * 
    * @param user 変換対象の{@link AppUser}
-   * @return 変換後の{@link UserEntity}
+   * @return 変換後の{@link AppUserEntity}
    */
-  public static UserEntity UserToUserEntity(AppUser user) {
-    UserEntity entity = new UserEntity();
+  public static AppUserEntity AppUserToAppUserEntity(AppUser user) {
+    AppUserEntity entity = new AppUserEntity();
     BeanUtils.copyProperties(user, entity);
     return entity;
   }

@@ -12,7 +12,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableTransactionManagement
 @MapperScan(basePackages = {
-    "com.memoblend.infrastructure.mapper,com.memoblend.infrastructure.mybatis.generated.mapper" })
+    "com.memoblend.infrastructure.mapper",
+    "com.memoblend.infrastructure.mybatis.generated.mapper" })
 public class MyBatisConfig {
 
   /**

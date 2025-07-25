@@ -13,7 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.memoblend.applicationcore.auth.Auth;
 import com.memoblend.applicationcore.auth.AuthRepository;
-import com.memoblend.applicationcore.auth.Role;
+import com.memoblend.applicationcore.auth.UserRole;
 
 /**
  * 認証関連のアプリケーションサービスのテストクラスです。
@@ -41,7 +41,7 @@ public class AuthApplicationServiceTest {
     String password = "testpassword";
     String hashedPassword = "hashedpassword";
 
-    Role role = new Role(1, "ROLE_USER");
+    UserRole role = new UserRole(1, "ROLE_USER");
     Auth auth = new Auth(authId, hashedPassword, List.of(role));
 
     when(authRepository.findById(authId)).thenReturn(auth);
@@ -82,7 +82,7 @@ public class AuthApplicationServiceTest {
     String password = "wrongpassword";
     String hashedPassword = "hashedpassword";
 
-    Role role = new Role(1, "ROLE_USER");
+    UserRole role = new UserRole(1, "ROLE_USER");
     Auth auth = new Auth(authId, hashedPassword, List.of(role));
 
     when(authRepository.findById(authId)).thenReturn(auth);
@@ -102,8 +102,8 @@ public class AuthApplicationServiceTest {
     String password = "adminpassword";
     String hashedPassword = "hashedadminpassword";
 
-    Role userRole = new Role(1, "ROLE_USER");
-    Role adminRole = new Role(2, "ROLE_ADMIN");
+    UserRole userRole = new UserRole(1, "ROLE_USER");
+    UserRole adminRole = new UserRole(2, "ROLE_ADMIN");
     Auth auth = new Auth(authId, hashedPassword, List.of(userRole, adminRole));
 
     when(authRepository.findById(authId)).thenReturn(auth);

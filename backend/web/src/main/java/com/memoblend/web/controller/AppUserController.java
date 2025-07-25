@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.memoblend.applicationcore.applicationservice.UserApplicationService;
+import com.memoblend.applicationcore.applicationservice.AppUserApplicationService;
 import com.memoblend.applicationcore.appuser.AppUser;
 import com.memoblend.applicationcore.appuser.AppUserNotFoundException;
 import com.memoblend.applicationcore.appuser.AppUserValidationException;
@@ -46,7 +46,7 @@ import lombok.AllArgsConstructor;
 @Tag(name = "User", description = "ユーザーの情報にアクセスする API です。")
 @AllArgsConstructor
 public class AppUserController {
-  private final UserApplicationService userApplicationService;
+  private final AppUserApplicationService userApplicationService;
   private final ProblemDetailsFactory problemDetailsFactory;
   private static final Logger apLog = LoggerFactory.getLogger(SystemPropertyConstants.APPLICATION_LOGGER);
 

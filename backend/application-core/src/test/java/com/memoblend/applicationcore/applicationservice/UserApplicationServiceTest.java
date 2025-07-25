@@ -43,11 +43,11 @@ class UserApplicationServiceTest {
   @Autowired
   private MessageSource messages;
 
-  private UserApplicationService userApplicationService;
+  private AppUserApplicationService userApplicationService;
 
   @BeforeEach
   void setUp() {
-    userApplicationService = new UserApplicationService(userRepository, userDomainService, messages);
+    userApplicationService = new AppUserApplicationService(userRepository, userDomainService, messages);
   }
 
   @Test

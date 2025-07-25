@@ -5,11 +5,10 @@ import org.springframework.stereotype.Repository;
 
 import com.memoblend.applicationcore.appuser.AppUser;
 import com.memoblend.applicationcore.appuser.AppUserRepository;
-import com.memoblend.infrastructure.mybatis.generated.entity.UserEntity;
-import com.memoblend.infrastructure.mybatis.generated.entity.UserEntityExample;
-import com.memoblend.infrastructure.mybatis.generated.mapper.UserMapper;
+import com.memoblend.infrastructure.mybatis.generated.entity.AppUserEntity;
+import com.memoblend.infrastructure.mybatis.generated.entity.AppUserEntityExample;
+import com.memoblend.infrastructure.mybatis.generated.mapper.AppUserMapper;
 import com.memoblend.infrastructure.translator.EntityTranslator;
-
 import lombok.AllArgsConstructor;
 
 /**
@@ -17,38 +16,38 @@ import lombok.AllArgsConstructor;
  */
 @Repository
 @AllArgsConstructor
-public class UserRepositoryImpl implements AppUserRepository {
+public class AppUserRepositoryImpl implements AppUserRepository {
 
-  private final UserMapper userMapper;
+  private final AppUserMapper userMapper;
 
   @Override
   public List<AppUser> findAll() {
-    UserEntityExample example = new UserEntityExample();
-    List<UserEntity> entities = userMapper.selectByExample(example);
-    List<AppUser> users = entities.stream().map(EntityTranslator::UserEntityToUser).toList();
+    AppUserEntityExample example = new AppUserEntityExample();
+    List<AppUserEntity> entities = userMapper.selectByExample(example);
+    List<AppUser> users = entities.stream().map(EntityTranslator::AppUserEntityToAppUser).toList();
     return users;
   }
 
   @Override
   public AppUser findById(long id) {
-    UserEntity entity = userMapper.selectByPrimaryKey(id);
-    return EntityTranslator.UserEntityToUser(entity);
+    AppUserEntity entity = userMapper.selectByPrimaryKey(id);
+    return EntityTranslator.AppUserEntityToAppUser(entity);
   }
 
   @Override
   public List<AppUser> findByAuthId(String authId) {
-    UserEntityExample example = new UserEntityExample();
+    AppUserEntityExample example = new AppUserEntityExample();
     example.createCriteria().andAuthIdEqualTo(authId);
-    List<UserEntity> entities = userMapper.selectByExample(example);
+    List<AppUserEntity> entities = userMapper.selectByExample(example);
     List<AppUser> users = entities.stream()
-        .map(EntityTranslator::UserEntityToUser)
+        .map(EntityTranslator::AppUserEntityToAppUser)
         .toList();
     return users;
   }
 
   @Override
   public AppUser add(AppUser user) {
-    UserEntity entity = EntityTranslator.UserToUserEntity(user);
+    AppUserEntity entity = EntityTranslator.AppUserToAppUserEntity(user);
     userMapper.insert(entity);
     user.setId(entity.getId());
     return user;
@@ -61,7 +60,7 @@ public class UserRepositoryImpl implements AppUserRepository {
 
   @Override
   public long update(AppUser user) {
-    UserEntity entity = EntityTranslator.UserToUserEntity(user);
+    AppUserEntity entity = EntityTranslator.AppUserToAppUserEntity(user);
     return userMapper.updateByPrimaryKey(entity);
   }
 }
