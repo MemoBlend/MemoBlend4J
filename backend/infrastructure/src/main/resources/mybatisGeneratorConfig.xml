@@ -33,7 +33,7 @@
         -->
         <!-- Mapper.xml作成先 -->
         <sqlMapGenerator targetPackage="com.memoblend.infrastructure.mybatis.generated.mapper"
-                        targetProject="/Users/minohirofumi/dev/MemoBlend4J/backend/infrastructure/src/main/resources" />
+                        targetProject="${user.home}/dev/MemoBlend4J/backend/infrastructure/src/main/resources" />
 
         <!--
         targetProjectにはjavaパッケージを指定します。
