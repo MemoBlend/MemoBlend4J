@@ -2,10 +2,12 @@ package com.memoblend.applicationcore.user;
 
 import org.springframework.lang.NonNull;
 import com.memoblend.applicationcore.user.valueobject.Name;
+import lombok.NoArgsConstructor;
 
 /**
  * ユーザーのエンティティを表すクラスです。
  */
+@NoArgsConstructor
 public class User {
 
   @NonNull

@@ -3,11 +3,13 @@ package com.memoblend.applicationcore.auth;
 import java.util.List;
 import org.springframework.lang.NonNull;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 認証情報を表すクラスです。
  */
 @Data
+@NoArgsConstructor
 public class Auth {
   @NonNull
   private String id;
