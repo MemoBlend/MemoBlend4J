@@ -30,11 +30,11 @@ import com.memoblend.applicationcore.diary.DiaryDomainService;
 import com.memoblend.applicationcore.diary.DiaryNotFoundException;
 import com.memoblend.applicationcore.diary.DiaryRepository;
 import com.memoblend.applicationcore.diary.DiaryValidationException;
-import com.memoblend.applicationcore.user.UserDomainService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.memoblend.applicationcore.api.DiaryAnalysisApiClient;
 import com.memoblend.applicationcore.api.ExternalApiException;
-import com.memoblend.applicationcore.user.UserNotFoundException;
+import com.memoblend.applicationcore.appuser.AppUserDomainService;
+import com.memoblend.applicationcore.appuser.AppUserNotFoundException;
 
 /**
  * 日記のアプリケーションサービスのテストクラスです。
@@ -51,7 +51,7 @@ class DiaryApplicationServiceTest {
   private DiaryDomainService diaryDomainService;
 
   @Mock
-  private UserDomainService userDomainService;
+  private AppUserDomainService userDomainService;
 
   @Autowired
   private MessageSource messages;
@@ -417,7 +417,7 @@ class DiaryApplicationServiceTest {
     // Act
     Executable action = () -> diaryApplicationService.getRecommendedSchedule(userId);
     // Assert
-    assertThrows(UserNotFoundException.class, action);
+    assertThrows(AppUserNotFoundException.class, action);
   }
 
   @Test

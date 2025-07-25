@@ -1,23 +1,23 @@
 package com.memoblend.web.controller.mapper.user;
 
-import com.memoblend.applicationcore.user.User;
-import com.memoblend.applicationcore.user.UserValidationException;
+import com.memoblend.applicationcore.appuser.AppUser;
+import com.memoblend.applicationcore.appuser.AppUserValidationException;
 import com.memoblend.web.controller.dto.user.PostUserRequest;
 
 /**
- * {@link PostUserRequest} を {@link User} に変換するクラスです。
+ * {@link PostUserRequest} を {@link AppUser} に変換するクラスです。
  */
 public class PostUserRequestMapper {
 
   /**
-   * {@link PostUserRequest} を {@link User} に変換します。
+   * {@link PostUserRequest} を {@link AppUser} に変換します。
    * 
    * @param request リクエスト。
    * @return ユーザー。
-   * @throws UserValidationException ユーザーが不正な場合。
+   * @throws AppUserValidationException ユーザーが不正な場合。
    */
-  public static User convert(PostUserRequest request) throws UserValidationException {
-    return new User(
+  public static AppUser convert(PostUserRequest request) throws AppUserValidationException {
+    return new AppUser(
         0,
         request.getName(),
         false,

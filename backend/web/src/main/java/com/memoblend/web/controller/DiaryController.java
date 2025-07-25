@@ -4,11 +4,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.memoblend.applicationcore.api.ExternalApiException;
 import com.memoblend.applicationcore.applicationservice.DiaryApplicationService;
+import com.memoblend.applicationcore.appuser.AppUserNotFoundException;
 import com.memoblend.applicationcore.auth.PermissionDeniedException;
 import com.memoblend.applicationcore.diary.Diary;
 import com.memoblend.applicationcore.diary.DiaryNotFoundException;
 import com.memoblend.applicationcore.diary.DiaryValidationException;
-import com.memoblend.applicationcore.user.UserNotFoundException;
 import com.memoblend.systemcommon.constant.CommonExceptionIdConstants;
 import com.memoblend.systemcommon.constant.SystemPropertyConstants;
 import com.memoblend.web.controller.dto.diary.GetDiariesResponse;
@@ -145,7 +145,7 @@ public class DiaryController {
    * @return おすすめスケジュールのレスポンス。
    * @throws PermissionDeniedException 権限エラーが起きた場合。
    * @throws ExternalApiException      外部 API の呼び出しに失敗
-   * @throws UserNotFoundException     ユーザーが見つからない場合。
+   * @throws AppUserNotFoundException  ユーザーが見つからない場合。
    */
   @Operation(summary = "ユーザー ID を指定しておすすめスケジュールを取得します。", description = "ユーザー ID を指定しておすすめスケジュールを取得します。")
   @ApiResponses(value = {
@@ -161,7 +161,7 @@ public class DiaryController {
       JsonNode recommendedSchedule = diaryApplicationService.getRecommendedSchedule(userId);
       GetRecommendedScheduleResponse response = new GetRecommendedScheduleResponse(recommendedSchedule);
       return ResponseEntity.ok().body(response);
-    } catch (UserNotFoundException e) {
+    } catch (AppUserNotFoundException e) {
       apLog.info(e.getMessage());
       apLog.debug(ExceptionUtils.getStackTrace(e));
       ErrorMessageBuilder errorBuilder = new ErrorMessageBuilder(e, e.getExceptionId(),
