@@ -4,15 +4,16 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 import com.memoblend.applicationcore.user.User;
 import com.memoblend.applicationcore.user.UserRepository;
-import com.memoblend.infrastructure.repository.mapper.UserMapper;
+import com.memoblend.infrastructure.mybatis.generated.mapper.UserMapper;
+
 import lombok.AllArgsConstructor;
 
 /**
- * ユーザーのリポジトリです。
+ * ユーザーのリポジトリ実装クラスです。
  */
 @Repository
 @AllArgsConstructor
-public class MyBatisUserRepository implements UserRepository {
+public class UserRepositoryImpl implements UserRepository {
 
   private final UserMapper userMapper;
 

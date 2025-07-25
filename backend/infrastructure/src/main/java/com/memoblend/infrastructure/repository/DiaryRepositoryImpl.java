@@ -4,15 +4,18 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 import com.memoblend.applicationcore.diary.Diary;
 import com.memoblend.applicationcore.diary.DiaryRepository;
-import com.memoblend.infrastructure.repository.mapper.DiaryMapper;
+import com.memoblend.infrastructure.mybatis.generated.entity.DiaryEntity;
+import com.memoblend.infrastructure.mybatis.generated.mapper.DiaryMapper;
+import com.memoblend.infrastructure.translator.EntityTranslator;
+
 import lombok.AllArgsConstructor;
 
 /**
- * 日記のリポジトリです。
+ * 日記のリポジトリ実装クラスです。
  */
 @Repository
 @AllArgsConstructor
-public class MyBatisDiaryRepository implements DiaryRepository {
+public class DiaryRepositoryImpl implements DiaryRepository {
 
   private final DiaryMapper diaryMapper;
 
@@ -33,7 +36,8 @@ public class MyBatisDiaryRepository implements DiaryRepository {
 
   @Override
   public Diary add(Diary diary) {
-    diaryMapper.add(diary);
+    DiaryEntity entity = EntityTranslator.DiaryToDiaryEntity(diary);
+    diaryMapper.insert(entity);
     return diary;
   }
 
