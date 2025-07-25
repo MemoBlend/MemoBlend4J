@@ -22,7 +22,7 @@
         例: /Users/Username/dev/MemoBlend4J/backend/infrastructure/src/main/java
         -->
         <javaModelGenerator targetPackage="com.memoblend.infrastructure.mybatis.generated.entity"
-                        targetProject="/Users/minohirofumi/dev/MemoBlend4J/backend/infrastructure/src/main/java" />
+                        targetProject="${user.home}/dev/MemoBlend4J/backend/infrastructure/src/main/java" />
 
         <!--
         targetProjectにはresourcesパッケージを指定します。
