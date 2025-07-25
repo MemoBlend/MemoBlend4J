@@ -44,7 +44,7 @@
         -->
         <!-- Mapper.java作成先 -->
         <javaClientGenerator targetPackage="com.memoblend.infrastructure.mybatis.generated.mapper"
-                        targetProject="/Users/minohirofumi/dev/MemoBlend4J/backend/infrastructure/src/main/java"
+                        targetProject="${user.home}/dev/MemoBlend4J/backend/infrastructure/src/main/java"
                         type="XMLMAPPER" />
                         
         <!-- 生成対象テーブル -->
