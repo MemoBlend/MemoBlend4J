@@ -6,18 +6,18 @@
     SELECT
       AUTHS.ID,
       AUTHS.USER_ID,
-      ROLES.ID AS ROLE_ID,
-      ROLES.NAME AS ROLE_NAME
+      USER_ROLES.ID AS ROLE_ID,
+      USER_ROLES.NAME AS ROLE_NAME
     FROM AUTHS
-    INNER JOIN ROLES ON (
-      AUTHS.ROLE_ID = ROLES.ID
+    INNER JOIN USER_ROLES ON (
+      AUTHS.ROLE_ID = USER_ROLES.ID
     )
   </sql>
 
   <resultMap id="AuthWithRoles" type="com.memoblend.applicationcore.auth.Auth">
     <id property="id" column="ID"/>
     <result property="userId" column="USER_ID"/>
-    <collection property="roles" ofType="com.memoblend.applicationcore.auth.Role">
+    <collection property="roles" ofType="com.memoblend.applicationcore.auth.UserRole">
       <id property="id" column="ROLE_ID"/>
       <result property="name" column="ROLE_NAME"/>
     </collection>
