@@ -21,8 +21,8 @@
         Mac/Linux環境の場合は、ホームディレクトリ以下のパスを指定します。
         例: /Users/Username/dev/MemoBlend4J/backend/infrastructure/src/main/java
         -->
-        <javaModelGenerator targetPackage="com.memoblend.infrastructure.repository.mybatis.generated.entity"
-                        targetProject="" />
+        <javaModelGenerator targetPackage="com.memoblend.infrastructure.mybatis.generated.entity"
+                        targetProject="/Users/minohirofumi/dev/MemoBlend4J/backend/infrastructure/src/main/java" />
 
         <!--
         targetProjectにはresourcesパッケージを指定します。
@@ -32,8 +32,8 @@
         例: /Users/Username/dev/MemoBlend4J/backend/infrastructure/src/main/resources
         -->
         <!-- Mapper.xml作成先 -->
-        <sqlMapGenerator targetPackage="com.memoblend.infrastructure.repository.mybatis.generated.mapper"
-                        targetProject="" />
+        <sqlMapGenerator targetPackage="com.memoblend.infrastructure.mybatis.generated.mapper"
+                        targetProject="/Users/minohirofumi/dev/MemoBlend4J/backend/infrastructure/src/main/resources" />
 
         <!--
         targetProjectにはjavaパッケージを指定します。
@@ -43,33 +43,26 @@
         例: /Users/Username/dev/MemoBlend4J/backend/infrastructure/src/main/java
         -->
         <!-- Mapper.java作成先 -->
-        <javaClientGenerator targetPackage="com.memoblend.infrastructure.repository.mybatis.generated.mapper"
-                        targetProject=""
+        <javaClientGenerator targetPackage="com.memoblend.infrastructure.mybatis.generated.mapper"
+                        targetProject="/Users/minohirofumi/dev/MemoBlend4J/backend/infrastructure/src/main/java"
                         type="XMLMAPPER" />
+                        
         <!-- 生成対象テーブル -->
         <table schema="" tableName="roles" domainObjectName="RoleEntity" mapperName="RoleMapper">
             <property name="mapUnderscoreToCamelCase" value="true" />
             <generatedKey column="id" sqlStatement="JDBC" identity="true" />
-            <!-- <property name="dynamicSqlSupportClassName" value="RoleDynamicSqlSupport" />
-            <property name="dynamicSqlTableObjectName" value="roles" /> -->
         </table>
         <table schema="" tableName="authes" domainObjectName="AuthEntity" mapperName="AuthMapper">
             <property name="mapUnderscoreToCamelCase" value="true" />
             <generatedKey column="id" sqlStatement="JDBC" identity="true" />
-            <!-- <property name="dynamicSqlSupportClassName" value="AuthDynamicSqlSupport" />
-            <property name="dynamicSqlTableObjectName" value="authes" /> -->
         </table>
         <table schema="" tableName="users" domainObjectName="UserEntity" mapperName="UserMapper">
             <property name="mapUnderscoreToCamelCase" value="true" />
             <generatedKey column="id" sqlStatement="JDBC" identity="true" />
-            <!-- <property name="dynamicSqlSupportClassName" value="UserDynamicSqlSupport" />
-            <property name="dynamicSqlTableObjectName" value="users" /> -->
         </table>
         <table schema="" tableName="diaries" domainObjectName="DiaryEntity" mapperName="DiaryMapper">
             <property name="mapUnderscoreToCamelCase" value="true" />
             <generatedKey column="id" sqlStatement="JDBC" identity="true" />
-            <!-- <property name="dynamicSqlSupportClassName" value="DiaryDynamicSqlSupport" />
-            <property name="dynamicSqlTableObjectName" value="diaries" /> -->
         </table>
     </context>
 </generatorConfiguration>
