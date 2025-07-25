@@ -24,6 +24,13 @@ repositories {
 	mavenCentral()
 }
 
+configurations {
+	mybatisTasks
+	all {
+		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+	}
+}
+
 dependencies {
 	implementation supportDependencies.mybatis_spring_boot_starter
 	implementation supportDependencies.h2database
@@ -34,12 +41,9 @@ dependencies {
 	implementation supportDependencies.jackson_databind
 	testImplementation supportDependencies.spring_boot_starter_test
 	testImplementation supportDependencies.mybatis_spring_boot_starter_test
-}
 
-configurations {
-	all {
-		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
-	}
+	mybatisTasks supportDependencies.mybatisGenerator
+	mybatisTasks supportDependencies.h2database
 }
 
 tasks.named('test') {
@@ -51,4 +55,22 @@ bootJar {
 }
 jar {
 	enabled = true
+}
+
+
+tasks.register('runMyBatisGenerator') {
+  doLast {
+    // MyBatis Generator のタスクを定義します。
+    ant.taskdef(
+      name: 'mybatisGenerator',
+      classname: 'org.mybatis.generator.ant.GeneratorAntTask',
+      classpath: configurations.mybatisTasks.asPath
+    )
+    // MyBatis Generator による自動生成を実行します。
+    ant.mybatisGenerator(
+      overwrite: true,
+      configfile: file('src/main/resources/mybatisGeneratorConfig.xml'),
+      verbose: true
+    )
+  }
 }
