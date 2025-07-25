@@ -12,7 +12,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 import com.memoblend.applicationcore.applicationservice.AuthApplicationService;
-import com.memoblend.applicationcore.user.UserNotFoundException;
+import com.memoblend.applicationcore.appuser.AppUserNotFoundException;
+
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.SignatureException;
@@ -66,7 +67,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
           authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
           SecurityContextHolder.getContext().setAuthentication(authToken);
         }
-      } catch (UserNotFoundException e) {
+      } catch (AppUserNotFoundException e) {
         logger.warn("ユーザーが見つかりません: " + username);
       }
     }

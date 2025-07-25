@@ -9,27 +9,32 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.memoblend.applicationcore.appuser.AppUser;
+import com.memoblend.applicationcore.appuser.AppUserDomainService;
+import com.memoblend.applicationcore.appuser.AppUserRepository;
+import com.memoblend.applicationcore.appuser.AppUserValidationException;
+
 /**
  * ユーザーのドメインサービスのテストクラスです。
  */
 @ExtendWith(SpringExtension.class)
-class UserDomainServiceTest {
+class AppUserDomainServiceTest {
 
   @Mock
-  private UserRepository userRepository;
+  private AppUserRepository userRepository;
 
-  private UserDomainService userDomainService;
+  private AppUserDomainService userDomainService;
 
   @BeforeEach
   void setUp() {
-    userDomainService = new UserDomainService(userRepository);
+    userDomainService = new AppUserDomainService(userRepository);
   }
 
   @Test
-  void testIsExistUser_正常系_ユーザーが存在する場合はtrueを返す() throws UserValidationException {
+  void testIsExistUser_正常系_ユーザーが存在する場合はtrueを返す() throws AppUserValidationException {
     // Arrange
     String name = "testName";
-    User user = createUser(name);
+    AppUser user = createUser(name);
     long id = user.getId();
     when(userRepository.findById(id)).thenReturn(user);
     // Act
@@ -49,10 +54,10 @@ class UserDomainServiceTest {
     assertTrue(!actual);
   }
 
-  private User createUser(String name) throws UserValidationException {
+  private AppUser createUser(String name) throws AppUserValidationException {
     long id = 1L;
     boolean isDeleted = false;
     String authId = "auth_" + id;
-    return new User(id, name, isDeleted, authId);
+    return new AppUser(id, name, isDeleted, authId);
   }
 }

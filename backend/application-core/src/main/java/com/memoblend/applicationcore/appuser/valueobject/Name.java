@@ -1,7 +1,8 @@
-package com.memoblend.applicationcore.user.valueobject;
+package com.memoblend.applicationcore.appuser.valueobject;
 
+import com.memoblend.applicationcore.appuser.AppUserValidationException;
 import com.memoblend.applicationcore.constant.ExceptionIdConstants;
-import com.memoblend.applicationcore.user.UserValidationException;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
@@ -20,17 +21,17 @@ public class Name {
    * {@link Name} クラスの新しいインスタンスを初期化します。
    * 
    * @param value ユーザー名。
-   * @throws UserValidationException ユーザー名が不正な場合。
+   * @throws AppUserValidationException ユーザー名が不正な場合。
    */
-  public Name(String value) throws UserValidationException {
+  public Name(String value) throws AppUserValidationException {
     if (value == null || value.isEmpty() || value.isBlank()) {
-      throw new UserValidationException(
+      throw new AppUserValidationException(
           ExceptionIdConstants.E_USER_FIELD_IS_REQUIRED,
           new String[] { VALUE_OBJECT_NAME },
           new String[] { VALUE_OBJECT_NAME });
     }
     if (value.length() <= 1 || value.length() >= 15) {
-      throw new UserValidationException(
+      throw new AppUserValidationException(
           ExceptionIdConstants.E_USER_VALUE_IS_OUT_OF_RANGE,
           new String[] { VALUE_OBJECT_NAME, "1", "15" },
           new String[] { VALUE_OBJECT_NAME, "1", "15" });

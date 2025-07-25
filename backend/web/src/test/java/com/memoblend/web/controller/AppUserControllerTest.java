@@ -21,12 +21,12 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.memoblend.web.WebApplication;
 
 /**
- * {@link UserController} クラスのテストクラスです。
+ * {@link AppUserController} クラスのテストクラスです。
  */
 @SpringJUnitConfig
 @SpringBootTest(classes = WebApplication.class)
 @AutoConfigureMockMvc
-class UserControllerTest {
+class AppUserControllerTest {
 
   @Autowired
   MockMvc mockMvc;

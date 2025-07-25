@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.memoblend.applicationcore.applicationservice.UserApplicationService;
-import com.memoblend.applicationcore.user.UserNotFoundException;
-import com.memoblend.applicationcore.user.UserValidationException;
-import com.memoblend.applicationcore.user.User;
+import com.memoblend.applicationcore.appuser.AppUser;
+import com.memoblend.applicationcore.appuser.AppUserNotFoundException;
+import com.memoblend.applicationcore.appuser.AppUserValidationException;
 import com.memoblend.systemcommon.constant.CommonExceptionIdConstants;
 import com.memoblend.systemcommon.constant.SystemPropertyConstants;
 import com.memoblend.web.controller.dto.user.GetUserResponse;
@@ -45,7 +45,7 @@ import lombok.AllArgsConstructor;
 @RequestMapping("api/user")
 @Tag(name = "User", description = "ユーザーの情報にアクセスする API です。")
 @AllArgsConstructor
-public class UserController {
+public class AppUserController {
   private final UserApplicationService userApplicationService;
   private final ProblemDetailsFactory problemDetailsFactory;
   private static final Logger apLog = LoggerFactory.getLogger(SystemPropertyConstants.APPLICATION_LOGGER);
@@ -65,10 +65,10 @@ public class UserController {
   })
   @GetMapping("{id}")
   public ResponseEntity<?> getUser(@PathVariable("id") long id) {
-    User user = null;
+    AppUser user = null;
     try {
       user = userApplicationService.getUser(id);
-    } catch (UserNotFoundException e) {
+    } catch (AppUserNotFoundException e) {
       apLog.info(e.getMessage());
       apLog.debug(ExceptionUtils.getStackTrace(e));
       ErrorMessageBuilder errorBuilder = new ErrorMessageBuilder(e, e.getExceptionId(),
@@ -88,7 +88,7 @@ public class UserController {
    * 
    * @param request ユーザー情報。
    * @return 登録結果。
-   * @throws UserValidationException ユーザーが不正な場合。
+   * @throws AppUserValidationException ユーザーが不正な場合。
    */
   @Operation(summary = "ユーザー情報を登録します。", description = "ユーザー情報を登録します。")
   @ApiResponses(value = {
@@ -97,9 +97,9 @@ public class UserController {
       @ApiResponse(responseCode = "500", description = "サーバーエラー。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
   })
   @PostMapping
-  public ResponseEntity<?> postUser(@RequestBody PostUserRequest request) throws UserValidationException {
-    User user = PostUserRequestMapper.convert(request);
-    User addedUser = userApplicationService.addUser(user);
+  public ResponseEntity<?> postUser(@RequestBody PostUserRequest request) throws AppUserValidationException {
+    AppUser user = PostUserRequestMapper.convert(request);
+    AppUser addedUser = userApplicationService.addUser(user);
     return ResponseEntity.created(URI.create("/api/user/" + addedUser.getId())).build();
   }
 
@@ -120,7 +120,7 @@ public class UserController {
   public ResponseEntity<?> deleteUser(@PathVariable("id") long id) {
     try {
       userApplicationService.deleteUser(id);
-    } catch (UserNotFoundException e) {
+    } catch (AppUserNotFoundException e) {
       apLog.info(e.getMessage());
       apLog.debug(ExceptionUtils.getStackTrace(e));
       ErrorMessageBuilder errorBuilder = new ErrorMessageBuilder(e, e.getExceptionId(),
@@ -139,7 +139,7 @@ public class UserController {
    * 
    * @param request ユーザー情報。
    * @return 更新結果。
-   * @throws UserValidationException ユーザーが不正な場合。
+   * @throws AppUserValidationException ユーザーが不正な場合。
    */
   @Operation(summary = "ユーザー情報を更新します。", description = "ユーザー情報を更新します。")
   @ApiResponses(value = {
@@ -149,11 +149,11 @@ public class UserController {
       @ApiResponse(responseCode = "500", description = "サーバーエラー。", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class))),
   })
   @PutMapping
-  public ResponseEntity<?> putUser(@RequestBody PutUserRequest request) throws UserValidationException {
-    User user = PutUserRequestMapper.convert(request);
+  public ResponseEntity<?> putUser(@RequestBody PutUserRequest request) throws AppUserValidationException {
+    AppUser user = PutUserRequestMapper.convert(request);
     try {
       userApplicationService.updateUser(user);
-    } catch (UserNotFoundException e) {
+    } catch (AppUserNotFoundException e) {
       apLog.info(e.getMessage());
       apLog.debug(ExceptionUtils.getStackTrace(e));
       ErrorMessageBuilder errorBuilder = new ErrorMessageBuilder(e, e.getExceptionId(),

@@ -1,10 +1,11 @@
 package com.memoblend.infrastructure.translator;
 
 import org.springframework.beans.BeanUtils;
+
+import com.memoblend.applicationcore.appuser.AppUser;
 import com.memoblend.applicationcore.auth.Auth;
 import com.memoblend.applicationcore.auth.Role;
 import com.memoblend.applicationcore.diary.Diary;
-import com.memoblend.applicationcore.user.User;
 import com.memoblend.infrastructure.mybatis.generated.entity.AuthEntity;
 import com.memoblend.infrastructure.mybatis.generated.entity.DiaryEntity;
 import com.memoblend.infrastructure.mybatis.generated.entity.RoleEntity;
@@ -64,24 +65,24 @@ public class EntityTranslator {
   }
 
   /**
-   * {@link UserEntity}を{@link User}に変換します。
+   * {@link UserEntity}を{@link AppUser}に変換します。
    * 
    * @param entity 変換対象の{@link UserEntity}
-   * @return 変換後の{@link User}
+   * @return 変換後の{@link AppUser}
    */
-  public static User UserEntityToUser(UserEntity entity) {
-    User user = new User();
+  public static AppUser UserEntityToUser(UserEntity entity) {
+    AppUser user = new AppUser();
     BeanUtils.copyProperties(entity, user);
     return user;
   }
 
   /**
-   * {@link User}を{@link UserEntity}に変換します。
+   * {@link AppUser}を{@link UserEntity}に変換します。
    * 
-   * @param user 変換対象の{@link User}
+   * @param user 変換対象の{@link AppUser}
    * @return 変換後の{@link UserEntity}
    */
-  public static UserEntity UserToUserEntity(User user) {
+  public static UserEntity UserToUserEntity(AppUser user) {
     UserEntity entity = new UserEntity();
     BeanUtils.copyProperties(user, entity);
     return entity;

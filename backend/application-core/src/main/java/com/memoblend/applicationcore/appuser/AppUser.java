@@ -1,14 +1,16 @@
-package com.memoblend.applicationcore.user;
+package com.memoblend.applicationcore.appuser;
 
 import org.springframework.lang.NonNull;
-import com.memoblend.applicationcore.user.valueobject.Name;
+
+import com.memoblend.applicationcore.appuser.valueobject.Name;
+
 import lombok.NoArgsConstructor;
 
 /**
  * ユーザーのエンティティを表すクラスです。
  */
 @NoArgsConstructor
-public class User {
+public class AppUser {
 
   @NonNull
   private long id;
@@ -26,9 +28,9 @@ public class User {
    * @param name      ユーザーの名前。
    * @param isDeleted 削除済みの場合 true 、 未削除の場合 false 。
    * @param authId    認証情報の ID 。
-   * @throws UserValidationException ユーザーが不正な場合。
+   * @throws AppUserValidationException ユーザーが不正な場合。
    */
-  public User(long id, String name, boolean isDeleted, String authId) throws UserValidationException {
+  public AppUser(long id, String name, boolean isDeleted, String authId) throws AppUserValidationException {
     this.id = id;
     this.name = new Name(name);
     this.isDeleted = isDeleted;
@@ -84,9 +86,9 @@ public class User {
    * ユーザーの名前を設定します。
    *
    * @param name 新しいユーザー名。
-   * @throws UserValidationException ユーザー名が不正な場合。
+   * @throws AppUserValidationException ユーザー名が不正な場合。
    */
-  public void setName(String name) throws UserValidationException {
+  public void setName(String name) throws AppUserValidationException {
     this.name = new Name(name);
   }
 

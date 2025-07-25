@@ -1,33 +1,33 @@
-package com.memoblend.applicationcore.user;
+package com.memoblend.applicationcore.appuser;
 
 import java.util.List;
 
 /**
  * ユーザーのリポジトリのインターフェースです。
  */
-public interface UserRepository {
+public interface AppUserRepository {
   /**
    * 全てのユーザーを取得します。
    * 
    * @return 全てのユーザー。
    */
-  List<User> findAll();
+  List<AppUser> findAll();
 
   /**
-   * ID を指定して、 {@link User} を取得します。
+   * ID を指定して、 {@link AppUser} を取得します。
    * 
    * @param id ユーザー ID 。
    * @return 条件に合うユーザー。
    */
-  User findById(long id);
+  AppUser findById(long id);
 
   /**
-   * 認証 ID を指定して、 {@link User} を取得します。
+   * 認証 ID を指定して、 {@link AppUser} を取得します。
    * 
    * @param authId 認証 ID 。
    * @return 条件に合うユーザー。
    */
-  User findByAuthId(String authId);
+  List<AppUser> findByAuthId(String authId);
 
   /**
    * ユーザーを追加します。
@@ -35,19 +35,19 @@ public interface UserRepository {
    * @param user 追加するユーザー。
    * @return 追加したユーザー。
    */
-  User add(User user);
+  AppUser add(AppUser user);
 
   /**
-   * ID を指定して、 {@link User} を削除します。
+   * ID を指定して、 {@link AppUser} を削除します。
    * 
    * @param id 削除するユーザーの ID 。
    */
   long delete(long id);
 
   /**
-   * {@link User} を更新します。
+   * {@link AppUser} を更新します。
    * 
    * @param user 更新するユーザー。
    */
-  long update(User user);
+  long update(AppUser user);
 }

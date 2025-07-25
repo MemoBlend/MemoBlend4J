@@ -6,11 +6,12 @@ import java.util.logging.Logger;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.memoblend.applicationcore.appuser.AppUser;
+import com.memoblend.applicationcore.appuser.AppUserDomainService;
+import com.memoblend.applicationcore.appuser.AppUserNotFoundException;
+import com.memoblend.applicationcore.appuser.AppUserRepository;
 import com.memoblend.applicationcore.constant.MessageIdConstants;
-import com.memoblend.applicationcore.user.User;
-import com.memoblend.applicationcore.user.UserDomainService;
-import com.memoblend.applicationcore.user.UserNotFoundException;
-import com.memoblend.applicationcore.user.UserRepository;
 import com.memoblend.systemcommon.constant.SystemPropertyConstants;
 import lombok.AllArgsConstructor;
 
@@ -22,8 +23,8 @@ import lombok.AllArgsConstructor;
 @Transactional(rollbackFor = Exception.class)
 public class UserApplicationService {
 
-  private final UserRepository userRepository;
-  private final UserDomainService userDomainService;
+  private final AppUserRepository userRepository;
+  private final AppUserDomainService userDomainService;
   private final MessageSource messages;
 
   private final Logger apLog = Logger.getLogger(SystemPropertyConstants.APPLICATION_LOGGER);
@@ -33,7 +34,7 @@ public class UserApplicationService {
    * 
    * @return 全てのユーザーのリスト。
    */
-  public List<User> getUsers() {
+  public List<AppUser> getUsers() {
     apLog.info(messages.getMessage(MessageIdConstants.D_USER_GET_USERS, new Object[] {}, Locale.getDefault()));
     return userRepository.findAll();
   }
@@ -43,13 +44,13 @@ public class UserApplicationService {
    * 
    * @param id ユーザーの ID 。
    * @return 条件に合うユーザー。
-   * @throws UserNotFoundException ユーザーが見つからない場合。
+   * @throws AppUserNotFoundException ユーザーが見つからない場合。
    */
-  public User getUser(long id) throws UserNotFoundException {
+  public AppUser getUser(long id) throws AppUserNotFoundException {
     apLog.info(messages.getMessage(MessageIdConstants.D_USER_GET_USER, new Object[] { id }, Locale.getDefault()));
-    User user = userRepository.findById(id);
+    AppUser user = userRepository.findById(id);
     if (user == null) {
-      throw new UserNotFoundException(id);
+      throw new AppUserNotFoundException(id);
     }
     return user;
   }
@@ -59,16 +60,16 @@ public class UserApplicationService {
    *
    * @param authId 認証 ID 。
    * @return 条件に合うユーザー。
-   * @throws UserNotFoundException ユーザーが見つからない場合。
+   * @throws AppUserNotFoundException ユーザーが見つからない場合。
    */
-  public User getUserByAuthId(String authId) throws UserNotFoundException {
+  public List<AppUser> getUserByAuthId(String authId) throws AppUserNotFoundException {
     apLog.info(messages.getMessage(MessageIdConstants.D_USER_GET_USER_BY_AUTH_ID, new Object[] { authId },
         Locale.getDefault()));
-    User user = userRepository.findByAuthId(authId);
-    if (user == null) {
-      throw new UserNotFoundException(authId);
+    List<AppUser> users = userRepository.findByAuthId(authId);
+    if (users.isEmpty()) {
+      throw new AppUserNotFoundException(authId);
     }
-    return user;
+    return users;
   }
 
   /**
@@ -77,8 +78,8 @@ public class UserApplicationService {
    * @param user 追加するユーザー。
    * @return 追加されたユーザー。
    */
-  public User addUser(User user) {
-    User addedUser = userRepository.add(user);
+  public AppUser addUser(AppUser user) {
+    AppUser addedUser = userRepository.add(user);
     long addedId = addedUser.getId();
     apLog.info(messages.getMessage(MessageIdConstants.D_USER_ADD_USER, new Object[] { addedId }, Locale.getDefault()));
     return addedUser;
@@ -88,13 +89,13 @@ public class UserApplicationService {
    * 既存のユーザーのデータを更新します。
    * 
    * @param user 更新するユーザー。
-   * @throws UserNotFoundException ユーザーが見つからない場合。
+   * @throws AppUserNotFoundException ユーザーが見つからない場合。
    */
-  public void updateUser(User user) throws UserNotFoundException {
+  public void updateUser(AppUser user) throws AppUserNotFoundException {
     final long id = user.getId();
     apLog.info(messages.getMessage(MessageIdConstants.D_USER_UPDATE_USER, new Object[] { id }, Locale.getDefault()));
     if (!userDomainService.isExistUser(id)) {
-      throw new UserNotFoundException(id);
+      throw new AppUserNotFoundException(id);
     }
     userRepository.update(user);
   }
@@ -103,12 +104,12 @@ public class UserApplicationService {
    * ID を指定して、ユーザーを削除します。
    * 
    * @param id ユーザーの ID 。
-   * @throws UserNotFoundException ユーザーが見つからない場合。
+   * @throws AppUserNotFoundException ユーザーが見つからない場合。
    */
-  public void deleteUser(long id) throws UserNotFoundException {
+  public void deleteUser(long id) throws AppUserNotFoundException {
     apLog.info(messages.getMessage(MessageIdConstants.D_USER_DELETE_USER, new Object[] { id }, Locale.getDefault()));
     if (!userDomainService.isExistUser(id)) {
-      throw new UserNotFoundException(id);
+      throw new AppUserNotFoundException(id);
     }
     userRepository.delete(id);
   }

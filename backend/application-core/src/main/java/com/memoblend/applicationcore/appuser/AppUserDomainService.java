@@ -1,4 +1,4 @@
-package com.memoblend.applicationcore.user;
+package com.memoblend.applicationcore.appuser;
 
 import org.springframework.stereotype.Component;
 import lombok.AllArgsConstructor;
@@ -8,8 +8,8 @@ import lombok.AllArgsConstructor;
  */
 @AllArgsConstructor
 @Component
-public class UserDomainService {
-  private final UserRepository userRepository;
+public class AppUserDomainService {
+  private final AppUserRepository userRepository;
 
   /**
    * ID を指定して、ユーザーが存在するかどうかを判定します。
@@ -18,7 +18,7 @@ public class UserDomainService {
    * @return ユーザーが存在する場合は true 、存在しない場合は false 。
    */
   public boolean isExistUser(long id) {
-    User user = userRepository.findById(id);
+    AppUser user = userRepository.findById(id);
     return user != null && !user.getIsDeleted();
   }
 }

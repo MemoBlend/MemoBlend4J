@@ -48,7 +48,7 @@
                         type="XMLMAPPER" />
                         
         <!-- 生成対象テーブル -->
-        <table schema="" tableName="roles" domainObjectName="RoleEntity" mapperName="RoleMapper">
+        <table schema="" tableName="user_roles" domainObjectName="UserRoleEntity" mapperName="UserRoleMapper">
             <property name="mapUnderscoreToCamelCase" value="true" />
             <generatedKey column="id" sqlStatement="JDBC" identity="true" />
         </table>
@@ -56,7 +56,7 @@
             <property name="mapUnderscoreToCamelCase" value="true" />
             <generatedKey column="id" sqlStatement="JDBC" identity="true" />
         </table>
-        <table schema="" tableName="users" domainObjectName="UserEntity" mapperName="UserMapper">
+        <table schema="" tableName="app_users" domainObjectName="AppUserEntity" mapperName="AppUserMapper">
             <property name="mapUnderscoreToCamelCase" value="true" />
             <generatedKey column="id" sqlStatement="JDBC" identity="true" />
         </table>
