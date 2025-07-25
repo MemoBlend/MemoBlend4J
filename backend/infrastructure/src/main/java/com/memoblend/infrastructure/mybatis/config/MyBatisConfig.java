@@ -1,4 +1,4 @@
-package com.memoblend.infrastructure.repository.config;
+package com.memoblend.infrastructure.mybatis.config;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.mybatis.spring.boot.autoconfigure.ConfigurationCustomizer;
