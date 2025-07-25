@@ -4,13 +4,13 @@
 
   <sql id="selectAuthsIncludeUser">
     SELECT
-      AUTHS.ID,
-      AUTHS.USER_ID,
+      AUTHES.ID,
+      AUTHES.USER_ID,
       USER_ROLES.ID AS ROLE_ID,
       USER_ROLES.NAME AS ROLE_NAME
-    FROM AUTHS
+    FROM AUTHES
     INNER JOIN USER_ROLES ON (
-      AUTHS.ROLE_ID = USER_ROLES.ID
+      AUTHES.ROLE_ID = USER_ROLES.ID
     )
   </sql>
 
@@ -25,6 +25,6 @@
 
   <select id="findById" resultMap="AuthWithRoles">
     <include refid="selectAuthsIncludeUser"/>
-    WHERE AUTHS.ID = #{id}
+    WHERE AUTHES.ID = #{id}
   </select>
 </mapper>
