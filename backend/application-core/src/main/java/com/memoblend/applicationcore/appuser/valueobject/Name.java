@@ -2,7 +2,6 @@ package com.memoblend.applicationcore.appuser.valueobject;
 
 import com.memoblend.applicationcore.appuser.AppUserValidationException;
 import com.memoblend.applicationcore.constant.ExceptionIdConstants;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 

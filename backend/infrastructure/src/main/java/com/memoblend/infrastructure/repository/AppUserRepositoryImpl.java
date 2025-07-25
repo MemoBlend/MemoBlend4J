@@ -2,7 +2,6 @@ package com.memoblend.infrastructure.repository;
 
 import java.util.List;
 import org.springframework.stereotype.Repository;
-
 import com.memoblend.applicationcore.appuser.AppUser;
 import com.memoblend.applicationcore.appuser.AppUserRepository;
 import com.memoblend.infrastructure.mybatis.generated.entity.AppUserEntity;
@@ -24,14 +23,14 @@ public class AppUserRepositoryImpl implements AppUserRepository {
   public List<AppUser> findAll() {
     AppUserEntityExample example = new AppUserEntityExample();
     List<AppUserEntity> entities = userMapper.selectByExample(example);
-    List<AppUser> users = entities.stream().map(EntityTranslator::AppUserEntityToAppUser).toList();
+    List<AppUser> users = entities.stream().map(EntityTranslator::appUserEntityToAppUser).toList();
     return users;
   }
 
   @Override
   public AppUser findById(long id) {
     AppUserEntity entity = userMapper.selectByPrimaryKey(id);
-    return EntityTranslator.AppUserEntityToAppUser(entity);
+    return EntityTranslator.appUserEntityToAppUser(entity);
   }
 
   @Override
@@ -40,14 +39,14 @@ public class AppUserRepositoryImpl implements AppUserRepository {
     example.createCriteria().andAuthIdEqualTo(authId);
     List<AppUserEntity> entities = userMapper.selectByExample(example);
     List<AppUser> users = entities.stream()
-        .map(EntityTranslator::AppUserEntityToAppUser)
+        .map(EntityTranslator::appUserEntityToAppUser)
         .toList();
     return users;
   }
 
   @Override
   public AppUser add(AppUser user) {
-    AppUserEntity entity = EntityTranslator.AppUserToAppUserEntity(user);
+    AppUserEntity entity = EntityTranslator.appUserToAppUserEntity(user);
     userMapper.insert(entity);
     user.setId(entity.getId());
     return user;
@@ -60,7 +59,7 @@ public class AppUserRepositoryImpl implements AppUserRepository {
 
   @Override
   public long update(AppUser user) {
-    AppUserEntity entity = EntityTranslator.AppUserToAppUserEntity(user);
+    AppUserEntity entity = EntityTranslator.appUserToAppUserEntity(user);
     return userMapper.updateByPrimaryKey(entity);
   }
 }

@@ -1,9 +1,7 @@
 package com.memoblend.web.controller.dto.user;
 
 import java.util.List;
-
 import com.memoblend.applicationcore.appuser.AppUser;
-
 import lombok.Data;
 
 /**

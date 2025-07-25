@@ -1,7 +1,6 @@
 package com.memoblend.web.controller.mapper.user;
 
 import java.util.List;
-
 import com.memoblend.applicationcore.appuser.AppUser;
 import com.memoblend.web.controller.dto.user.GetUsersResponse;
 

@@ -19,7 +19,6 @@ import org.springframework.boot.autoconfigure.context.MessageSourceAutoConfigura
 import org.springframework.context.MessageSource;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
 import com.memoblend.applicationcore.appuser.AppUser;
 import com.memoblend.applicationcore.appuser.AppUserDomainService;
 import com.memoblend.applicationcore.appuser.AppUserNotFoundException;

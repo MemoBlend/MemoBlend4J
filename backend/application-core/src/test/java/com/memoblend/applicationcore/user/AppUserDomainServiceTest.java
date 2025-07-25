@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
 import com.memoblend.applicationcore.appuser.AppUser;
 import com.memoblend.applicationcore.appuser.AppUserDomainService;
 import com.memoblend.applicationcore.appuser.AppUserRepository;

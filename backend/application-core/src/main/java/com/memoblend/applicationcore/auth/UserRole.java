@@ -1,7 +1,6 @@
 package com.memoblend.applicationcore.auth;
 
 import org.springframework.lang.NonNull;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

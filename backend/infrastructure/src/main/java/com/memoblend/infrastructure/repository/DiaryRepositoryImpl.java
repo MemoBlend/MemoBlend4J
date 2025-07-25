@@ -39,7 +39,7 @@ public class DiaryRepositoryImpl implements DiaryRepository {
 
     List<DiaryEntity> entities = diaryMapper.selectByExample(example);
     List<Diary> diaries = entities.stream()
-        .map(EntityTranslator::DiaryEntityToDiary)
+        .map(EntityTranslator::diaryEntityToDiary)
         .toList();
     return diaries;
   }
@@ -51,7 +51,7 @@ public class DiaryRepositoryImpl implements DiaryRepository {
     example.setOrderByClause("created_date DESC");
     List<DiaryEntity> entities = diaryMapper.selectByExample(example);
     List<Diary> diaries = entities.stream()
-        .map(EntityTranslator::DiaryEntityToDiary)
+        .map(EntityTranslator::diaryEntityToDiary)
         .toList();
     return diaries;
   }
@@ -59,12 +59,12 @@ public class DiaryRepositoryImpl implements DiaryRepository {
   @Override
   public Diary findById(long id) {
     DiaryEntity entity = diaryMapper.selectByPrimaryKey(id);
-    return EntityTranslator.DiaryEntityToDiary(entity);
+    return EntityTranslator.diaryEntityToDiary(entity);
   }
 
   @Override
   public Diary add(Diary diary) {
-    DiaryEntity entity = EntityTranslator.DiaryToDiaryEntity(diary);
+    DiaryEntity entity = EntityTranslator.diaryToDiaryEntity(diary);
     diaryMapper.insert(entity);
     diary.setId(entity.getId());
     return diary;
@@ -77,7 +77,7 @@ public class DiaryRepositoryImpl implements DiaryRepository {
 
   @Override
   public long update(Diary diary) {
-    DiaryEntity entity = EntityTranslator.DiaryToDiaryEntity(diary);
+    DiaryEntity entity = EntityTranslator.diaryToDiaryEntity(diary);
     return diaryMapper.updateByPrimaryKeySelective(entity);
   }
 }

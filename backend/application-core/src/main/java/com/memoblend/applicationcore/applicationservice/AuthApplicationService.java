@@ -6,11 +6,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.memoblend.applicationcore.appuser.AppUserNotFoundException;
 import com.memoblend.applicationcore.auth.Auth;
 import com.memoblend.applicationcore.auth.AuthRepository;
-
 import lombok.AllArgsConstructor;
 
 /**
@@ -39,7 +37,7 @@ public class AuthApplicationService {
     UserDetails userDetails = User.builder()
         .username(auth.getId())
         .password(auth.getPasswordHash())
-        .authorities(auth.getRoles()
+        .authorities(auth.getUserRoles()
             .stream()
             .map(role -> new SimpleGrantedAuthority(role.getName()))
             .toList())
@@ -65,7 +63,7 @@ public class AuthApplicationService {
     return User.builder()
         .username(auth.getId())
         .password(auth.getPasswordHash())
-        .authorities(auth.getRoles()
+        .authorities(auth.getUserRoles()
             .stream()
             .map(role -> new SimpleGrantedAuthority(role.getName()))
             .toList())

@@ -1,9 +1,7 @@
 package com.memoblend.applicationcore.appuser;
 
 import org.springframework.lang.NonNull;
-
 import com.memoblend.applicationcore.appuser.valueobject.Name;
-
 import lombok.NoArgsConstructor;
 
 /**

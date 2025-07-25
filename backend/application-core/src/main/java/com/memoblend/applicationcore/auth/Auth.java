@@ -2,7 +2,6 @@ package com.memoblend.applicationcore.auth;
 
 import java.util.List;
 import org.springframework.lang.NonNull;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,5 +18,5 @@ public class Auth {
   @NonNull
   private String passwordHash;
   @NonNull
-  private List<UserRole> roles;
+  private List<UserRole> userRoles;
 }
