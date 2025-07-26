@@ -2,16 +2,14 @@ package com.memoblend.applicationcore.diary.valueobject;
 
 import com.memoblend.applicationcore.constant.ExceptionIdConstants;
 import com.memoblend.applicationcore.diary.DiaryValidationException;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.Value;
 
 /**
  * コンテンツを表す値オブジェクトです。
  */
-@Getter
-@EqualsAndHashCode
+@Value
 public class Content {
-  private final String value;
+  String value;
 
   private static final String VALUE_OBJECT_NAME = "コンテンツ";
 

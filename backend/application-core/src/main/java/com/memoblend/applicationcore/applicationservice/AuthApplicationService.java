@@ -6,9 +6,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.memoblend.applicationcore.appuser.AppUserNotFoundException;
 import com.memoblend.applicationcore.auth.Auth;
 import com.memoblend.applicationcore.auth.AuthRepository;
-import com.memoblend.applicationcore.user.UserNotFoundException;
 import lombok.AllArgsConstructor;
 
 /**
@@ -37,7 +37,7 @@ public class AuthApplicationService {
     UserDetails userDetails = User.builder()
         .username(auth.getId())
         .password(auth.getPasswordHash())
-        .authorities(auth.getRoles()
+        .authorities(auth.getUserRoles()
             .stream()
             .map(role -> new SimpleGrantedAuthority(role.getName()))
             .toList())
@@ -53,17 +53,17 @@ public class AuthApplicationService {
    * 認証 ID を使用してユーザーデータを取得します。
    * 
    * @param authId 認証 ID。
-   * @throws UserNotFoundException 認証 ID に対応するユーザーが存在しない場合。
+   * @throws AppUserNotFoundException 認証 ID に対応するユーザーが存在しない場合。
    */
-  public UserDetails loadUserByAuthId(String authId) throws UserNotFoundException {
+  public UserDetails loadUserByAuthId(String authId) throws AppUserNotFoundException {
     Auth auth = authRepository.findById(authId);
     if (auth == null) {
-      throw new UserNotFoundException(authId);
+      throw new AppUserNotFoundException(authId);
     }
     return User.builder()
         .username(auth.getId())
         .password(auth.getPasswordHash())
-        .authorities(auth.getRoles()
+        .authorities(auth.getUserRoles()
             .stream()
             .map(role -> new SimpleGrantedAuthority(role.getName()))
             .toList())

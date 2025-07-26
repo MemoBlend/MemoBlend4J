@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.memoblend.applicationcore.api.DiaryAnalysisApiClient;
 import com.memoblend.applicationcore.api.ExternalApiException;
+import com.memoblend.applicationcore.appuser.AppUserDomainService;
+import com.memoblend.applicationcore.appuser.AppUserNotFoundException;
 import com.memoblend.applicationcore.auth.PermissionDeniedException;
 import com.memoblend.applicationcore.auth.UserStore;
 import com.memoblend.applicationcore.constant.MessageIdConstants;
@@ -18,8 +20,6 @@ import com.memoblend.applicationcore.diary.Diary;
 import com.memoblend.applicationcore.diary.DiaryDomainService;
 import com.memoblend.applicationcore.diary.DiaryNotFoundException;
 import com.memoblend.applicationcore.diary.DiaryRepository;
-import com.memoblend.applicationcore.user.UserDomainService;
-import com.memoblend.applicationcore.user.UserNotFoundException;
 import com.memoblend.systemcommon.constant.SystemPropertyConstants;
 import lombok.AllArgsConstructor;
 
@@ -33,7 +33,7 @@ public class DiaryApplicationService {
 
   private final DiaryRepository diaryRepository;
   private final DiaryDomainService diaryDomainService;
-  private final UserDomainService userDomainService;
+  private final AppUserDomainService userDomainService;
   private final MessageSource messages;
   private final UserStore userStore;
   private final DiaryAnalysisApiClient diaryAnalysisApiClient;
@@ -107,16 +107,16 @@ public class DiaryApplicationService {
    * 
    * @param userId ユーザー ID 。
    * @return おすすめのスケジュールの文字列（suggestionキーの値）。
-   * @throws UserNotFoundException     ユーザーが見つからない場合。
+   * @throws AppUserNotFoundException  ユーザーが見つからない場合。
    * @throws ExternalApiException      外部 API の呼び出しに失敗した場合。
    * @throws PermissionDeniedException 認可が拒否された場合。
    */
   public JsonNode getRecommendedSchedule(Long userId)
-      throws UserNotFoundException, ExternalApiException, PermissionDeniedException {
+      throws AppUserNotFoundException, ExternalApiException, PermissionDeniedException {
     apLog.info(messages.getMessage(MessageIdConstants.D_ANALYTICS_GET_RECOMMENDED_SCHEDULE,
         new Object[] { userId }, Locale.getDefault()));
     if (!userDomainService.isExistUser(userId)) {
-      throw new UserNotFoundException(userId);
+      throw new AppUserNotFoundException(userId);
     }
     if (!userStore.isInRole(UserRoleConstants.USER) && !userStore.isInRole(UserRoleConstants.ADMIN)) {
       throw new PermissionDeniedException("getRecommendedSchedule");
