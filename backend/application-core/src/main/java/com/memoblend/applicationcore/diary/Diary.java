@@ -5,12 +5,10 @@ import org.springframework.lang.NonNull;
 import com.memoblend.applicationcore.diary.valueobject.Content;
 import com.memoblend.applicationcore.diary.valueobject.CreatedDate;
 import com.memoblend.applicationcore.diary.valueobject.Title;
-import lombok.NoArgsConstructor;
 
 /**
  * 日記のエンティティを表すクラスです。
  */
-@NoArgsConstructor
 public class Diary {
 
   @NonNull
