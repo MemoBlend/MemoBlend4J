@@ -19,11 +19,11 @@ import org.springframework.boot.autoconfigure.context.MessageSourceAutoConfigura
 import org.springframework.context.MessageSource;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import com.memoblend.applicationcore.user.User;
-import com.memoblend.applicationcore.user.UserNotFoundException;
-import com.memoblend.applicationcore.user.UserDomainService;
-import com.memoblend.applicationcore.user.UserRepository;
-import com.memoblend.applicationcore.user.UserValidationException;
+import com.memoblend.applicationcore.appuser.AppUser;
+import com.memoblend.applicationcore.appuser.AppUserDomainService;
+import com.memoblend.applicationcore.appuser.AppUserNotFoundException;
+import com.memoblend.applicationcore.appuser.AppUserRepository;
+import com.memoblend.applicationcore.appuser.AppUserValidationException;
 
 /**
  * ユーザーのアプリケーションサービスのテストクラスです。
@@ -34,27 +34,27 @@ import com.memoblend.applicationcore.user.UserValidationException;
 class UserApplicationServiceTest {
 
   @Mock
-  private UserRepository userRepository;
+  private AppUserRepository userRepository;
 
   @Mock
-  private UserDomainService userDomainService;
+  private AppUserDomainService userDomainService;
 
   @Autowired
   private MessageSource messages;
 
-  private UserApplicationService userApplicationService;
+  private AppUserApplicationService userApplicationService;
 
   @BeforeEach
   void setUp() {
-    userApplicationService = new UserApplicationService(userRepository, userDomainService, messages);
+    userApplicationService = new AppUserApplicationService(userRepository, userDomainService, messages);
   }
 
   @Test
-  void testGetUsers_正常系_リポジトリのfindAllを1回呼び出す() throws UserValidationException {
+  void testGetUsers_正常系_リポジトリのfindAllを1回呼び出す() throws AppUserValidationException {
     // Arrange
     List<String> names = new ArrayList<>();
     names.add("testName");
-    List<User> users = createUsers(names);
+    List<AppUser> users = createUsers(names);
     when(userRepository.findAll()).thenReturn(users);
     // Act
     userApplicationService.getUsers();
@@ -63,23 +63,23 @@ class UserApplicationServiceTest {
   }
 
   @Test
-  void testGetUsers_正常系_ユーザーのリストを返す() throws UserValidationException {
+  void testGetUsers_正常系_ユーザーのリストを返す() throws AppUserValidationException {
     // Arrange
     List<String> names = new ArrayList<>();
     names.add("testName");
-    List<User> users = createUsers(names);
+    List<AppUser> users = createUsers(names);
     when(userRepository.findAll()).thenReturn(users);
     // Act
-    List<User> actual = userApplicationService.getUsers();
+    List<AppUser> actual = userApplicationService.getUsers();
     // Assert
     assertThat(actual).isEqualTo(users);
   }
 
   @Test
-  void testGetUser_正常系_リポジトリのfindByIdを1回呼び出す() throws UserNotFoundException, UserValidationException {
+  void testGetUser_正常系_リポジトリのfindByIdを1回呼び出す() throws AppUserNotFoundException, AppUserValidationException {
     // Arrange
     String name = "testName";
-    User user = createUser(name);
+    AppUser user = createUser(name);
     long id = user.getId();
     when(userRepository.findById(id)).thenReturn(user);
     // Act
@@ -89,14 +89,14 @@ class UserApplicationServiceTest {
   }
 
   @Test
-  void testGetUser_正常系_指定したidのユーザーを返す() throws UserNotFoundException, UserValidationException {
+  void testGetUser_正常系_指定したidのユーザーを返す() throws AppUserNotFoundException, AppUserValidationException {
     // Arrange
     String name = "testName";
-    User user = createUser(name);
+    AppUser user = createUser(name);
     long id = user.getId();
     when(userRepository.findById(id)).thenReturn(user);
     // Act
-    User actual = userApplicationService.getUser(id);
+    AppUser actual = userApplicationService.getUser(id);
     // Assert
     assertThat(actual).isEqualTo(user);
   }
@@ -111,14 +111,14 @@ class UserApplicationServiceTest {
       userApplicationService.getUser(id);
     };
     // Assert
-    assertThrows(UserNotFoundException.class, action);
+    assertThrows(AppUserNotFoundException.class, action);
   }
 
   @Test
-  void testAddUser_正常系_リポジトリのaddを1回呼び出す() throws UserValidationException {
+  void testAddUser_正常系_リポジトリのaddを1回呼び出す() throws AppUserValidationException {
     // Arrange
     String name = "testName";
-    User user = createUser(name);
+    AppUser user = createUser(name);
     long id = user.getId();
     when(userDomainService.isExistUser(id)).thenReturn(false);
     when(userRepository.add(user)).thenReturn(user);
@@ -129,24 +129,24 @@ class UserApplicationServiceTest {
   }
 
   @Test
-  void testAddUser_正常系_追加されたユーザーを返す() throws UserValidationException {
+  void testAddUser_正常系_追加されたユーザーを返す() throws AppUserValidationException {
     // Arrange
     String name = "testName";
-    User user = createUser(name);
+    AppUser user = createUser(name);
     long id = user.getId();
     when(userDomainService.isExistUser(id)).thenReturn(false);
     when(userRepository.add(user)).thenReturn(user);
     // Act
-    User actual = userApplicationService.addUser(user);
+    AppUser actual = userApplicationService.addUser(user);
     // Assert
     assertThat(actual).isEqualTo(user);
   }
 
   @Test
-  void testUpdateUser_正常系_リポジトリのupdateを1回呼び出す() throws UserNotFoundException, UserValidationException {
+  void testUpdateUser_正常系_リポジトリのupdateを1回呼び出す() throws AppUserNotFoundException, AppUserValidationException {
     // Arrange
     String name = "testName";
-    User user = createUser(name);
+    AppUser user = createUser(name);
     long id = user.getId();
     when(userDomainService.isExistUser(id)).thenReturn(true);
     // Act
@@ -156,10 +156,10 @@ class UserApplicationServiceTest {
   }
 
   @Test
-  void testUpdateUser_異常系_更新しようとしたユーザーが存在しない場合UserNotFoundExceptionがスローされる() throws UserValidationException {
+  void testUpdateUser_異常系_更新しようとしたユーザーが存在しない場合UserNotFoundExceptionがスローされる() throws AppUserValidationException {
     // Arrange
     String name = "testName";
-    User user = createUser(name);
+    AppUser user = createUser(name);
     long id = user.getId();
     when(userDomainService.isExistUser(id)).thenReturn(false);
     // Act
@@ -167,11 +167,11 @@ class UserApplicationServiceTest {
       userApplicationService.updateUser(user);
     };
     // Assert
-    assertThrows(UserNotFoundException.class, action);
+    assertThrows(AppUserNotFoundException.class, action);
   }
 
   @Test
-  void testDeleteUser_正常系_リポジトリのdeleteを1回呼び出す() throws UserNotFoundException {
+  void testDeleteUser_正常系_リポジトリのdeleteを1回呼び出す() throws AppUserNotFoundException {
     // Arrange
     long id = 1;
     when(userDomainService.isExistUser(id)).thenReturn(true);
@@ -191,21 +191,21 @@ class UserApplicationServiceTest {
       userApplicationService.deleteUser(id);
     };
     // Assert
-    assertThrows(UserNotFoundException.class, action);
+    assertThrows(AppUserNotFoundException.class, action);
   }
 
-  private List<User> createUsers(List<String> names) throws UserValidationException {
-    List<User> users = new ArrayList<>();
+  private List<AppUser> createUsers(List<String> names) throws AppUserValidationException {
+    List<AppUser> users = new ArrayList<>();
     for (String name : names) {
       users.add(createUser(name));
     }
     return users;
   }
 
-  private User createUser(String name) throws UserValidationException {
+  private AppUser createUser(String name) throws AppUserValidationException {
     long id = 1L;
     boolean isDeleted = false;
     String authId = "auth_" + id; // Example authId
-    return new User(id, name, isDeleted, authId);
+    return new AppUser(id, name, isDeleted, authId);
   }
 }

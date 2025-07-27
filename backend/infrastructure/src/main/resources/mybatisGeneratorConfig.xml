@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+    <context id="local"  targetRuntime="MyBatis3">
+        <!-- 自動生成MapperにはMapperアノテーションを付与する -->
+        <plugin type="org.mybatis.generator.plugins.MapperAnnotationPlugin"/>
+        <!-- 自動生成される各要素のコメントに生成時刻が出力されないように設定する -->
+        <commentGenerator>
+            <property name="suppressDate" value="true" />
+        </commentGenerator>
+        <!-- 接続先DB情報 -->
+        <jdbcConnection driverClass="org.h2.Driver"
+                        connectionURL="jdbc:h2:file:~/stapler;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH;"
+                        userId=""
+                        password="" />
+        <!-- Model(Entity)作成先 -->
+        <!--
+        targetProjectにはjavaパッケージを指定します。
+        Windows環境の場合Cドライブ以下のパスを指定します。
+        例: /dev/MemoBlend4J/backend/infrastructure/src/main/java
+        Mac/Linux環境の場合は、ホームディレクトリ以下のパスを指定します。
+        例: /Users/Username/dev/MemoBlend4J/backend/infrastructure/src/main/java
+        -->
+        <javaModelGenerator targetPackage="com.memoblend.infrastructure.mybatis.generated.entity"
+                        targetProject="${user.home}/dev/MemoBlend4J/backend/infrastructure/src/main/java" />
+
+        <!--
+        targetProjectにはresourcesパッケージを指定します。
+        Windows環境の場合Cドライブ以下のパスを指定します。
+        例: /dev/MemoBlend4J/backend/infrastructure/src/main/resources
+        Mac/Linux環境の場合は、ホームディレクトリ以下のパスを指定します。
+        例: /Users/Username/dev/MemoBlend4J/backend/infrastructure/src/main/resources
+        -->
+        <!-- Mapper.xml作成先 -->
+        <sqlMapGenerator targetPackage="com.memoblend.infrastructure.mybatis.generated.mapper"
+                        targetProject="${user.home}/dev/MemoBlend4J/backend/infrastructure/src/main/resources" />
+
+        <!--
+        targetProjectにはjavaパッケージを指定します。
+        Windows環境の場合Cドライブ以下のパスを指定します。
+        例: /dev/MemoBlend4J/backend/infrastructure/src/main/java
+        Mac/Linux環境の場合は、ホームディレクトリ以下のパスを指定します。
+        例: /Users/Username/dev/MemoBlend4J/backend/infrastructure/src/main/java
+        -->
+        <!-- Mapper.java作成先 -->
+        <javaClientGenerator targetPackage="com.memoblend.infrastructure.mybatis.generated.mapper"
+                        targetProject="${user.home}/dev/MemoBlend4J/backend/infrastructure/src/main/java"
+                        type="XMLMAPPER" />
+                        
+        <!-- 生成対象テーブル -->
+        <table schema="" tableName="user_roles" domainObjectName="UserRoleEntity" mapperName="UserRoleMapper">
+            <property name="mapUnderscoreToCamelCase" value="true" />
+            <generatedKey column="id" sqlStatement="JDBC" identity="true" />
+        </table>
+        <table schema="" tableName="authes" domainObjectName="AuthEntity" mapperName="AuthMapper">
+            <property name="mapUnderscoreToCamelCase" value="true" />
+            <generatedKey column="id" sqlStatement="JDBC" identity="true" />
+        </table>
+        <table schema="" tableName="app_users" domainObjectName="AppUserEntity" mapperName="AppUserMapper">
+            <property name="mapUnderscoreToCamelCase" value="true" />
+            <generatedKey column="id" sqlStatement="JDBC" identity="true" />
+        </table>
+        <table schema="" tableName="diaries" domainObjectName="DiaryEntity" mapperName="DiaryMapper">
+            <property name="mapUnderscoreToCamelCase" value="true" />
+            <generatedKey column="id" sqlStatement="JDBC" identity="true" />
+        </table>
+    </context>
+</generatorConfiguration>

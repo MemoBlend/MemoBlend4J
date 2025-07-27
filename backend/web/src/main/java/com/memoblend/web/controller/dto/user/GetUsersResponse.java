@@ -1,7 +1,7 @@
 package com.memoblend.web.controller.dto.user;
 
 import java.util.List;
-import com.memoblend.applicationcore.user.User;
+import com.memoblend.applicationcore.appuser.AppUser;
 import lombok.Data;
 
 /**
@@ -9,5 +9,5 @@ import lombok.Data;
  */
 @Data
 public class GetUsersResponse {
-  private final List<User> users;
+  private final List<AppUser> users;
 }
