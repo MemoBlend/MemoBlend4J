@@ -18,7 +18,7 @@ ext {
     postgresqlVersion = "42.7.7"
     springdocOpenapiVersion = "2.8.9"
     servletApiVersion = "6.1.0"
-    commonsLangVersion = "3.17.0"
+    commonsLangVersion = "3.18.0"
     springSecurityVersion = "3.4.3"
     mybatisGeneratorVersion = "1.4.2"
     jjwtVersion = "0.12.6"
