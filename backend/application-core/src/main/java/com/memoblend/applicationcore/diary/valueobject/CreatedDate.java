@@ -10,10 +10,8 @@ import lombok.Value;
  */
 @Value
 public class CreatedDate {
-  private final LocalDate value;
-
   private static final String VALUE_OBJECT_NAME = "作成日時";
-
+  private final LocalDate value;
   /**
    * {@link CreatedDate} クラスの新しいインスタンスを初期化します。
    * 
