@@ -9,9 +9,8 @@ import lombok.Value;
  */
 @Value
 public class Name {
-  private final String value;
-
   private static final String VALUE_OBJECT_NAME = "ユーザー名";
+  private final String value;
 
   /**
    * {@link Name} クラスの新しいインスタンスを初期化します。
