@@ -9,10 +9,8 @@ import lombok.Value;
  */
 @Value
 public class Title {
-  private final String value;
-
   private static final String VALUE_OBJECT_NAME = "タイトル";
-
+  private final String value;
   /**
    * {@link Title} クラスの新しいインスタンスを初期化します。
    * 
