@@ -2,19 +2,15 @@ package com.memoblend.applicationcore.appuser.valueobject;
 
 import com.memoblend.applicationcore.appuser.AppUserValidationException;
 import com.memoblend.applicationcore.constant.ExceptionIdConstants;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.Value;
 
 /**
  * ユーザーの名前を表す値オブジェクトです。
  */
-@Getter
-@EqualsAndHashCode
+@Value
 public class Name {
-
-  private final String value;
-
   private static final String VALUE_OBJECT_NAME = "ユーザー名";
+  private final String value;
 
   /**
    * {@link Name} クラスの新しいインスタンスを初期化します。

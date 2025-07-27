@@ -2,6 +2,7 @@ package com.memoblend.infrastructure.translator;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import org.springframework.beans.BeanUtils;
 import com.memoblend.applicationcore.appuser.AppUser;
 import com.memoblend.applicationcore.auth.Auth;
@@ -121,7 +122,7 @@ public class EntityTranslator {
       LocalDate createdDate = null;
       if (entity.getCreatedDate() != null) {
         createdDate = entity.getCreatedDate().toInstant()
-            .atZone(java.time.ZoneId.systemDefault())
+            .atZone(ZoneId.systemDefault())
             .toLocalDate();
       }
       return new Diary(
