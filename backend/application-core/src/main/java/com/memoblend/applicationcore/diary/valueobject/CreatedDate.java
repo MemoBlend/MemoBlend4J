@@ -10,7 +10,7 @@ import lombok.Value;
  */
 @Value
 public class CreatedDate {
-  LocalDate value;
+  private final LocalDate value;
 
   private static final String VALUE_OBJECT_NAME = "作成日時";
 

@@ -9,7 +9,7 @@ import lombok.Value;
  */
 @Value
 public class Name {
-  String value;
+  private final String value;
 
   private static final String VALUE_OBJECT_NAME = "ユーザー名";
 
