@@ -22,7 +22,7 @@
     "diary"
   ],
   "devDependencies": {
-    "@openapitools/openapi-generator-cli": "^2.18.4",
+    "@openapitools/openapi-generator-cli": "^2.21.4",
     "@vitest/eslint-plugin": "^1.2.0",
     "@vue/eslint-config-prettier": "^10.2.0",
     "@vue/eslint-config-typescript": "^14.5.0",
