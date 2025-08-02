@@ -10,6 +10,7 @@ buildscript {
 
 plugins {
   id 'com.github.spotbugs' version "$spotbugsVersion" apply false
+  id 'com.diffplug.spotless' version "$spotlessVersion"
 }
 
 subprojects {
@@ -21,8 +22,8 @@ subprojects {
   compileJava.options.encoding = 'UTF-8'
   compileTestJava.options.encoding = 'UTF-8'
   javadoc.options.encoding = 'UTF-8'
-  
-  dependencies {  
+
+  dependencies {
     // Lombokの設定
     // annotationProcessorの設定を加えないとcompileJavaでエラーが発生する
     annotationProcessor supportDependencies.lombok
@@ -41,7 +42,7 @@ subprojects {
   checkstyle {
     toolVersion = "$checkstyleToolVersion"
     configDirectory = rootProject.file('config/checkstyle')
-  } 
+  }
   spotbugs {
     excludeFilter.set(rootProject.file('config/spotbugs/exclude-filter.xml'))
     toolVersion = "$spotbugsToolVersion"
@@ -63,7 +64,7 @@ subprojects {
       html.required = true
     }
   }
-  
+
   // SpotBugs実施後、HTMLレポート出力も同時に行う
   spotbugsMain {
     reports {
@@ -73,5 +74,15 @@ subprojects {
         destination file("${buildDir}/reports/spotbugs/main.html")
       }
     }
+  }
+}
+
+// Spotless configuration for formatting Gradle files
+spotless {
+  groovyGradle {
+    target '**/*.gradle'
+    trimTrailingWhitespace()
+    endWithNewline()
+    indentWithSpaces(2)
   }
 }

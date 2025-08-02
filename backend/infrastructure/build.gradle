@@ -1,16 +1,16 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version "${springBootVersion}"
-	id 'io.spring.dependency-management' version "${springDependencyManagementVersion}"
+  id 'java'
+  id 'org.springframework.boot' version "${springBootVersion}"
+  id 'io.spring.dependency-management' version "${springDependencyManagementVersion}"
 }
 
 group = 'com.memoblend'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(21)
-	}
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(21)
+  }
 }
 
 sourceSets {
@@ -21,40 +21,40 @@ sourceSets {
 }
 
 repositories {
-	mavenCentral()
+  mavenCentral()
 }
 
 configurations {
-	mybatisTasks
-	all {
-		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
-	}
+  mybatisTasks
+  all {
+    exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+  }
 }
 
 dependencies {
-	implementation supportDependencies.mybatis_spring_boot_starter
-	implementation supportDependencies.h2database
-	implementation supportDependencies.postgresql
-	implementation project(':application-core')
-	implementation project(':system-common')
-	implementation supportDependencies.spring_boot_starter_web
-	implementation supportDependencies.jackson_databind
-	testImplementation supportDependencies.spring_boot_starter_test
-	testImplementation supportDependencies.mybatis_spring_boot_starter_test
+  implementation supportDependencies.mybatis_spring_boot_starter
+  implementation supportDependencies.h2database
+  implementation supportDependencies.postgresql
+  implementation project(':application-core')
+  implementation project(':system-common')
+  implementation supportDependencies.spring_boot_starter_web
+  implementation supportDependencies.jackson_databind
+  testImplementation supportDependencies.spring_boot_starter_test
+  testImplementation supportDependencies.mybatis_spring_boot_starter_test
 
-	mybatisTasks supportDependencies.mybatisGenerator
-	mybatisTasks supportDependencies.h2database
+  mybatisTasks supportDependencies.mybatisGenerator
+  mybatisTasks supportDependencies.h2database
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+  useJUnitPlatform()
 }
 
 bootJar {
-	enabled = false
+  enabled = false
 }
 jar {
-	enabled = true
+  enabled = true
 }
 
 

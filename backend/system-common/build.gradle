@@ -1,44 +1,44 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version "${springBootVersion}"
-	id 'io.spring.dependency-management' version "${springDependencyManagementVersion}"
+  id 'java'
+  id 'org.springframework.boot' version "${springBootVersion}"
+  id 'io.spring.dependency-management' version "${springDependencyManagementVersion}"
 }
 
 group = 'com.memoblend'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(21)
-	}
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(21)
+  }
 }
 
 repositories {
-	mavenCentral()
+  mavenCentral()
 }
 
 dependencies {
-	implementation supportDependencies.spring_boot_starter
-	implementation supportDependencies.commons_lang3
-	testImplementation supportDependencies.spring_boot_starter_test
+  implementation supportDependencies.spring_boot_starter
+  implementation supportDependencies.commons_lang3
+  testImplementation supportDependencies.spring_boot_starter_test
 }
 
 configurations {
-	all {
-		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
-	}
+  all {
+    exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+  }
 }
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(21)
-	}
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(21)
+  }
 }
 
 bootJar {
-	enabled = false
+  enabled = false
 }
 
 jar {
-	enabled = true
+  enabled = true
 }
