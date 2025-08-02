@@ -1,11 +1,18 @@
 {
   "java.dependency.packagePresentation": "hierarchical",
   "java.configuration.updateBuildConfiguration": "automatic",
-  "java.format.settings.url": "${workspaceFolder}\\config\\formatter\\eclipse-formatter.xml",
+  "java.format.settings.url": "${workspaceFolder}/config/formatter/eclipse-formatter.xml",
+  "java.format.settings.profile": "GoogleStyle",
+  "java.format.enabled": true,
+  "java.saveActions.organizeImports": false,
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": false,
   "[java]": {
     "editor.formatOnSave": true,
     "editor.formatOnPaste": true,
-    "editor.formatOnType": true
+    "editor.formatOnType": true,
+    "editor.defaultFormatter": "redhat.java"
   },
   "github.copilot.chat.commitMessageGeneration.instructions": [
     {
